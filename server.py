@@ -35,12 +35,12 @@ def all_wines():
 def wine_by_id(wine_id):
 
     wine = crud.get_wine_by_id(wine_id)
+    #Query to see if current user whose logged in already rated this wine
+    #If the user already rated this wine, add an if conditional to the html page (similar to if logged in)
+    #In the html page, include a message that says you've already rated this and give option to update/edit your rating
+    #Render update rating form. Can either update rating or delete that rating row from your table and create a new rating. 
 
     return render_template('wine_details.html', wine=wine)
-
-
-#@app.route('/wine/<wine_id>')
-#def create_rating()
 
 
 @app.route('/users')
@@ -128,12 +128,22 @@ def create_rating(wine_id):
 
     return render_template('/wine_ratings.html', wine=wine, ratings=ratings)
 
-# wine_id will be passed into view function
-# get_user_by_id()
-# get_wine_by_id()
-# rating()
-
 # or rewrite crud rating() function to take wine_id, and user_id arguments insteads of objects
+
+
+# @app.route('/wines/<wine_id>/update_ratings', methods=['POST'])
+# def update_rating(wine_id):
+
+#     user = crud.get_user_by_id(session['user_id'])
+#     wine = crud.get_wine_by_id(wine_id)
+#     rating = request.form.get('rating')
+
+#     **crud.update_rating .... (user, wine, rating)
+        #find current rating and update it
+#     ratings = crud.get_ratings_by_wine_id(wine_id)
+
+#     return render_template('/wine_ratings.html', wine=wine, ratings=ratings)
+
 
 if __name__ == "__main__":
     connect_to_db(app)
