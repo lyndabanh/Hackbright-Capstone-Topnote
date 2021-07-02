@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.name }} - Details{% endblock %}
+
+{% block body %}
+<h1>{{ user.name }}'s Cellar</h1>
+
+<p>
+  <div>Name: {{ user.name }}</div>
+  <div>Email: {{ user.email }}</div>
+  <div>
+  {% set pw_len = user.password|length %}
+  {% set hidden_pw = pw_len*'*' %}
+  Password: {{ hidden_pw }}
+  </div>
+</p>
+
+<h1>Wines</h1>
+<p>
+  {% for wine in wines %}
+    <div>{{ wine.title }}{{ rating }}</div>
+  {% endfor %}
+</p>
+
+{% endblock %}

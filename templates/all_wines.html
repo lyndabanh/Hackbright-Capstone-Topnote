@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}All Wines{% endblock %}
+{% block body %}
+    <hi>All Wines</hi>
+
+    <ul>
+        {% for wine in wines %}
+            <li>
+                <a href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

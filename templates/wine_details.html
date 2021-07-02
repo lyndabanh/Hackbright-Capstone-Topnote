@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ wine.title }} - Details{% endblock %}
+
+{% block body %}
+<h1>{{ wine.title }}</h1>
+
+<p>
+  <div>Designation: {{ wine.designation }}</div>
+  <div>Varietal: {{ wine.variety }}</div>
+  <div>Region 1: {{ wine.region_1 }}</div>
+  <div>Region 2: {{ wine.region_2 }}</div>
+  <div>Province: {{ wine.province }}</div>
+  <div>Country: {{ wine.country }}</div>
+  <div>Winery: {{ wine.winery }}</div>
+</p>
+<p>
+  <div>Description: {{ wine.description }}</div>
+</p>
+
+{% if 'user_id' in session %}
+  <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+    <p>
+      Rating<input type="number" min="0" max=5 name="rating">
+    </p>
+
+    <p>
+      <input type="submit">
+    </p>
+  </form>
+{% endif %}
+
+{% if not 'user_id' in session %}
+  <p>
+    Log in to rate this wine! (Login on homepage)
+  </p>
+{% endif %}
+
+{% endblock %}
