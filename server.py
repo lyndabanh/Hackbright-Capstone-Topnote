@@ -17,8 +17,9 @@ def homepage():
 
     # print(dir(session))
     # print(help(session.clear))
-    
-    if session:
+
+    if 'user_id' in session:
+    #why does 'if session:' not work after you log in, then log out? 
         user = crud.get_user_by_id(session['user_id'])
         return render_template('homepage.html', user=user)
     else:
