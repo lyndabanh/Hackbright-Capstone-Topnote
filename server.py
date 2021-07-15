@@ -17,9 +17,12 @@ def homepage():
 
     # print(dir(session))
     # print(help(session.clear))
-    user = crud.get_user_by_id(session['user_id'])
-
-    return render_template('homepage.html', user=user)
+    
+    if session:
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('homepage.html', user=user)
+    else:
+        return render_template('homepage.html')
 
 
 @app.route('/users', methods=['POST'])
