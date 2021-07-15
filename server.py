@@ -10,7 +10,6 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
-# Routes and view functions go here
 
 @app.route('/')
 def homepage():
@@ -18,46 +17,9 @@ def homepage():
 
     # print(dir(session))
     # print(help(session.clear))
+    user = crud.get_user_by_id(session['user_id'])
 
-    return render_template('homepage.html')
-
-
-@app.route('/wines')
-def all_wines():
-    """Display all wines."""
-
-    wines = crud.all_wines()
-
-    return render_template('all_wines.html', wines=wines)
-
-
-@app.route('/wines/<wine_id>')
-def wine_by_id(wine_id):
-
-    wine = crud.get_wine_by_id(wine_id)
-    #Query to see if current user whose logged in already rated this wine
-    #If the user already rated this wine, add an if conditional to the html page (similar to if logged in)
-    #In the html page, include a message that says you've already rated this and give option to update/edit your rating
-    #Render update rating form. Can either update rating or delete that rating row from your table and create a new rating. 
-
-    return render_template('wine_details.html', wine=wine)
-
-
-@app.route('/users')
-def all_users():
-    """Display all users."""
-
-    users = crud.all_users()
-
-    return render_template('all_users.html', users=users)
-
-
-@app.route('/users/<user_id>')
-def user_by_id(user_id):
-
-    user = crud.get_user_by_id(user_id)
-
-    return render_template('user_details.html', user=user)
+    return render_template('homepage.html', user=user)
 
 
 @app.route('/users', methods=['POST'])
@@ -89,12 +51,17 @@ def log_in():
 
     user = crud.get_user_by_email(email)
 
-    if password == user.password:
-        session['user_id'] = user.user_id
-        flash('Logged in!')
+    if user:
+
+        if password == user.password:
+            session['user_id'] = user.user_id
+            flash('Logged in!')
+
+        else:
+            flash('Incorrect password. Unable to log in.')
 
     else:
-        flash('Incorrect password. Unable to log in.')
+        flash('No account associated with that email address.')
         
     return redirect('/')
 
@@ -116,7 +83,37 @@ def log_out():
     return redirect('/')
 
 
-@app.route('/wines/<wine_id>/ratings', methods=['POST'])
+@app.route('/wines')
+def all_wines():
+    """Display all wines."""
+
+    wines = crud.all_wines()
+
+    return render_template('all_wines.html', wines=wines)
+
+
+@app.route('/wines/<int:wine_id>')
+def wine_by_id(wine_id):
+
+    wine = crud.get_wine_by_id(wine_id)
+    
+    #Query to see if current user whose logged in already rated this wine
+    #If the user already rated this wine, add an if conditional to the html page
+    #In the html page, include a message that says you've already rated this and give option to update/edit your rating
+    #Render update rating form
+
+    if session:
+        user_id = session['user_id']
+        user = crud.get_user_by_id(user_id)
+        current_users_rating = crud.get_rating_by_user_id_and_wine_id(user_id, wine_id)
+        return render_template('wine_details.html', wine_id=wine_id, wine=wine, user_id=user_id, user=user, current_users_rating=current_users_rating)
+
+    else:
+        return render_template('wine_details.html', wine_id=wine_id, wine=wine)
+
+
+#can specify multiple methods under methods. Would need to conditionally check if method POST or GET for ex)
+@app.route('/wines/<int:wine_id>/ratings', methods=['POST'])
 def create_rating(wine_id):
 
     user = crud.get_user_by_id(session['user_id'])
@@ -124,25 +121,80 @@ def create_rating(wine_id):
     rating = request.form.get('rating')
 
     crud.rating(user, wine, rating)
+
     ratings = crud.get_ratings_by_wine_id(wine_id)
+    
+    #add ratings to a list  #list comprehension
+    list_of_ratings = []
+    for rating in ratings:
+        list_of_ratings.append(rating.rating)
 
-    return render_template('/wine_ratings.html', wine=wine, ratings=ratings)
+    print(list_of_ratings)
 
-# or rewrite crud rating() function to take wine_id, and user_id arguments insteads of objects
+    #calculate average and round to tenth
+    average = sum(list_of_ratings)/len(list_of_ratings)
+    average = round(average,1)
+
+    print(average)
+
+    return render_template('/wine_ratings.html', user=user, wine=wine, average=average)
+
+    
+#JS put request. Update the methods, so that it's diff than the function above.
+@app.route('/wines/<int:wine_id>/ratings/update', methods=['POST'])
+def update_rating(wine_id):
+
+    user = crud.get_user_by_id(session['user_id'])
+    wine = crud.get_wine_by_id(wine_id)
+    rating = request.form.get('new_rating')
+
+    crud.update_rating(user, wine, rating)
+
+    ratings = crud.get_ratings_by_wine_id(wine_id)
+    
+    
+    #add ratings to a list  #list comprehension
+    list_of_ratings = []
+    for rating in ratings:
+        list_of_ratings.append(rating.rating)
+
+    print(list_of_ratings)
+
+    #calculate average and round to tenth
+    average = sum(list_of_ratings)/len(list_of_ratings)
+    average = round(average,1)
+
+    return render_template('/wine_ratings.html', user=user, wine=wine, average=average)
 
 
-# @app.route('/wines/<wine_id>/update_ratings', methods=['POST'])
-# def update_rating(wine_id):
+@app.route('/users')
+def all_users():
+    """Display all users."""
 
-#     user = crud.get_user_by_id(session['user_id'])
-#     wine = crud.get_wine_by_id(wine_id)
-#     rating = request.form.get('rating')
+    users = crud.all_users()
 
-#     **crud.update_rating .... (user, wine, rating)
-        #find current rating and update it
-#     ratings = crud.get_ratings_by_wine_id(wine_id)
+    return render_template('all_users.html', users=users)
 
-#     return render_template('/wine_ratings.html', wine=wine, ratings=ratings)
+
+@app.route('/users/<user_id>')
+def user_by_id(user_id):
+
+    user = crud.get_user_by_id(user_id)
+
+    return render_template('user_details.html', user=user)
+
+
+
+
+
+@app.route('/home')
+def redirect_home():
+    """Redirect to homepage."""
+
+    return redirect('/')
+
+
+
 
 
 if __name__ == "__main__":

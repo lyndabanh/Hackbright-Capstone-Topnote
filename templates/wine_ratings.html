@@ -1,25 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}Wine Ratings{% endblock %}
 {% block body %}
+    <a href="/home">Home</a>
+    <div></div>
     <h1>{{ wine.title }}</h1>
+    <p>Average user rating:{{ average }}</p>
     <table>
         <tr>
             <th>User</th>
             <th>Rating</th>
         </tr>
-        {% for rating in ratings %}
+        {% for rating in wine.ratings %}
         <tr>
             <td>{{ rating.user.name }}</td>
             <td>{{ rating.rating }}</td>
         </tr>
         {% endfor %}
-        <tr>
-            <td>Average:</td>
-            <td>(Code in average later)</td>
-        </tr>
     </table>
     
-
+<div></div>
     
 
 {% endblock %}

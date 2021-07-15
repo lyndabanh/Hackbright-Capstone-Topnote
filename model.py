@@ -61,7 +61,7 @@ class Rating(db.Model):
     wine = db.relationship('Wine')
 
     def __repr__(self):
-        return f'<Rating rating_id={self.rating_id} rating={self.rating}>'
+        return f'<Rating rating_id={self.rating_id} rating={self.rating} user_id={self.user_id} wine_id={self.wine_id}>'
 
 
 class Favorite(db.Model):

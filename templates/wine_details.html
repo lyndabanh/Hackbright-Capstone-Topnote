@@ -3,6 +3,8 @@
 {% block title %}{{ wine.title }} - Details{% endblock %}
 
 {% block body %}
+<a href="/home">Home</a>
+<div></div>
 <h1>{{ wine.title }}</h1>
 
 <p>
@@ -28,11 +30,29 @@
       <input type="submit">
     </p>
   </form>
+
+  <p>TODO: JS event listener -- onclick for user to like/favorite this wine</p>
+
+    {% if current_users_rating %}
+      <p>You've already rated this wine. You may update your rating below:</p>
+      <form action="/wines/{{ wine.wine_id }}/ratings/update" method="POST">
+        <p>
+          Update rating<input type="number" min="0" max=5 name="new_rating">
+        </p>
+    
+        <p>
+          <input type="submit">
+        </p>
+      </form>
+    {% endif %}
+  </p>
 {% endif %}
+
 
 {% if not 'user_id' in session %}
   <p>
-    Log in to rate this wine! (Login on homepage)
+    <div>Log in to rate this wine!</div> 
+    <div>(Login on homepage)</div>
   </p>
 {% endif %}
 

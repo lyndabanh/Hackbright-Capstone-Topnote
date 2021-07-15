@@ -47,6 +47,20 @@ def rating(user, wine, rating):
     return rating
 
 
+def update_rating(user, wine, rating):
+    """User updates a previously rated wine."""
+
+    #query for the object (user and wine_id)
+    current_rating = Rating.query.filter(Rating.user==user, Rating.wine==wine).first()
+    #reassign the rating attribute of that rating
+    current_rating.rating = rating
+    #then potentially need to: commit, may need to add to session before committing
+    db.session.merge(current_rating)
+    db.session.commit()
+
+    return current_rating
+
+
 def favorite(user, wine, favorite):
     """Create and add a favorite wine."""
 
@@ -103,6 +117,21 @@ def get_ratings_by_wine_id(wine_id):
 
     return Rating.query.filter(Rating.wine_id==wine_id).all()
 
+
+# def get_ratings_by_user_id(user_id):
+    
+#     return Rating.query.filter(Rating.user_id==user_id).all()
+
+
+def get_rating_by_user_id(user_id):
+    
+    return Rating.query.filter(Rating.user_id==user_id).first()
+
+
+def get_rating_by_user_id_and_wine_id(user_id, wine_id):
+
+    return Rating.query.filter(Rating.user_id==user_id, Rating.wine_id==wine_id).all()
+    #return Rating.query.filter(Rating.user_id==user_id, Rating.wine_id==wine_id).first()
 
 if __name__ == '__main__':
     from server import app
