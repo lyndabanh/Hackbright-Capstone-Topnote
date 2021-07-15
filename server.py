@@ -129,9 +129,7 @@ def create_rating(wine_id):
     ratings = crud.get_ratings_by_wine_id(wine_id)
     
     #add ratings to a list  #list comprehension
-    list_of_ratings = []
-    for rating in ratings:
-        list_of_ratings.append(rating.rating)
+    list_of_ratings = [rating.rating for rating in ratings]
 
     print(list_of_ratings)
 
@@ -139,11 +137,15 @@ def create_rating(wine_id):
     average = sum(list_of_ratings)/len(list_of_ratings)
     average = round(average,1)
 
+    
     print(average)
 
-    return render_template('/wine_ratings.html', user=user, wine=wine, average=average)
+    desc_ordered_ratings = crud.get_desc_ordered_wine_by_id(wine_id)
+    
+    return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
 
     
+    desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
 #JS put request. Update the methods, so that it's diff than the function above.
 @app.route('/wines/<int:wine_id>/ratings/update', methods=['POST'])
 def update_rating(wine_id):
@@ -158,9 +160,10 @@ def update_rating(wine_id):
     
     
     #add ratings to a list  #list comprehension
-    list_of_ratings = []
-    for rating in ratings:
-        list_of_ratings.append(rating.rating)
+    # list_of_ratings = []
+    # for rating in ratings:
+    #     list_of_ratings.append(rating.rating)
+    list_of_ratings = [rating.rating for rating in ratings]
 
     print(list_of_ratings)
 
@@ -168,7 +171,9 @@ def update_rating(wine_id):
     average = sum(list_of_ratings)/len(list_of_ratings)
     average = round(average,1)
 
-    return render_template('/wine_ratings.html', user=user, wine=wine, average=average)
+
+    desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
+    return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
 
 
 @app.route('/users')

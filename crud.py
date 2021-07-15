@@ -93,6 +93,11 @@ def get_wine_by_id(wine_id):
     return Wine.query.filter(Wine.wine_id==wine_id).first()
 
 
+def get_and_order_rating_by_wine_id(wine_id):
+
+    return Rating.query.filter(Rating.wine_id==wine_id).order_by(Rating.rating.desc()).all()
+
+
 def all_users():
 
     return User.query.all()

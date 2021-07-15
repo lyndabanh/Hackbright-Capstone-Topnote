@@ -21,15 +21,21 @@
   <table>
     <tr>
       <th>Wine</th>
+      <th>Varietal</th>
+      <th>Country</th>
       <th>Rating</th>
     </tr>
     {% for rating in user.ratings %}
     <tr>
       <td>{{ rating.wine.title }}</td>
+      <td>{{ rating.wine.variety }}</td>
+      <td>{{ rating.wine.country }}</td>
       <td>{{ rating.rating }}</td>
     </tr>
     {% endfor %}
   </table>
 
+<p>TODO: Stats of varietals rated/favorited</p>
+<p>TODO: Stats of countries rated/favorited</p>
 <p>TODO: Add table of favorite wines</p>
 {% endblock %}
