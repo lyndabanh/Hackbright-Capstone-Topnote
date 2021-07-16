@@ -12,7 +12,7 @@
         </tr>
         {% for rating in wine.ratings %}
         <tr>
-            <td>{{ rating.user.name }}</td>
+            <td><a href="/users/{{ rating.user.user_id }}">{{ rating.user.name }}</a></td>
             <td>{{ rating.rating }}</td>
         </tr>
         {% endfor %}
@@ -30,7 +30,8 @@
         </tr>
         {% endfor %}
     </table>
-    
+
+
 <div></div>
     
 <p>

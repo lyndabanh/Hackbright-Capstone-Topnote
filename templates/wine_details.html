@@ -23,7 +23,7 @@
 {% if 'user_id' in session %}
   {% if current_users_rating %}
   <p>You've already rated this wine. You may update your rating below:</p>
-  <form action="/wines/{{ wine.wine_id }}/ratings/update" method="POST">
+  <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
     <p>
       Update rating<input type="number" min="0" max=5 name="new_rating">
     </p>

@@ -126,58 +126,52 @@ def create_rating(wine_id):
     rating = request.form.get('rating')
     new_rating = request.form.get('new_rating')
 
-    #if rating
-        #create new rating
-    #elif new rating
-        #update current rating
-        #remember to update template form to go to /ratings route
+    #if logged in user makes a new rating, add the rating to the ratings table
+    if rating:
+        crud.rating(user, wine, rating)
+    #if logged in user updates a previously created rating, update the rating in the ratings table
+    elif new_rating:
+        crud.update_rating(user, wine, new_rating)
 
-    crud.rating(user, wine, rating)
-
+    #add ratings to a list
     ratings = crud.get_ratings_by_wine_id(wine_id)
-    
-    #add ratings to a list  #list comprehension
     list_of_ratings = [rating.rating for rating in ratings]
-
-    print(list_of_ratings)
 
     #calculate average and round to tenth
     average = sum(list_of_ratings)/len(list_of_ratings)
     average = round(average,1)
 
-    
-    print(average)
-
+    #TODO: Implement the following sorted tabled, if desired
     desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
     
     return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
 
     
-#JS put request. Update the methods, so that it's diff than the function above.
-@app.route('/wines/<int:wine_id>/ratings/update', methods=['POST'])
-def update_rating(wine_id):
+# #JS put request. Update the methods, so that it's diff than the function above.
+# @app.route('/wines/<int:wine_id>/ratings/update', methods=['POST'])
+# def update_rating(wine_id):
 
-    user = crud.get_user_by_id(session['user_id'])
-    wine = crud.get_wine_by_id(wine_id)
-    rating = request.form.get('new_rating')
+#     user = crud.get_user_by_id(session['user_id'])
+#     wine = crud.get_wine_by_id(wine_id)
+#     rating = request.form.get('new_rating')
 
-    crud.update_rating(user, wine, rating)
+#     crud.update_rating(user, wine, rating)
 
-    ratings = crud.get_ratings_by_wine_id(wine_id)
+#     ratings = crud.get_ratings_by_wine_id(wine_id)
     
     
-    #add ratings to a list 
-    list_of_ratings = [rating.rating for rating in ratings]
+#     #add ratings to a list 
+#     list_of_ratings = [rating.rating for rating in ratings]
 
-    print(list_of_ratings)
+#     print(list_of_ratings)
 
-    #calculate average and round to tenth
-    average = sum(list_of_ratings)/len(list_of_ratings)
-    average = round(average,1)
+#     #calculate average and round to tenth
+#     average = sum(list_of_ratings)/len(list_of_ratings)
+#     average = round(average,1)
 
-    desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
+#     desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
 
-    return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
+#     return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
 
 
 @app.route('/users')
@@ -195,9 +189,6 @@ def user_by_id(user_id):
     user = crud.get_user_by_id(user_id)
 
     return render_template('user_details.html', user=user)
-
-
-
 
 
 @app.route('/home')
