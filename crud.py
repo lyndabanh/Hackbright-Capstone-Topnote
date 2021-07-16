@@ -98,6 +98,11 @@ def get_and_order_rating_by_wine_id(wine_id):
     return Rating.query.filter(Rating.wine_id==wine_id).order_by(Rating.rating.desc()).all()
 
 
+def get_group_count_rating_by_user_id(user_id):
+
+    return Rating.query(Rating.rating, func.count(Rating.rating)).filter(Rating.user_id==user_id).group_by(Rating.rating).all()
+
+
 def all_users():
 
     return User.query.all()

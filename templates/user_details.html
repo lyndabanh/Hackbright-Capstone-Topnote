@@ -27,15 +27,19 @@
     </tr>
     {% for rating in user.ratings %}
     <tr>
-      <td>{{ rating.wine.title }}</td>
+      <td><a href="/wines/{{ rating.wine.wine_id }}">{{ rating.wine.title }}</a></td>
       <td>{{ rating.wine.variety }}</td>
       <td>{{ rating.wine.country }}</td>
       <td>{{ rating.rating }}</td>
     </tr>
     {% endfor %}
   </table>
-
-<p>TODO: Stats of varietals rated/favorited</p>
-<p>TODO: Stats of countries rated/favorited</p>
-<p>TODO: Add table of favorite wines</p>
+<p>
+  <div>TODO: Add table of favorite wines</div>
+  <div>TODO: Add comments</div>
+  <div>TODO: Stats of varietals rated/favorited</div>
+  <div>TODO: Stats of countries rated/favorited</div>
+  <div>TODO: Add links to wine_details pages of rated wines</div>
+  <div>TODO: Add similar wines (ex: query for wines from that country)</div>
+</p>
 {% endblock %}
