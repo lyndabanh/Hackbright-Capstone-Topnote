@@ -72,7 +72,7 @@ class Favorite(db.Model):
     favorite_id = db.Column (db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column (db.Integer, db.ForeignKey('users.user_id'))
     wine_id = db.Column (db.Integer, db.ForeignKey('wines.wine_id'))
-    favorite = db.Column (db.String)
+    #favorite = db.Column (db.String)
 
     user = db.relationship('User')
     wine = db.relationship('Wine')

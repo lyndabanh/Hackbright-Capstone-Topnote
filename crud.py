@@ -61,10 +61,10 @@ def update_rating(user, wine, rating):
     return current_rating
 
 
-def favorite(user, wine, favorite):
+def favorite(user, wine):
     """Create and add a favorite wine."""
 
-    favorite = Favorite(user=user, wine=wine, favorite=favorite)
+    favorite = Favorite(user=user, wine=wine)
 
     db.session.add(favorite)
     db.session.commit()
@@ -128,6 +128,11 @@ def get_ratings_by_wine_id(wine_id):
     return Rating.query.filter(Rating.wine_id==wine_id).all()
 
 
+def get_favorites_by_wine_id(wine_id):
+    
+    return Favorite.query.filter(Favorite.wine_id==wine_id).all()
+
+
 # def get_ratings_by_user_id(user_id):
     
 #     return Rating.query.filter(Rating.user_id==user_id).all()
@@ -142,6 +147,8 @@ def get_rating_by_user_id_and_wine_id(user_id, wine_id):
 
     return Rating.query.filter(Rating.user_id==user_id, Rating.wine_id==wine_id).all()
     #return Rating.query.filter(Rating.user_id==user_id, Rating.wine_id==wine_id).first()
+
+
 
 if __name__ == '__main__':
     from server import app

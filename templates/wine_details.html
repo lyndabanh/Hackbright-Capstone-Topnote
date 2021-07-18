@@ -3,9 +3,13 @@
 {% block title %}{{ wine.title }} - Details{% endblock %}
 
 {% block body %}
-<a href="/home">Home</a>
+  <a href="/home">Home</a>
+  {% if 'user_id' in session %}
+      <a href="/users/{{ user.user_id }}">My Cellar</a>
+  {% endif %}
 <div></div>
 <h1>{{ wine.title }}</h1>
+<h2>Wine profile</h2>
 
 <p>
   <div>Designation: {{ wine.designation }}</div>
@@ -20,7 +24,20 @@
   <div>Description: {{ wine.description }}</div>
 </p>
 
+<h2>Wine stats</h2>
+{% if num_favorites == 1 %}
+  <p>This wine has been favorited {{ num_favorites }} time. </p>
+  {% else %}
+  <p>This wine has been favorited {{ num_favorites }} times. </p>
+{% endif %}
+
 {% if 'user_id' in session %}
+<form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+  <p>
+    <input type="submit" value="Favorite">
+    <div>TODO: JS event listener. Add in ability to unfavorite a wine.</div>
+  </p>
+  
   {% if current_users_rating %}
   <p>You've already rated this wine. You may update your rating below:</p>
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">

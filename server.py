@@ -3,8 +3,8 @@
 from flask import Flask, render_template, request, flash, session, redirect
 from model import connect_to_db
 import crud
-
 from jinja2 import StrictUndefined
+
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -15,15 +15,15 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage."""
 
-    # print(dir(session))
-    # print(help(session.clear))
-
     if 'user_id' in session:
     #why does 'if session:' not work after you log in, then log out? 
         user = crud.get_user_by_id(session['user_id'])
         return render_template('homepage.html', user=user)
     else:
         return render_template('homepage.html')
+    
+    # print(dir(session))
+    # print(help(session.clear))
 
 
 @app.route('/users', methods=['POST'])
@@ -74,8 +74,8 @@ def log_in():
 def log_out():
     """User log out."""
 
-    session.clear()
     #alternatively, can use del session['user_id']
+    session.clear()
 
     if 'user_id' in session:
         flash('Logout failed')
@@ -93,7 +93,13 @@ def all_wines():
 
     wines = crud.all_wines()
 
-    return render_template('all_wines.html', wines=wines)
+    if 'user_id' in session:
+    #why does 'if session:' not work after you log in, then log out? 
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('all_wines.html', wines=wines, user=user)
+    
+    else:
+        return render_template('all_wines.html', wines=wines)
 
 
 @app.route('/wines/<int:wine_id>')
@@ -110,15 +116,18 @@ def wine_by_id(wine_id):
         user_id = session['user_id']
         user = crud.get_user_by_id(user_id)
         current_users_rating = crud.get_rating_by_user_id_and_wine_id(user_id, wine_id)
-        return render_template('wine_details.html', wine_id=wine_id, wine=wine, user_id=user_id, user=user, current_users_rating=current_users_rating)
+        favorites = crud.get_favorites_by_wine_id(wine_id)
+        num_favorites = len(favorites)
+        return render_template('wine_details.html', wine_id=wine_id, wine=wine, user_id=user_id, user=user, current_users_rating=current_users_rating, num_favorites=num_favorites)
 
     else:
-        return render_template('wine_details.html', wine_id=wine_id, wine=wine)
+        favorites = crud.get_favorites_by_wine_id(wine_id)
+        num_favorites = len(favorites)
+        return render_template('wine_details.html', wine_id=wine_id, wine=wine, num_favorites=num_favorites)
 
 
-#can specify multiple methods under methods. Would need to conditionally check if method POST or GET for ex)
 @app.route('/wines/<int:wine_id>/ratings', methods=['POST'])
-def create_rating(wine_id):
+def create_update_or_favorite(wine_id):
 
     user = crud.get_user_by_id(session['user_id'])
     wine = crud.get_wine_by_id(wine_id)
@@ -132,46 +141,25 @@ def create_rating(wine_id):
     #if logged in user updates a previously created rating, update the rating in the ratings table
     elif new_rating:
         crud.update_rating(user, wine, new_rating)
+    else:
+        crud.favorite(user,wine)
 
-    #add ratings to a list
+    #if 1 or more ratings for this wine exist, calculate average rating
     ratings = crud.get_ratings_by_wine_id(wine_id)
-    list_of_ratings = [rating.rating for rating in ratings]
+    if ratings:
+        #add ratings to a list
+        list_of_ratings = [rating.rating for rating in ratings]
 
-    #calculate average and round to tenth
-    average = sum(list_of_ratings)/len(list_of_ratings)
-    average = round(average,1)
+        #calculate average and round to tenth
+        average = sum(list_of_ratings)/len(list_of_ratings)
+        average = round(average,1)
 
-    #TODO: Implement the following sorted tabled, if desired
-    desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
+        #TODO: Implement the following sorted tabled, if desired
+        desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
+
+        return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
     
-    return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
-
-    
-# #JS put request. Update the methods, so that it's diff than the function above.
-# @app.route('/wines/<int:wine_id>/ratings/update', methods=['POST'])
-# def update_rating(wine_id):
-
-#     user = crud.get_user_by_id(session['user_id'])
-#     wine = crud.get_wine_by_id(wine_id)
-#     rating = request.form.get('new_rating')
-
-#     crud.update_rating(user, wine, rating)
-
-#     ratings = crud.get_ratings_by_wine_id(wine_id)
-    
-    
-#     #add ratings to a list 
-#     list_of_ratings = [rating.rating for rating in ratings]
-
-#     print(list_of_ratings)
-
-#     #calculate average and round to tenth
-#     average = sum(list_of_ratings)/len(list_of_ratings)
-#     average = round(average,1)
-
-#     desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
-
-#     return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
+    return render_template('/wine_ratings.html', user=user, wine=wine)
 
 
 @app.route('/users')
@@ -180,7 +168,13 @@ def all_users():
 
     users = crud.all_users()
 
-    return render_template('all_users.html', users=users)
+    if 'user_id' in session:
+    #why does 'if session:' not work after you log in, then log out? 
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('all_users.html', users=users, user=user)
+    
+    else:
+        return render_template('all_users.html', users=users)
 
 
 @app.route('/users/<user_id>')
@@ -198,7 +192,23 @@ def redirect_home():
     return redirect('/')
 
 
+@app.route('/chartjs')
+def show_chartjs():
 
+    return render_template('chartjs.html')
+
+
+# @app.route('/sales_this_week.json')
+# def get_total_sales_this_week():
+
+#     # weekly_sales = list of tuples (datetime, int)
+
+#     sales_this_week= []
+#     for date, total in weekly_sales:
+#         sales_this_week.append({'date': date.isoformat(),
+#                                 'melons_sold': total})
+    
+#     return jsonify({'data': sales_this_week})
 
 
 if __name__ == "__main__":

@@ -3,9 +3,10 @@
 {% block title %}{{ user.name }} - Details{% endblock %}
 
 {% block body %}
-<a href="/home">Home</a>
-<div></div>
-<h1>{{ user.name }}'s Cellar</h1>
+  <a href="/home">Home</a>
+  {% if 'user_id' in session %}
+      <a href="/users/{{ user.user_id }}">My Cellar</a>
+  {% endif %}
 
 <p>
   <div>Name: {{ user.name }}</div>
@@ -17,6 +18,7 @@
   </div>
 </p>
 
+{% if user.ratings %}
 <h1>Wines</h1>
   <table>
     <tr>
@@ -33,13 +35,37 @@
       <td>{{ rating.rating }}</td>
     </tr>
     {% endfor %}
+  {% else %}
+    <div>You have not rated any wines yet.</div>
+  {% endif %}
+
+  {% if user.favorites %}
   </table>
+  <h2>Favorite wines</h2>
+  <table>
+    <tr>
+      <th>Wine</th>
+      <th>Varietal</th>
+      <th>Country</th>
+      <th>Critic rating</th>
+    </tr>
+    {% for favorite in user.favorites %}
+    <tr>
+      <td><a href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
+      <td>{{ favorite.wine.variety }}</td>
+      <td>{{ favorite.wine.country }}</td>
+      <td>{{ favorite.wine.points }}</td>
+    </tr>
+    {% endfor %}
+  {% else %}
+    <div>You have not favorited any wines yet.</div>
+  {% endif %}
+  </table>
+  <a href="/chartjs">Charts</a>
 <p>
-  <div>TODO: Add table of favorite wines</div>
   <div>TODO: Add comments</div>
   <div>TODO: Stats of varietals rated/favorited</div>
   <div>TODO: Stats of countries rated/favorited</div>
-  <div>TODO: Add links to wine_details pages of rated wines</div>
   <div>TODO: Add similar wines (ex: query for wines from that country)</div>
 </p>
 {% endblock %}

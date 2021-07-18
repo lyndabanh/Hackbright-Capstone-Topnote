@@ -4,17 +4,21 @@
 {% block body %}
     {% if 'user_id' in session %}
         <h1>Welcome, {{ user.name }}!</h1>
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="/wines">View all wines</a></li>
+            <li><a href="/users">View all users</a></li>
+            <li><a href="/users/{{ user.user_id }}">View My Cellar</a></li>
+        </ul>
     {% else %}
-        <h1>Welcome! Register or log in below!</h1>
+        <h1>Cheers, welcome to MyCellar!</h1>
+        <h2>Register or log in below.</h2>
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="/wines">View all wines</a></li>
+            <li><a href="/users">View all users</a></li>
+        </ul>
     {% endif %}
-    
-
-    <h2>Navigation</h2>
-    <ul>
-        <li><a href="/wines">View all wines</a></li>
-        <li><a href="/users">View all users</a></li>
-    </ul>
-
 
     {% if not 'user_id' in session %} 
     <h2>Create an Account</h2>
@@ -55,4 +59,9 @@
 
     {% endif %}
 
+
+<p>
+    <div>TODO: Make 'Create and Account' form on its own page. Have link here.</div>
+    <div>TODO: Make 'Log In' form on its own page. Have link here.</div>
+</p>
 {% endblock %}

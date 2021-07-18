@@ -2,6 +2,9 @@
 {% block title %}All Users{% endblock %}
 {% block body %}
     <a href="/home">Home</a>
+    {% if 'user_id' in session %}
+        <a href="/users/{{ user.user_id }}">My Cellar</a>
+    {% endif %}
     <div></div>
     <hi>All Users</hi>
 
