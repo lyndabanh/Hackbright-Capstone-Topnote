@@ -35,14 +35,13 @@
 <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
   <p>
     <input type="submit" value="Favorite">
-    <div>TODO: JS event listener. Add in ability to unfavorite a wine.</div>
   </p>
   
   {% if current_users_rating %}
   <p>You've already rated this wine. You may update your rating below:</p>
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
     <p>
-      Update rating<input type="number" min="0" max=5 name="new_rating">
+      Update rating<input type="number" min="0" max=100 name="new_rating">
     </p>
 
     <p>
@@ -52,7 +51,7 @@
   {% else %}
     <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
       <p>
-        Rating<input type="number" min="0" max=5 name="rating">
+        Rating<input type="number" min="0" max=100 name="rating">
       </p>
 
       <p>
@@ -64,11 +63,12 @@
 
 {% if not 'user_id' in session %}
   <p>
-    <div>Log in to rate this wine!</div> 
+    <div>Log in to rate or favorite this wine!</div> 
     <div>(Login on homepage)</div>
   </p>
 {% endif %}
 
-<p>TODO: JS event listener -- onclick for user to like/favorite this wine</p>
+<p>TODO: JS event listener -- onclick for user to favorite and unfavorite this wine</p>
+<p>TODO: Have favoriting click event render the current page, AJAX?</p>
 
 {% endblock %}

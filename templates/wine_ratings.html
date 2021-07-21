@@ -11,6 +11,9 @@
     {% if not wine.ratings %}
         <p>This wine does not have any ratings yet.</p>
     {% endif %}
+
+    <p>Critic rating: {{ wine.points }}</p>
+
     {% if wine.ratings %}
         <p>Average user rating:{{ average }}</p>
     <table>

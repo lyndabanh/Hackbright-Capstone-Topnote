@@ -9,9 +9,10 @@
 
 {% block body %}
   <a href="/home">Home</a>
-      {% if 'user_id' in session %}
-          <a href="/users/{{ user.user_id }}">My Cellar</a>
-      {% endif %}
+  {% if 'user_id' in session %}
+      <a href="/users/{{ user.user_id }}">My Cellar</a>
+  {% endif %}
+
   <div id="site-content">
     <h1>Chart.js</h1>
 

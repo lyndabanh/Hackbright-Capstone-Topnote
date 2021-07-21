@@ -18,6 +18,12 @@ class User(db.Model):
     favorites = db.relationship('Favorite')
     comments = db.relationship('Comment')
 
+    def to_dict(self):
+        return {'user_id' : self.user_id,
+                'name' : self.name,
+                'email' : self.email,
+                'password' : self.password}
+
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email}>'
 
@@ -43,6 +49,18 @@ class Wine(db.Model):
     favorites = db.relationship('Favorite')
     comments = db.relationship('Comment')
 
+    def to_dict(self):
+        return {'wine_id' : self.wine_id,
+                'winery' : self.winery,
+                'variety' : self.variety,
+                'country' : self.country,
+                'description' : self.description,
+                'designation' : self.designation,
+                'points' : self.points,
+                'province' : self.province,
+                'region_1' : self.region_1,
+                'region_2' : self. region_2}
+
     def __repr__(self):
         return f'<Wine wine_id={self.wine_id} title={self.title}>'
     
@@ -59,6 +77,12 @@ class Rating(db.Model):
 
     user = db.relationship('User')
     wine = db.relationship('Wine')
+
+    def to_dict(self):
+        return {'rating_id' : self.rating_id,
+                'user_id' : self.user_id,
+                'wine_id' : self.wine_id,
+                'rating' : self.rating}
 
     def __repr__(self):
         return f'<Rating rating_id={self.rating_id} rating={self.rating} user_id={self.user_id} wine_id={self.wine_id}>'
@@ -77,8 +101,15 @@ class Favorite(db.Model):
     user = db.relationship('User')
     wine = db.relationship('Wine')
 
+    #do this class fucntion for all classes
+    def to_dict(self):
+        return {'favorite_id' : self.favorite_id,
+                'user_id' : self.user_id,
+                'wine_id' : self.wine_id}
+
+
     def __repr__(self):
-        return f'<Favorite favorite_id={self.favorite_id} favorite={self.favorite}>'
+        return f'<Favorite favorite_id={self.favorite_id} user_id={self.user_id}, wine_id={self.wine_id}>'
 
 
 class Comment(db.Model):
@@ -93,6 +124,12 @@ class Comment(db.Model):
 
     user = db.relationship('User')
     wine = db.relationship('Wine')
+
+    def to_dict(self):
+        return {'comment_id' : self.comment_id,
+                'user_id' : self.user_id,
+                'wine_id' : self.wine_id,
+                'comment' : self. comment}
 
     def __repr__(self):
         return f'<Comment comment_id={self.comment_id} comment={self.comment}>'

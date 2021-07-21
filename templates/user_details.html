@@ -2,21 +2,17 @@
 
 {% block title %}{{ user.name }} - Details{% endblock %}
 
+{% block head %}
+  {# ChartJS #}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+{% endblock %}
+
 {% block body %}
   <a href="/home">Home</a>
   {% if 'user_id' in session %}
       <a href="/users/{{ user.user_id }}">My Cellar</a>
   {% endif %}
-
-<p>
-  <div>Name: {{ user.name }}</div>
-  <div>Email: {{ user.email }}</div>
-  <div>
-  {% set pw_len = user.password|length %}
-  {% set hidden_pw = pw_len*'*' %}
-  Password: {{ hidden_pw }}
-  </div>
-</p>
+  <a href="/chartjs">Charts</a>
 
 {% if user.ratings %}
 <h1>Wines</h1>
@@ -57,15 +53,45 @@
       <td>{{ favorite.wine.points }}</td>
     </tr>
     {% endfor %}
+
   {% else %}
     <div>You have not favorited any wines yet.</div>
   {% endif %}
+
   </table>
-  <a href="/chartjs">Charts</a>
-<p>
+
+  <h2>Testing</h2>
+  <canvas id="test-chart"></canvas>
+
+  <h2>Testing</h2>
+  <canvas id="test-chart2"></canvas>
+
+  <h2>Line Chart w/ Data from Server</h2>
+  <canvas id="line-chart"></canvas>
+ 
+  <h2>Testing query/code for pie chart</h2>
+  {% for fav in fav_wines %}
+  <div>{{ fav.wine.country }}</div>
+  {% endfor %}
+
+  <p>
+    <div>Name: {{ user.name }}</div>
+    <div>Email: {{ user.email }}</div>
+    <div>
+    {% set pw_len = user.password|length %}
+    {% set hidden_pw = pw_len*'*' %}
+    Password: {{ hidden_pw }}
+    </div>
+  </p>
+
+  <p>
   <div>TODO: Add comments</div>
   <div>TODO: Stats of varietals rated/favorited</div>
   <div>TODO: Stats of countries rated/favorited</div>
   <div>TODO: Add similar wines (ex: query for wines from that country)</div>
 </p>
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/charts.js"></script>
 {% endblock %}

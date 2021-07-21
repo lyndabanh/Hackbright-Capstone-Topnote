@@ -1,6 +1,7 @@
 """CRUD operations."""
 
 from model import db, User, Wine, Rating, Favorite, Comment, connect_to_db
+from sqlalchemy import func
 
 
 def create_user(name, email, password):
@@ -83,71 +84,94 @@ def comment(user, wine, comment):
     return comment
 
 
+#wine queries
 def all_wines():
-
     return Wine.query.all()
 
 
 def get_wine_by_id(wine_id):
-
     return Wine.query.filter(Wine.wine_id==wine_id).first()
 
 
 def get_and_order_rating_by_wine_id(wine_id):
-
     return Rating.query.filter(Rating.wine_id==wine_id).order_by(Rating.rating.desc()).all()
 
 
-def get_group_count_rating_by_user_id(user_id):
+# def get_group_count_rating_by_user_id(user_id):
+#     return Rating.query(Rating.rating, func.count(Rating.rating)).filter(Rating.user_id==user_id).group_by(Rating.rating).all()
 
-    return Rating.query(Rating.rating, func.count(Rating.rating)).filter(Rating.user_id==user_id).group_by(Rating.rating).all()
 
-
+#user queries
 def all_users():
-
     return User.query.all()
 
 
 def get_user_by_id(user_id):
-
     return User.query.filter(User.user_id==user_id).first()
 
 
 def get_user_by_email(email):
-
     return User.query.filter(User.email==email).first()
 
 
+#rating queries
 def all_ratings():
-
     return Rating.query.all()
 
 
 def get_ratings_by_wine_id(wine_id):
-
     return Rating.query.filter(Rating.wine_id==wine_id).all()
 
 
-def get_favorites_by_wine_id(wine_id):
-    
-    return Favorite.query.filter(Favorite.wine_id==wine_id).all()
-
-
-# def get_ratings_by_user_id(user_id):
-    
-#     return Rating.query.filter(Rating.user_id==user_id).all()
-
-
-def get_rating_by_user_id(user_id):
-    
+def get_rating_by_user_id(user_id):    
     return Rating.query.filter(Rating.user_id==user_id).first()
 
 
 def get_rating_by_user_id_and_wine_id(user_id, wine_id):
+    return Rating.query.filter(Rating.user_id==user_id, Rating.wine_id==wine_id).all() 
+  
 
-    return Rating.query.filter(Rating.user_id==user_id, Rating.wine_id==wine_id).all()
-    #return Rating.query.filter(Rating.user_id==user_id, Rating.wine_id==wine_id).first()
+#favorite queries
+def get_favorites_by_wine_id(wine_id):
+    return Favorite.query.filter(Favorite.wine_id==wine_id).all()
 
+
+def get_favorites_by_user_id(user_id): 
+    return Favorite.query.filter(Favorite.user_id==user_id).all()
+
+
+def get_dict_of_countries_of_favorites_by_user_id(user_id): 
+    fav_wines = Favorite.query.filter(Favorite.user_id==user_id).all()
+    
+    freq = {}
+
+    for fav in fav_wines:
+        if fav.wine.country in freq:
+            freq[fav.wine.country] += 1
+        else:
+            freq[fav.wine.country] = 1
+        
+    return freq
+
+
+# def get_count_of_favorite_countries_by_user_id():
+#     return Favorite.query(Favorite.wine.country, func.count(Favorite.wine.country)).group_by(Favorite.wine.country).all()
+
+
+# def get_favorites_by_userid_and_country(user_id, country):
+
+#     users_favorites = Favorite.query.filter(Favorite.user_id==user_id).all()
+
+#     for fav in users_favorites:
+#         print(fav.wine)
+#         print(fav.wine.country)
+
+#         if == country:
+
+    
+
+# def get_ratings_by_user_id(user_id):  
+#     return Rating.query.filter(Rating.user_id==user_id).all()
 
 
 if __name__ == '__main__':

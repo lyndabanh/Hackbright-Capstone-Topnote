@@ -1,6 +1,7 @@
 """Server for my cellar app."""
 
-from flask import Flask, render_template, request, flash, session, redirect
+from datetime import datetime, timedelta
+from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
@@ -181,8 +182,11 @@ def all_users():
 def user_by_id(user_id):
 
     user = crud.get_user_by_id(user_id)
+    fav_wines = crud.get_favorites_by_user_id(user_id)
+    #query doesn't work
+    #countries = crud.get_count_of_favorite_countries_by_user_id()
 
-    return render_template('user_details.html', user=user)
+    return render_template('user_details.html', user=user, fav_wines=fav_wines)
 
 
 @app.route('/home')
@@ -195,20 +199,36 @@ def redirect_home():
 @app.route('/chartjs')
 def show_chartjs():
 
-    return render_template('chartjs.html')
+    if 'user_id' in session:
+    #why does 'if session:' not work after you log in, then log out? 
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('chartjs.html', user=user)
+    else:
+        return render_template('chartjs.html')
 
 
 # @app.route('/sales_this_week.json')
 # def get_total_sales_this_week():
+#     """Get the daily total # of melons sold for the past 7 days."""
 
 #     # weekly_sales = list of tuples (datetime, int)
 
-#     sales_this_week= []
+#     sales_this_week = []
 #     for date, total in weekly_sales:
 #         sales_this_week.append({'date': date.isoformat(),
 #                                 'melons_sold': total})
-    
+
 #     return jsonify({'data': sales_this_week})
+
+
+@app.route('/test.json')
+def get_entries():
+    #return jsonify(crud.get_dict_of_countries_of_favorites_by_user_id(session['user_id']))
+
+    faves = crud.get_favorites_by_user_id(session['user_id'])
+    return jsonify({fave.favorite_id: fave.to_dict() for fave in faves})
+    #return jsonify({fave.favorite_id: fave.wine.country for fave in faves})
+
 
 
 if __name__ == "__main__":
