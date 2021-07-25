@@ -8,10 +8,7 @@
 {% endblock %}
 
 {% block body %}
-  <a href="/home">Home</a>
-  {% if 'user_id' in session %}
-      <a href="/users/{{ user.user_id }}">My Cellar</a>
-  {% endif %}
+  <a href="/">Home</a>
   <a href="/chartjs">Charts</a>
 
 {% if user.ratings %}
@@ -66,8 +63,14 @@
   <h2>Testing</h2>
   <canvas id="test-chart2"></canvas>
 
-  <h2>Line Chart w/ Data from Server</h2>
+  <h2>Testing - Line Chart w/ Data from Server</h2>
   <canvas id="line-chart"></canvas>
+  <div>TODO: "You like wines from [some country]. You might like one of these wines (link to wines from that country."</div>
+  <a href="/wine_recs">Recommendations</a>
+  <div>Currently recs not for particular user or country.</div>
+
+  <h2>Testing - Pie Chart w/ Data from Server</h2>
+  <canvas id="pie-chart"></canvas>
  
   <h2>Testing query/code for pie chart</h2>
   {% for fav in fav_wines %}

@@ -144,15 +144,75 @@ def get_dict_of_countries_of_favorites_by_user_id(user_id):
     fav_wines = Favorite.query.filter(Favorite.user_id==user_id).all()
     
     freq = {}
+    for fav in fav_wines:
+        if fav.wine.country in freq:
+            freq[fav.wine.country]["num_fav"] += 1
+        else:
+            freq[fav.wine.country] = {
+                                        "country" : fav.wine.country,
+                                        "num_fav" : 1
+                                    }
+                                               
+    list_of_freq = []
+    for item in freq:
+        list_of_freq.append(freq[item])
 
+    return list_of_freq
+
+
+def get_most_favorited_countries(user_id):
+    fav_wines = Favorite.query.filter(Favorite.user_id==user_id).all()
+
+    freq = {}
     for fav in fav_wines:
         if fav.wine.country in freq:
             freq[fav.wine.country] += 1
         else:
             freq[fav.wine.country] = 1
-        
-    return freq
 
+    print(freq) 
+
+    print (freq.values())
+    print(freq.keys())
+    print (freq.items())
+
+    #iterate through the key-value pairs in the freq dictionary
+    #next we convert the value v into a float(v) and check if that float is equal to max value
+    #if that is the case, we add the key k to the list
+    return [k for k,v in freq.items() if float(v) == max(freq.values())]
+
+    #could practice with querying for this data instead. joins and stuff
+    #order by num of favorites
+
+
+def get_wines_by_country(country):
+    return Wine.query.filter(Wine.country==country).all()
+
+
+# def test():
+#     fav_countries = get_most_favorited_countries(1)
+#     num_favs = len(fav_countries)
+#     print(fav_countries)
+#     print(num_favs)
+
+#     for country in range(num_favs):
+
+#     wines = []
+#     print(len(wines))
+#     for country in fav_countries:
+#         print(country)
+#         wines_of_country = Wine.query.filter(Wine.country==country).all()
+#         print(len(wines_of_country))
+
+#         #BUG: This adds the entire list, not each item. So for 2 countries, one list from each country is added.
+#         wines.append(wines_of_country)
+#         print(len(wines))
+        
+
+    
+
+    
+    
 
 # def get_count_of_favorite_countries_by_user_id():
 #     return Favorite.query(Favorite.wine.country, func.count(Favorite.wine.country)).group_by(Favorite.wine.country).all()

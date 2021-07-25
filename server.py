@@ -26,6 +26,19 @@ def homepage():
     # print(dir(session))
     # print(help(session.clear))
 
+@app.route('/create_account_page')
+def create_account_page():
+    """Routes to create account page."""
+
+    return render_template('create_account.html')
+
+
+@app.route('/login_page')
+def login_page():
+    """Routes to login page."""
+
+    return render_template('login.html')
+
 
 @app.route('/users', methods=['POST'])
 def register_user():
@@ -189,47 +202,57 @@ def user_by_id(user_id):
     return render_template('user_details.html', user=user, fav_wines=fav_wines)
 
 
-@app.route('/home')
-def redirect_home():
-    """Redirect to homepage."""
+#demo
+@app.route('/sales_this_week.json')
+def get_sales_this_week():
+    """Get melon sales data as JSON."""
 
-    return redirect('/')
+    # Create fake data. Instead of creating fake data, you should probably
+    # retrieve actual data from your database :^)
+    order_dates = []
+    date = datetime.now()
+    for _ in range(7):
+        order_dates.append(date)
+        date = date - timedelta(days=1)
+    order_totals = [20, 24, 36, 27, 20, 17, 22]
 
+    data = []
+    for date, total in zip(order_dates, order_totals):
+        # `date` is a datetime object; datetime objects can't be JSONified,
+        # so we have to convert it to a string with `date.isoformat()`
+        data.append({'date': date.isoformat(),
+                     'melons_sold': total})
 
-@app.route('/chartjs')
-def show_chartjs():
-
-    if 'user_id' in session:
-    #why does 'if session:' not work after you log in, then log out? 
-        user = crud.get_user_by_id(session['user_id'])
-        return render_template('chartjs.html', user=user)
-    else:
-        return render_template('chartjs.html')
-
-
-# @app.route('/sales_this_week.json')
-# def get_total_sales_this_week():
-#     """Get the daily total # of melons sold for the past 7 days."""
-
-#     # weekly_sales = list of tuples (datetime, int)
-
-#     sales_this_week = []
-#     for date, total in weekly_sales:
-#         sales_this_week.append({'date': date.isoformat(),
-#                                 'melons_sold': total})
-
-#     return jsonify({'data': sales_this_week})
+    return jsonify({'data': data})
 
 
 @app.route('/test.json')
 def get_entries():
+    # add conditional, if user is logged in, return this json
+    return jsonify({'data' : crud.get_dict_of_countries_of_favorites_by_user_id(session['user_id'])})
+
     #return jsonify(crud.get_dict_of_countries_of_favorites_by_user_id(session['user_id']))
+    # faves = crud.get_favorites_by_user_id(session['user_id'])
+    # return jsonify({fave.favorite_id : fave.to_dict() for fave in faves})
+    # return jsonify({fave.favorite_id: fave.wine.country for fave in faves})
 
-    faves = crud.get_favorites_by_user_id(session['user_id'])
-    return jsonify({fave.favorite_id: fave.to_dict() for fave in faves})
-    #return jsonify({fave.favorite_id: fave.wine.country for fave in faves})
+
+@app.route('/wine_recs')
+def wine_recs():
+    user = crud.get_user_by_id(session['user_id'])
+    fav_countries = crud.get_most_favorited_countries(user.user_id)
+
+    # if len(fav_countries) > 1:
+    
+    wines = []
+    for country in fav_countries:
+        wines_of_country = crud.get_wines_by_country(country)
+        wines.append(wines_of_country)
+        return render_template('wine_recs.html', user=user, wines=wines)
 
 
+    # wines = crud.get_wines_by_country('Italy')
+    # return render_template('wine_recs.html', user=user, wines=wines)
 
 if __name__ == "__main__":
     connect_to_db(app)

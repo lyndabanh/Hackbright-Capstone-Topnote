@@ -101,11 +101,11 @@ class Favorite(db.Model):
     user = db.relationship('User')
     wine = db.relationship('Wine')
 
-    #do this class fucntion for all classes
     def to_dict(self):
         return {'favorite_id' : self.favorite_id,
                 'user_id' : self.user_id,
-                'wine_id' : self.wine_id}
+                'wine_id' : self.wine_id,
+                'wine.country' : self.wine.country}
 
 
     def __repr__(self):
