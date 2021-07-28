@@ -132,7 +132,8 @@ def wine_by_id(wine_id):
         current_users_rating = crud.get_rating_by_user_id_and_wine_id(user_id, wine_id)
         favorites = crud.get_favorites_by_wine_id(wine_id)
         num_favorites = len(favorites)
-        return render_template('wine_details.html', wine_id=wine_id, wine=wine, user_id=user_id, user=user, current_users_rating=current_users_rating, num_favorites=num_favorites)
+        current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user_id, wine_id)
+        return render_template('wine_details.html', wine_id=wine_id, wine=wine, user_id=user_id, user=user, current_users_rating=current_users_rating, num_favorites=num_favorites, current_users_fav=current_users_fav)
 
     else:
         favorites = crud.get_favorites_by_wine_id(wine_id)
@@ -148,6 +149,8 @@ def create_update_or_favorite(wine_id):
     
     rating = request.form.get('rating')
     new_rating = request.form.get('new_rating')
+    favorite = request.form.get('favorite')
+    #unfavorite = request.form.get('unfavorite')
 
     #if logged in user makes a new rating, add the rating to the ratings table
     if rating:
@@ -155,8 +158,10 @@ def create_update_or_favorite(wine_id):
     #if logged in user updates a previously created rating, update the rating in the ratings table
     elif new_rating:
         crud.update_rating(user, wine, new_rating)
-    else:
+    elif favorite:
         crud.favorite(user,wine)
+    else:
+        crud.unfavorite(user.user_id, wine.wine_id)
 
     #if 1 or more ratings for this wine exist, calculate average rating
     ratings = crud.get_ratings_by_wine_id(wine_id)
@@ -196,10 +201,11 @@ def user_by_id(user_id):
 
     user = crud.get_user_by_id(user_id)
     fav_wines = crud.get_favorites_by_user_id(user_id)
+    fav_countries = crud.get_fav_countries(user.user_id)
     #query doesn't work
     #countries = crud.get_count_of_favorite_countries_by_user_id()
 
-    return render_template('user_details.html', user=user, fav_wines=fav_wines)
+    return render_template('user_details.html', user=user, fav_wines=fav_wines, fav_countries=fav_countries)
 
 
 #demo
@@ -240,19 +246,10 @@ def get_entries():
 @app.route('/wine_recs')
 def wine_recs():
     user = crud.get_user_by_id(session['user_id'])
-    fav_countries = crud.get_most_favorited_countries(user.user_id)
-
-    # if len(fav_countries) > 1:
-    
-    wines = []
-    for country in fav_countries:
-        wines_of_country = crud.get_wines_by_country(country)
-        wines.append(wines_of_country)
-        return render_template('wine_recs.html', user=user, wines=wines)
-
-
-    # wines = crud.get_wines_by_country('Italy')
-    # return render_template('wine_recs.html', user=user, wines=wines)
+    # fav_countries = crud.get_most_favorited_countries(session['user_id'])
+    wines = crud.get_rec_wines(user.user_id)
+    fav_countries = crud.get_fav_countries(user.user_id)
+    return render_template('wine_recs.html', user=user, wines=wines, fav_countries=fav_countries)
 
 if __name__ == "__main__":
     connect_to_db(app)

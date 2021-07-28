@@ -73,6 +73,19 @@ def favorite(user, wine):
     return favorite
 
 
+def unfavorite(user_id, wine_id):
+    """Remove favorited wine ('unfavorite')."""
+
+    # favorite = Favorite.query.get(user_id, wine_id)
+    favorite = Favorite.query.filter(Favorite.user_id==user_id, Favorite.wine_id==wine_id).all() 
+
+    db.session.delete(favorite)
+    db.session.commit()
+    
+    #should return nothing because favorite wine was taken out of db
+    return favorite
+
+
 def comment(user, wine, comment):
     """Crate and add a wine comment."""
 
@@ -140,6 +153,10 @@ def get_favorites_by_user_id(user_id):
     return Favorite.query.filter(Favorite.user_id==user_id).all()
 
 
+def get_favorite_by_user_id_and_wine_id(user_id, wine_id):
+    return Favorite.query.filter(Favorite.user_id==user_id, Favorite.wine_id==wine_id).all() 
+
+
 def get_dict_of_countries_of_favorites_by_user_id(user_id): 
     fav_wines = Favorite.query.filter(Favorite.user_id==user_id).all()
     
@@ -160,7 +177,7 @@ def get_dict_of_countries_of_favorites_by_user_id(user_id):
     return list_of_freq
 
 
-def get_most_favorited_countries(user_id):
+def get_fav_countries(user_id):
     fav_wines = Favorite.query.filter(Favorite.user_id==user_id).all()
 
     freq = {}
@@ -170,11 +187,10 @@ def get_most_favorited_countries(user_id):
         else:
             freq[fav.wine.country] = 1
 
-    print(freq) 
-
-    print (freq.values())
-    print(freq.keys())
-    print (freq.items())
+    # print(freq) 
+    # print (freq.values())
+    # print(freq.keys())
+    # print (freq.items())
 
     #iterate through the key-value pairs in the freq dictionary
     #next we convert the value v into a float(v) and check if that float is equal to max value
@@ -189,24 +205,34 @@ def get_wines_by_country(country):
     return Wine.query.filter(Wine.country==country).all()
 
 
+def get_rec_wines(user_id):
+    fav_countries = get_fav_countries(user_id)
+    
+    rec_wines = []
+    while fav_countries:
+        wines = Wine.query.filter(Wine.country==fav_countries.pop()).all()
+        for wine in wines:
+            rec_wines.append(wine)
+    
+    return rec_wines
+
 # def test():
-#     fav_countries = get_most_favorited_countries(1)
-#     num_favs = len(fav_countries)
+    
+
+#     #prints for testing
 #     print(fav_countries)
-#     print(num_favs)
 
-#     for country in range(num_favs):
+#     #figure out how to query for wines of multiple countries instead of the below statement
+#     rec_wines = []
 
-#     wines = []
-#     print(len(wines))
-#     for country in fav_countries:
-#         print(country)
-#         wines_of_country = Wine.query.filter(Wine.country==country).all()
-#         print(len(wines_of_country))
+#     while fav_countries:
+#         wines = Wine.query.filter(Wine.country==fav_countries.pop()).all()
+#         for wine in wines:
+#             rec_wines.append(wine)
+#         print(len(rec_wines))
+    
+#     return len(rec_wines)
 
-#         #BUG: This adds the entire list, not each item. So for 2 countries, one list from each country is added.
-#         wines.append(wines_of_country)
-#         print(len(wines))
         
 
     

@@ -35,6 +35,14 @@
   {% if user.favorites %}
   </table>
   <h2>Favorite wines</h2>
+  <p>
+    <div>You like wines from:</div>
+    {% for country in fav_countries %}
+    <div>{{ country }}</div>
+    {% endfor %}
+    <div><a href="/wine_recs">Recommendations</a></div>
+  </p>
+
   <table>
     <tr>
       <th>Wine</th>
@@ -50,12 +58,13 @@
       <td>{{ favorite.wine.points }}</td>
     </tr>
     {% endfor %}
+  </table>
 
   {% else %}
     <div>You have not favorited any wines yet.</div>
   {% endif %}
 
-  </table>
+  
 
   <h2>Testing</h2>
   <canvas id="test-chart"></canvas>
@@ -65,6 +74,7 @@
 
   <h2>Testing - Line Chart w/ Data from Server</h2>
   <canvas id="line-chart"></canvas>
+  
   <div>TODO: "You like wines from [some country]. You might like one of these wines (link to wines from that country."</div>
   <a href="/wine_recs">Recommendations</a>
   <div>Currently recs not for particular user or country.</div>
@@ -72,10 +82,9 @@
   <h2>Testing - Pie Chart w/ Data from Server</h2>
   <canvas id="pie-chart"></canvas>
  
-  <h2>Testing query/code for pie chart</h2>
-  {% for fav in fav_wines %}
-  <div>{{ fav.wine.country }}</div>
-  {% endfor %}
+  <h2>Testing - Bar Chart w/ Data from Server</h2>
+  <canvas id="bar-chart"></canvas>
+  <div>TODO: make y axis begin at 0</div>
 
   <p>
     <div>Name: {{ user.name }}</div>

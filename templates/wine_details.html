@@ -25,18 +25,42 @@
 </p>
 
 <h2>Wine stats</h2>
+
+<button id="signIn" class="signInText">Favorite</button>
+<script>
+  "use strict";
+  
+  const btn = document.querySelector('#signIn');
+  
+  btn.addEventListener('click', () => {
+    if(btn.innerHTML === 'Unfavorite') {
+      btn.innerHTML = 'Favorite';
+    } else {
+      btn.innerHTML = 'Unfavorite';
+    }
+  });
+</script>
+<div>Above 'Favorite'/'Unfavorite' button has no functionality</div>
+
 {% if num_favorites == 1 %}
   <p>This wine has been favorited {{ num_favorites }} time. </p>
   {% else %}
   <p>This wine has been favorited {{ num_favorites }} times. </p>
 {% endif %}
 
-<div>TODO: Unfavorite button if user has already favorited this wine.</div>
 {% if 'user_id' in session %}
-<form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-  <p>
-    <input type="submit" value="Favorite">
-  </p>
+  {% if current_users_fav %}
+  <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+    <p>
+      <input type="submit" value="Unfavorite" name="unfavorite">
+    </p>
+    <div>TODO: Write crud function to unfavorite</div>
+  {% else %}
+  <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+    <p>
+      <input type="submit" value="Favorite" name="favorite">
+    </p>
+  {% endif %}
   
   {% if current_users_rating %}
   <p>You've already rated this wine. You may update your rating below:</p>
