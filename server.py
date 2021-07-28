@@ -150,7 +150,6 @@ def create_update_or_favorite(wine_id):
     rating = request.form.get('rating')
     new_rating = request.form.get('new_rating')
     favorite = request.form.get('favorite')
-    #unfavorite = request.form.get('unfavorite')
 
     #if logged in user makes a new rating, add the rating to the ratings table
     if rating:

@@ -26,22 +26,6 @@
 
 <h2>Wine stats</h2>
 
-<button id="signIn" class="signInText">Favorite</button>
-<script>
-  "use strict";
-  
-  const btn = document.querySelector('#signIn');
-  
-  btn.addEventListener('click', () => {
-    if(btn.innerHTML === 'Unfavorite') {
-      btn.innerHTML = 'Favorite';
-    } else {
-      btn.innerHTML = 'Unfavorite';
-    }
-  });
-</script>
-<div>Above 'Favorite'/'Unfavorite' button has no functionality</div>
-
 {% if num_favorites == 1 %}
   <p>This wine has been favorited {{ num_favorites }} time. </p>
   {% else %}
@@ -49,19 +33,20 @@
 {% endif %}
 
 {% if 'user_id' in session %}
-  {% if current_users_fav %}
+  
+{% if current_users_fav %}
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
     <p>
-      <input type="submit" value="Unfavorite" name="unfavorite">
+      <button type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
     </p>
     <div>TODO: Write crud function to unfavorite</div>
   {% else %}
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
     <p>
-      <input type="submit" value="Favorite" name="favorite">
+      <button type="submit" value="Favorite" name="favorite">Favorite</button>
     </p>
   {% endif %}
-  
+
   {% if current_users_rating %}
   <p>You've already rated this wine. You may update your rating below:</p>
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
@@ -84,6 +69,7 @@
       </p>
     </form>
   {% endif %}
+
 {% endif %}
 
 {% if not 'user_id' in session %}
@@ -92,6 +78,22 @@
     <div>(Login on homepage)</div>
   </p>
 {% endif %}
+
+<button id="signIn" class="signInText">Favorite</button>
+<script>
+  "use strict";
+  
+  const btn = document.querySelector('#signIn');
+  
+  btn.addEventListener('click', () => {
+    if(btn.innerHTML === 'Unfavorite') {
+      btn.innerHTML = 'Favorite';
+    } else {
+      btn.innerHTML = 'Unfavorite';
+    }
+  });
+</script>
+<div>Above 'Favorite'/'Unfavorite' button has no functionality</div>
 
 <p>TODO: JS event listener -- onclick for user to favorite and unfavorite this wine</p>
 <p>TODO: Have favoriting click event render the current page, AJAX?</p>

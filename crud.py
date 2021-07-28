@@ -77,13 +77,9 @@ def unfavorite(user_id, wine_id):
     """Remove favorited wine ('unfavorite')."""
 
     # favorite = Favorite.query.get(user_id, wine_id)
-    favorite = Favorite.query.filter(Favorite.user_id==user_id, Favorite.wine_id==wine_id).all() 
-
-    db.session.delete(favorite)
+    favorite = Favorite.query.filter(Favorite.user_id==user_id, Favorite.wine_id==wine_id).delete() 
     db.session.commit()
     
-    #should return nothing because favorite wine was taken out of db
-    return favorite
 
 
 def comment(user, wine, comment):
