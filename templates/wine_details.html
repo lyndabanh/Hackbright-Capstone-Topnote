@@ -79,11 +79,11 @@
   </p>
 {% endif %}
 
-<button id="signIn" class="signInText">Favorite</button>
+<button id="favorite" class="favoriteText">Favorite</button>
 <script>
   "use strict";
   
-  const btn = document.querySelector('#signIn');
+  const btn = document.querySelector('#favorite');
   
   btn.addEventListener('click', () => {
     if(btn.innerHTML === 'Unfavorite') {
@@ -93,9 +93,8 @@
     }
   });
 </script>
-<div>Above 'Favorite'/'Unfavorite' button has no functionality</div>
-
-<p>TODO: JS event listener -- onclick for user to favorite and unfavorite this wine</p>
-<p>TODO: Have favoriting click event render the current page, AJAX?</p>
-
+<p>
+<div>TODO: JS event listener above has no functionality</div>
+<div>TODO: Have favoriting click event render the current page, AJAX?</div>
+</p>
 {% endblock %}

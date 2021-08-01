@@ -1,6 +1,6 @@
 """Server for my cellar app."""
 
-from datetime import datetime, timedelta
+from flask_bootstrap import Bootstrap
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from model import connect_to_db
 import crud
@@ -10,6 +10,7 @@ from jinja2 import StrictUndefined
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
+bootstrap = Bootstrap(app)
 
 
 @app.route('/')
@@ -101,19 +102,68 @@ def log_out():
     return redirect('/')
 
 
+# @app.route('/wines')
+# def all_wines():
+#     """Display all wines."""
+
+#     wines = crud.all_wines()
+
+#     if 'user_id' in session:
+#     #why does 'in session:' not work after you log in, then log out? 
+#         user = crud.get_user_by_id(session['user_id'])
+#         return render_template('all_wines.html', wines=wines, user=user)
+    
+#     else:
+#         return render_template('all_wines.html', wines=wines)
+
 @app.route('/wines')
 def all_wines():
-    """Display all wines."""
+    """Display wine countries"""
 
     wines = crud.all_wines()
+    countries = crud.get_countries()
+    varietals = crud.get_varietals()
 
     if 'user_id' in session:
-    #why does 'if session:' not work after you log in, then log out? 
+    #why does 'in session:' not work after you log in, then log out? 
         user = crud.get_user_by_id(session['user_id'])
-        return render_template('all_wines.html', wines=wines, user=user)
+        return render_template('all_wines.html', wines=wines, countries=countries, varietals=varietals, user=user)
     
     else:
-        return render_template('all_wines.html', wines=wines)
+        return render_template('all_wines.html', wines=wines, countries=countries, varietals=varietals)
+    
+
+@app.route('/wines/country/<country>')
+def wines_by_country(country):
+    """Display all wine countries."""
+
+    #for value in Session.query(Table.column).distinct():
+
+    wines = crud.get_wines_by_country(country)
+    # german_wines = crud.get_wines_by_country('Germany')
+
+    if 'user_id' in session:
+    #why does 'in session:' not work after you log in, then log out? 
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('wine_by_country.html', wines=wines, user=user)
+    
+    else:
+        return render_template('wine_by_country.html', wines=wines)
+
+
+@app.route('/wines/variety/<variety>')
+def wines_by_variety(variety):
+    """Dispaly all wine varietals."""
+
+    wines = crud.get_wines_by_variety(variety)
+    # merlots = crud_get_wines_by_variety('Merlot')
+
+    if 'user_id' in session:
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('wine_by_variety.html', wines=wines, user=user)
+
+    else:
+        return render_template('wine_by_variety.html', wines=wines)
 
 
 @app.route('/wines/<int:wine_id>')
@@ -139,10 +189,12 @@ def wine_by_id(wine_id):
         favorites = crud.get_favorites_by_wine_id(wine_id)
         num_favorites = len(favorites)
         return render_template('wine_details.html', wine_id=wine_id, wine=wine, num_favorites=num_favorites)
-
+   
 
 @app.route('/wines/<int:wine_id>/ratings', methods=['POST'])
 def create_update_or_favorite(wine_id):
+    #change view function name
+    #this creates and updates favorites AND ratings
 
     user = crud.get_user_by_id(session['user_id'])
     wine = crud.get_wine_by_id(wine_id)
@@ -159,10 +211,12 @@ def create_update_or_favorite(wine_id):
         crud.update_rating(user, wine, new_rating)
     elif favorite:
         crud.favorite(user,wine)
+        return redirect(f'/wines/{wine_id}')
     else:
         crud.unfavorite(user.user_id, wine.wine_id)
+        return redirect(f'/wines/{wine_id}')
 
-    #if 1 or more ratings for this wine exist, calculate average rating
+    #if 1 or more ratings for this wine exist(s), calculate average rating
     ratings = crud.get_ratings_by_wine_id(wine_id)
     if ratings:
         #add ratings to a list
@@ -174,10 +228,25 @@ def create_update_or_favorite(wine_id):
 
         #TODO: Implement the following sorted tabled, if desired
         desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
-
         return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
+        # return redirect('/wine_details.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
     
     return render_template('/wine_ratings.html', user=user, wine=wine)
+    # return redirect('/wine_details.html', user=user, wine=wine)
+
+
+#if using AJAX to favorite/unfavorite
+# @app.route('/wines/<int:wine_id>')
+# # ('/wines/favorite/<int:wine_id>')
+# def favorite_wine():
+#     """Create a favorite wine and add to db."""
+#     user = crud.get_user_by_id(session['user_id'])
+#     wine = crud.get_wine_by_id(wine_id)
+#     # return crud.favorite()  this line of code seemed to work??
+#     if user and wine:
+#         crud.favorite(user, wine)
+
+#         return jsonify({'You liked this wine!'})
 
 
 @app.route('/users')
@@ -201,10 +270,11 @@ def user_by_id(user_id):
     user = crud.get_user_by_id(user_id)
     fav_wines = crud.get_favorites_by_user_id(user_id)
     fav_countries = crud.get_fav_countries(user.user_id)
+    fav_varietals = crud.get_fav_varietals(user.user_id)
     #query doesn't work
     #countries = crud.get_count_of_favorite_countries_by_user_id()
 
-    return render_template('user_details.html', user=user, fav_wines=fav_wines, fav_countries=fav_countries)
+    return render_template('user_details.html', user=user, fav_wines=fav_wines, fav_countries=fav_countries, fav_varietals=fav_varietals)
 
 
 #demo
@@ -231,24 +301,42 @@ def get_sales_this_week():
     return jsonify({'data': data})
 
 
-@app.route('/test.json')
+@app.route('/fav_countries.json')
 def get_entries():
     # add conditional, if user is logged in, return this json
-    return jsonify({'data' : crud.get_dict_of_countries_of_favorites_by_user_id(session['user_id'])})
+    return jsonify({'data' : crud.get_dict_of_fav_countries_by_user_id(session['user_id'])})
 
     #return jsonify(crud.get_dict_of_countries_of_favorites_by_user_id(session['user_id']))
     # faves = crud.get_favorites_by_user_id(session['user_id'])
     # return jsonify({fave.favorite_id : fave.to_dict() for fave in faves})
     # return jsonify({fave.favorite_id: fave.wine.country for fave in faves})
 
+@app.route('/fav_varietals.json')
+def get_entries2():
+    return jsonify({'data' : crud.get_dict_of_fav_varietals_by_user_id(session['user_id'])})
 
-@app.route('/wine_recs')
+
+@app.route('/recs')
 def wine_recs():
     user = crud.get_user_by_id(session['user_id'])
-    # fav_countries = crud.get_most_favorited_countries(session['user_id'])
-    wines = crud.get_rec_wines(user.user_id)
+    wines = crud.get_rec_wines_by_country(user.user_id)
     fav_countries = crud.get_fav_countries(user.user_id)
     return render_template('wine_recs.html', user=user, wines=wines, fav_countries=fav_countries)
+
+
+@app.route('/wines/recs/country/<country>')
+def recs_by_country(country):
+    user = crud.get_user_by_id(session['user_id'])
+    wines = crud.get_wines_by_country(country)
+    return render_template('wine_recs_country.html', user=user, wines=wines)
+
+
+@app.route('/wines/recs/variety/<variety>')
+def recs_by_variety(variety):
+    user = crud.get_user_by_id(session['user_id'])
+    wines = crud.get_wines_by_variety(variety)
+    return render_template('wine_recs_variety.html', user=user, wines=wines)
+    
 
 if __name__ == "__main__":
     connect_to_db(app)

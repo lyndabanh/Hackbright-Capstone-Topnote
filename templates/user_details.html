@@ -35,12 +35,16 @@
   {% if user.favorites %}
   </table>
   <h2>Favorite wines</h2>
+  <div>Based on your favorites, you might like wines from:</div>
+  {% for country in fav_countries %}
+  <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div>
+  {% endfor %}
+  <div>Based on your favorites, you might wines of these varietals:</div>
+  {% for variety in fav_varietals %}
+  <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div>
+  {% endfor %}
   <p>
-    <div>You like wines from:</div>
-    {% for country in fav_countries %}
-    <div>{{ country }}</div>
-    {% endfor %}
-    <div><a href="/wine_recs">Recommendations</a></div>
+    <div><a href="/recs">All recommendations</a></div>
   </p>
 
   <table>
@@ -64,20 +68,9 @@
     <div>You have not favorited any wines yet.</div>
   {% endif %}
 
-  
-
-  <h2>Testing</h2>
-  <canvas id="test-chart"></canvas>
-
-  <h2>Testing</h2>
-  <canvas id="test-chart2"></canvas>
 
   <h2>Testing - Line Chart w/ Data from Server</h2>
   <canvas id="line-chart"></canvas>
-  
-  <div>TODO: "You like wines from [some country]. You might like one of these wines (link to wines from that country."</div>
-  <a href="/wine_recs">Recommendations</a>
-  <div>Currently recs not for particular user or country.</div>
 
   <h2>Testing - Pie Chart w/ Data from Server</h2>
   <canvas id="pie-chart"></canvas>
@@ -86,7 +79,10 @@
   <canvas id="bar-chart"></canvas>
   <div>TODO: make y axis begin at 0</div>
 
-  <p>
+  <h2>Testing - Pie Chart w/ Data from Server</h2>
+  <canvas id="pie-chart2"></canvas>
+
+  <!-- <p>
     <div>Name: {{ user.name }}</div>
     <div>Email: {{ user.email }}</div>
     <div>
@@ -94,13 +90,10 @@
     {% set hidden_pw = pw_len*'*' %}
     Password: {{ hidden_pw }}
     </div>
-  </p>
+  </p> -->
 
   <p>
-  <div>TODO: Add comments</div>
-  <div>TODO: Stats of varietals rated/favorited</div>
-  <div>TODO: Stats of countries rated/favorited</div>
-  <div>TODO: Add similar wines (ex: query for wines from that country)</div>
+  <div>TODO: Add comment feature?</div>
 </p>
 {% endblock %}
 
