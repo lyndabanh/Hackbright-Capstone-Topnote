@@ -277,30 +277,6 @@ def user_by_id(user_id):
     return render_template('user_details.html', user=user, fav_wines=fav_wines, fav_countries=fav_countries, fav_varietals=fav_varietals)
 
 
-#demo
-@app.route('/sales_this_week.json')
-def get_sales_this_week():
-    """Get melon sales data as JSON."""
-
-    # Create fake data. Instead of creating fake data, you should probably
-    # retrieve actual data from your database :^)
-    order_dates = []
-    date = datetime.now()
-    for _ in range(7):
-        order_dates.append(date)
-        date = date - timedelta(days=1)
-    order_totals = [20, 24, 36, 27, 20, 17, 22]
-
-    data = []
-    for date, total in zip(order_dates, order_totals):
-        # `date` is a datetime object; datetime objects can't be JSONified,
-        # so we have to convert it to a string with `date.isoformat()`
-        data.append({'date': date.isoformat(),
-                     'melons_sold': total})
-
-    return jsonify({'data': data})
-
-
 @app.route('/fav_countries.json')
 def get_entries():
     # add conditional, if user is logged in, return this json
@@ -337,6 +313,11 @@ def recs_by_variety(variety):
     wines = crud.get_wines_by_variety(variety)
     return render_template('wine_recs_variety.html', user=user, wines=wines)
     
+
+@app.route('/ratings.json')
+def ratings_by_user_id():
+    return jsonify({'data' : crud.get_dict_of_ratings_by_user_id(session['user_id'])})
+
 
 if __name__ == "__main__":
     connect_to_db(app)

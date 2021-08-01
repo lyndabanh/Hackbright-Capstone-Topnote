@@ -166,12 +166,12 @@ def get_dict_of_fav_countries_by_user_id(user_id):
                                         "num_fav" : 1
                                     }
                                                
-    list_of_freq = []
-    for item in freq:
-        list_of_freq.append(freq[item])
+    # list_of_freq = []
+    # for item in freq:
+    #     list_of_freq.append(freq[item])
 
-    return list_of_freq
-
+    # return list_of_freq
+    return [freq[item] for item in freq]
 
 def get_dict_of_fav_varietals_by_user_id(user_id): 
     fav_wines = Favorite.query.filter(Favorite.user_id==user_id).all()
@@ -185,12 +185,8 @@ def get_dict_of_fav_varietals_by_user_id(user_id):
                                         "variety" : fav.wine.variety,
                                         "num_fav" : 1
                                     }
-                                               
-    list_of_freq = []
-    for item in freq:
-        list_of_freq.append(freq[item])
-
-    return list_of_freq
+                        
+    return [freq[item] for item in freq]
 
 
 def get_fav_countries(user_id):
@@ -274,48 +270,33 @@ def get_rec_wines_by_variety(user_id):
     
     return rec_wines
 
-# def test():
+
+def get_ratings_by_user_id(user_id):  
+    ratings = Rating.query.filter(Rating.user_id==user_id).all()
+
+
+    critic_rating = []
+    your_rating = []
+    for rating in ratings:
+        your_rating.append(rating.rating)
+        critic_rating.append(rating.wine.points)
     
+    return (your_rating + critic_rating)
 
-#     #prints for testing
-#     print(fav_countries)
+    # return Rating.query.filter(Rating.user_id==user_id).all()
 
-#     #figure out how to query for wines of multiple countries instead of the below statement
-#     rec_wines = []
-
-#     while fav_countries:
-#         wines = Wine.query.filter(Wine.country==fav_countries.pop()).all()
-#         for wine in wines:
-#             rec_wines.append(wine)
-#         print(len(rec_wines))
+def get_dict_of_ratings_by_user_id(user_id): 
+    ratings = Rating.query.filter(Rating.user_id==user_id).all()
     
-#     return len(rec_wines)
+    dict_ratings = {}
+    for rating in ratings:
+        dict_ratings[rating] = {
+                                "wine_id" : rating.wine.wine_id,
+                                "critic rating" : rating.wine.points,
+                                "user rating" : rating.rating
+                                }
 
-        
-
-    
-
-    
-    
-
-# def get_count_of_favorite_countries_by_user_id():
-#     return Favorite.query(Favorite.wine.country, func.count(Favorite.wine.country)).group_by(Favorite.wine.country).all()
-
-
-# def get_favorites_by_userid_and_country(user_id, country):
-
-#     users_favorites = Favorite.query.filter(Favorite.user_id==user_id).all()
-
-#     for fav in users_favorites:
-#         print(fav.wine)
-#         print(fav.wine.country)
-
-#         if == country:
-
-    
-
-# def get_ratings_by_user_id(user_id):  
-#     return Rating.query.filter(Rating.user_id==user_id).all()
+    return [dict_ratings[item] for item in dict_ratings]
 
 
 if __name__ == '__main__':
