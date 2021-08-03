@@ -6,7 +6,7 @@
 //   for (const item of res.data) {
 //     data.push({x: item.country, y: item.num_fav});
 //   }
-//   const labels = [];
+//   const labels = [];ß
 //   for (const country of res.data) {
 //     labels.push(country.country);
 //   }
@@ -166,7 +166,7 @@ $.get('/ratings.json', (res) => {
 $.get('/ratings.json', (res) => {
   const data3 = [];
   for (const item of res.data) {
-    data3.push({x: item.wine_id, y: item.user_rating});
+    data3.push({x: item.user_rating, y: item.critic_rating});
   }
   const data3b = [];
   for (const item of res.data) {
@@ -185,17 +185,17 @@ $.get('/ratings.json', (res) => {
         labels: labels3,
         datasets: [
           {
-            label: 'User Rating',
+            label: 'User vs Critic rating',
             data: data3,
             borderColor: 'rgb(75, 192, 192)',
             bacgroundColor: 'rgb(75, 192, 192)',
           },
-          {
-            label: 'Critic Rating',
-            data: data3b,
-            borderColor: 'rgb(233, 192, 192)',
-            bacgroundColor: 'rgb(233, 192, 192)',
-          }
+          // {
+          //   label: 'Critic Rating',
+          //   data: data3b,
+          //   borderColor: 'rgb(233, 192, 192)',
+          //   bacgroundColor: 'rgb(233, 192, 192)',
+          // }
         ]
       },
       options: {
