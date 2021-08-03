@@ -62,6 +62,38 @@ def update_rating(user, wine, rating):
     return current_rating
 
 
+def comment(user, wine, comment):
+    """Create and return a new comment."""
+
+    comment = Comment(user=user, wine=wine, comment=comment)
+
+    db.session.add(comment)
+    db.session.commit()
+
+    return comment
+
+
+def update_comment(user, wine, comment):
+    """User updates a previously created comment."""
+
+    current_comment = Comment.query.filter(Comment.user==user, Comment.wine==wine).first()
+
+    #Conditional allows you to "update" a comment even if a previous comment doesn't exist
+    if current_comment:
+        current_comment.comment = comment
+        db.session.merge(current_comment)
+    else:
+        current_comment = Comment(user=user, wine=wine, comment=comment)
+
+    db.session.commit()
+
+    return current_comment
+
+
+def get_comments_by_user_id(user_id):
+    return Comment.query.filter(Comment.user_id==user_id).all()
+
+
 def favorite(user, wine):
     """Create and add a favorite wine."""
 
@@ -131,7 +163,7 @@ def all_ratings():
 def get_ratings_by_wine_id(wine_id):
     return Rating.query.filter(Rating.wine_id==wine_id).all()
 
-
+#is this used anywhere? should be ratings by user id (plural)
 def get_rating_by_user_id(user_id):    
     return Rating.query.filter(Rating.user_id==user_id).first()
 
@@ -271,19 +303,24 @@ def get_rec_wines_by_variety(user_id):
     return rec_wines
 
 
-def get_ratings_by_user_id(user_id):  
-    ratings = Rating.query.filter(Rating.user_id==user_id).all()
+# def get_ratings_by_user_id(user_id):  
+#     ratings = Rating.query.filter(Rating.user_id==user_id).all()
 
 
-    critic_rating = []
-    your_rating = []
-    for rating in ratings:
-        your_rating.append(rating.rating)
-        critic_rating.append(rating.wine.points)
+#     critic_rating = []
+#     your_rating = []
+#     for rating in ratings:
+#         your_rating.append(rating.rating)
+#         critic_rating.append(rating.wine.points)
     
-    return (your_rating + critic_rating)
+#     return (your_rating + critic_rating)
 
     # return Rating.query.filter(Rating.user_id==user_id).all()
+
+
+def get_ratings_by_user_id(user_id):  
+    return Rating.query.filter(Rating.user_id==user_id).all()
+
 
 def get_dict_of_ratings_by_user_id(user_id): 
     ratings = Rating.query.filter(Rating.user_id==user_id).all()
@@ -292,8 +329,8 @@ def get_dict_of_ratings_by_user_id(user_id):
     for rating in ratings:
         dict_ratings[rating] = {
                                 "wine_id" : rating.wine.wine_id,
-                                "critic rating" : rating.wine.points,
-                                "user rating" : rating.rating
+                                "critic_rating" : rating.wine.points,
+                                "user_rating" : rating.rating
                                 }
 
     return [dict_ratings[item] for item in dict_ratings]

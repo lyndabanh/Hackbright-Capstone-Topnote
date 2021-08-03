@@ -12,7 +12,7 @@
   <a href="/chartjs">Charts</a>
 
 {% if user.ratings %}
-<h1>Wines</h1>
+<h2>Your Rated Wines</h2>
   <table>
     <tr>
       <th>Wine</th>
@@ -34,15 +34,7 @@
 
   {% if user.favorites %}
   </table>
-  <h2>Favorite wines</h2>
-  <div>Based on your favorites, you might like wines from:</div>
-  {% for country in fav_countries %}
-  <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div>
-  {% endfor %}
-  <div>Based on your favorites, you might wines of these varietals:</div>
-  {% for variety in fav_varietals %}
-  <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div>
-  {% endfor %}
+  <h2>Your Favorite Wines</h2>
   <p>
     <div><a href="/recs">All recommendations</a></div>
   </p>
@@ -68,19 +60,50 @@
     <div>You have not favorited any wines yet.</div>
   {% endif %}
 
+  <h2>Wines You've Commented On</h2>
 
-  <h2>Testing - Line Chart w/ Data from Server</h2>
+  <table>
+    <tr>
+      <th>Wine</th>
+      <th>Rating</th>
+      <th>Comment</th>
+    </tr>
+    {% for comment in user.comments %}
+    <tr>
+      <td><a href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
+      <td>{{ dict_ratings[comment.wine.wine_id] }}</td>
+      <td>{{ comment.comment }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+
+  <h2>Line Chart - Favorite Countries</h2>
   <canvas id="line-chart"></canvas>
 
-  <h2>Testing - Pie Chart w/ Data from Server</h2>
+  <h2>Pie Chart - Favorite Countries</h2>
   <canvas id="pie-chart"></canvas>
+  <div>Based on your favorites, you might like wines from:</div>
+  {% for country in fav_countries %}
+  <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div>
+  {% endfor %}
  
   <h2>Testing - Bar Chart w/ Data from Server</h2>
   <canvas id="bar-chart"></canvas>
   <div>TODO: make y axis begin at 0</div>
 
-  <h2>Testing - Pie Chart w/ Data from Server</h2>
+  <h2>Pie Chart - Favorite Varietals</h2>
   <canvas id="pie-chart2"></canvas>
+  <div>Based on your favorites, you might wines of these varietals:</div>
+  {% for variety in fav_varietals %}
+  <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div>
+  {% endfor %}
+
+  <h2>Line Chart - Comparison of user vs critic rating</h2>
+  <canvas id="line-chart2"></canvas>
+
+  <h2>Scatter chart - Comparison of user vs critic rating</h2>
+  <canvas id="scatter-chart"></canvas>s
 
   <!-- <p>
     <div>Name: {{ user.name }}</div>

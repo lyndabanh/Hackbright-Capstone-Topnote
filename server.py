@@ -102,20 +102,6 @@ def log_out():
     return redirect('/')
 
 
-# @app.route('/wines')
-# def all_wines():
-#     """Display all wines."""
-
-#     wines = crud.all_wines()
-
-#     if 'user_id' in session:
-#     #why does 'in session:' not work after you log in, then log out? 
-#         user = crud.get_user_by_id(session['user_id'])
-#         return render_template('all_wines.html', wines=wines, user=user)
-    
-#     else:
-#         return render_template('all_wines.html', wines=wines)
-
 @app.route('/wines')
 def all_wines():
     """Display wine countries"""
@@ -165,59 +151,100 @@ def wines_by_variety(variety):
     else:
         return render_template('wine_by_variety.html', wines=wines)
 
+# #code for smaller wine details page and wine details ratings on diff page
+# @app.route('/wines/<int:wine_id>')
+# def wine_by_id(wine_id):
 
+#     wine = crud.get_wine_by_id(wine_id)
+    
+#     #Query to see if current user whose logged in already rated this wine
+#     #If the user already rated this wine, add an if conditional to the html page
+#     #In the html page, include a message that says you've already rated this and give option to update/edit your rating
+#     #Render update rating form
+
+#     if session:
+#         # user_id = session['user_id']
+#         user = crud.get_user_by_id(session['user_id'])
+#         current_users_rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
+#         favorites = crud.get_favorites_by_wine_id(wine_id)
+#         num_favorites = len(favorites)
+#         current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user.user_id, wine_id)
+#         return render_template('wine_details.html', wine_id=wine_id, 
+#                                                     wine=wine, 
+#                                                     user=user, 
+#                                                     current_users_rating=current_users_rating, 
+#                                                     num_favorites=num_favorites, 
+#                                                     current_users_fav=current_users_fav)
+#     else:
+#         favorites = crud.get_favorites_by_wine_id(wine_id)
+#         num_favorites = len(favorites)
+#         return render_template('wine_details.html', wine_id=wine_id, 
+#                                                     wine=wine,
+#                                                     num_favorites=num_favorites)
+
+# # # this app route pairs with app route/view fxn for smaller wine details page + separate wine details ratings page
+# # @app.route('/wines/<int:wine_id>/ratings')
+# # def create_update_or_favorite(wine_id):
+
+# #     user = crud.get_user_by_id(session['user_id'])
+# #     wine = crud.get_wine_by_id(wine_id)
+    
+# #     # rating = request.form.get('rating')
+# #     # comment = request.form.get('comment')
+# #     # favorite = request.form.get('favorite')
+
+# #     # new_rating = request.form.get('new_rating')
+# #     # new_comment = request.form.get('new_comment')
+    
+
+# #     # #if logged in user makes a new rating, add the rating to the ratings table
+# #     # if rating:
+# #     #     crud.rating(user, wine, rating)
+# #     #     crud.comment(user, wine, comment)
+# #     #     return redirect(f'/wines/{wine_id}')
+# #     # #if logged in user updates a previously created rating, update the rating in the ratings table
+# #     # elif new_rating:
+# #     #     crud.update_rating(user, wine, new_rating)
+# #     #     crud.update_comment(user, wine, new_comment)
+# #     #     return redirect(f'/wines/{wine_id}')
+# #     # elif favorite:
+# #     #     crud.favorite(user,wine)
+# #     #     return redirect(f'/wines/{wine_id}')
+# #     # else:
+# #     #     crud.unfavorite(user.user_id, wine.wine_id)
+# #     #     return redirect(f'/wines/{wine_id}')
+
+# #     #if 1 or more ratings for this wine exist(s), calculate average rating
+# #     ratings = crud.get_ratings_by_wine_id(wine_id)
+# #     if ratings:
+# #         #add ratings to a list
+# #         list_of_ratings = [rating.rating for rating in ratings]
+
+# #         #calculate average and round to tenth
+# #         average = sum(list_of_ratings)/len(list_of_ratings)
+# #         average = round(average,1)
+
+# #         #TODO: Implement the following sorted tabled, if desired
+# #         desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
+# #         return render_template('/wine_ratings.html', user=user, 
+# #                                                     wine=wine, 
+# #                                                     average=average, 
+# #                                                     desc_ordered_ratings=desc_ordered_ratings)
+# #         # return redirect(f'/wines/{wine_id}', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
+# #         # return redirect(f'/wines/{wine_id}')
+# #     return render_template('/wine_ratings.html', user=user, 
+# #                                                 wine=wine)
+# #     # return redirect(f'/wines/{wine_id}', user=user, wine=wine)
+# #     # return redirect(f'/wines/{wine_id}')    
+
+
+# #code for bigger wine details page
 @app.route('/wines/<int:wine_id>')
 def wine_by_id(wine_id):
 
     wine = crud.get_wine_by_id(wine_id)
-    
-    #Query to see if current user whose logged in already rated this wine
-    #If the user already rated this wine, add an if conditional to the html page
-    #In the html page, include a message that says you've already rated this and give option to update/edit your rating
-    #Render update rating form
-
-    if session:
-        user_id = session['user_id']
-        user = crud.get_user_by_id(user_id)
-        current_users_rating = crud.get_rating_by_user_id_and_wine_id(user_id, wine_id)
-        favorites = crud.get_favorites_by_wine_id(wine_id)
-        num_favorites = len(favorites)
-        current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user_id, wine_id)
-        return render_template('wine_details.html', wine_id=wine_id, wine=wine, user_id=user_id, user=user, current_users_rating=current_users_rating, num_favorites=num_favorites, current_users_fav=current_users_fav)
-
-    else:
-        favorites = crud.get_favorites_by_wine_id(wine_id)
-        num_favorites = len(favorites)
-        return render_template('wine_details.html', wine_id=wine_id, wine=wine, num_favorites=num_favorites)
-   
-
-@app.route('/wines/<int:wine_id>/ratings', methods=['POST'])
-def create_update_or_favorite(wine_id):
-    #change view function name
-    #this creates and updates favorites AND ratings
-
-    user = crud.get_user_by_id(session['user_id'])
-    wine = crud.get_wine_by_id(wine_id)
-    
-    rating = request.form.get('rating')
-    new_rating = request.form.get('new_rating')
-    favorite = request.form.get('favorite')
-
-    #if logged in user makes a new rating, add the rating to the ratings table
-    if rating:
-        crud.rating(user, wine, rating)
-    #if logged in user updates a previously created rating, update the rating in the ratings table
-    elif new_rating:
-        crud.update_rating(user, wine, new_rating)
-    elif favorite:
-        crud.favorite(user,wine)
-        return redirect(f'/wines/{wine_id}')
-    else:
-        crud.unfavorite(user.user_id, wine.wine_id)
-        return redirect(f'/wines/{wine_id}')
-
-    #if 1 or more ratings for this wine exist(s), calculate average rating
     ratings = crud.get_ratings_by_wine_id(wine_id)
+
     if ratings:
         #add ratings to a list
         list_of_ratings = [rating.rating for rating in ratings]
@@ -228,25 +255,100 @@ def create_update_or_favorite(wine_id):
 
         #TODO: Implement the following sorted tabled, if desired
         desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
-        return render_template('/wine_ratings.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
-        # return redirect('/wine_details.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
+
+        if session:
+            # user_id = session['user_id']
+            user = crud.get_user_by_id(session['user_id'])
+            current_users_rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
+            favorites = crud.get_favorites_by_wine_id(wine_id)
+            num_favorites = len(favorites)
+            current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user.user_id, wine_id)
+            return render_template('wine_details.html', wine_id=wine_id, 
+                                                        wine=wine, 
+                                                        user=user, 
+                                                        current_users_rating=current_users_rating, 
+                                                        num_favorites=num_favorites, 
+                                                        current_users_fav=current_users_fav,
+                                                        average=average,
+                                                        desc_ordered_ratings=desc_ordered_ratings)
+        else:
+            favorites = crud.get_favorites_by_wine_id(wine_id)
+            num_favorites = len(favorites)
+            return render_template('wine_details.html', wine=wine, 
+                                                        num_favorites=num_favorites,
+                                                        average=average,
+                                                        desc_ordered_ratings=desc_ordered_ratings)
+
+    else:
+        if session:
+            # user_id = session['user_id']
+            user = crud.get_user_by_id(session['user_id'])
+            current_users_rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
+            favorites = crud.get_favorites_by_wine_id(wine_id)
+            num_favorites = len(favorites)
+            current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user.user_id, wine_id)
+            return render_template('wine_details.html', wine_id=wine_id, 
+                                                        wine=wine, 
+                                                        user=user, 
+                                                        current_users_rating=current_users_rating, 
+                                                        num_favorites=num_favorites, 
+                                                        current_users_fav=current_users_fav)
+        else:
+            favorites = crud.get_favorites_by_wine_id(wine_id)
+            num_favorites = len(favorites)
+            return render_template('wine_details.html', wine=wine, 
+                                                        num_favorites=num_favorites)
+  
+
+@app.route('/wines/<int:wine_id>/ratings', methods=['POST'])
+def create_update_or_favorite(wine_id):
+
+    user = crud.get_user_by_id(session['user_id'])
+    wine = crud.get_wine_by_id(wine_id)
     
-    return render_template('/wine_ratings.html', user=user, wine=wine)
-    # return redirect('/wine_details.html', user=user, wine=wine)
+    rating = request.form.get('rating')
+    comment = request.form.get('comment')
+    favorite = request.form.get('favorite')
 
+    new_rating = request.form.get('new_rating')
+    new_comment = request.form.get('new_comment')
+    
 
-#if using AJAX to favorite/unfavorite
-# @app.route('/wines/<int:wine_id>')
-# # ('/wines/favorite/<int:wine_id>')
-# def favorite_wine():
-#     """Create a favorite wine and add to db."""
-#     user = crud.get_user_by_id(session['user_id'])
-#     wine = crud.get_wine_by_id(wine_id)
-#     # return crud.favorite()  this line of code seemed to work??
-#     if user and wine:
-#         crud.favorite(user, wine)
+    #if logged in user makes a new rating, add the rating to the ratings table
+    if rating:
+        crud.rating(user, wine, rating)
+        crud.comment(user, wine, comment)
+        return redirect(f'/wines/{wine_id}')
+    #if logged in user updates a previously created rating, update the rating in the ratings table
+    elif new_rating:
+        crud.update_rating(user, wine, new_rating)
+        crud.update_comment(user, wine, new_comment)
+        return redirect(f'/wines/{wine_id}')
+    elif favorite:
+        crud.favorite(user,wine)
+        return redirect(f'/wines/{wine_id}')
+    else:
+        crud.unfavorite(user.user_id, wine.wine_id)
+        return redirect(f'/wines/{wine_id}')
 
-#         return jsonify({'You liked this wine!'})
+#     # #if 1 or more ratings for this wine exist(s), calculate average rating
+#     # ratings = crud.get_ratings_by_wine_id(wine_id)
+#     # if ratings:
+#     #     #add ratings to a list
+#     #     list_of_ratings = [rating.rating for rating in ratings]
+
+#     #     #calculate average and round to tenth
+#     #     average = sum(list_of_ratings)/len(list_of_ratings)
+#     #     average = round(average,1)
+
+#     #     #TODO: Implement the following sorted tabled, if desired
+#     #     desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
+#     #     return render_template('/wine_details.html', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
+#     #     # return redirect(f'/wines/{wine_id}', user=user, wine=wine, average=average, desc_ordered_ratings=desc_ordered_ratings)
+#     #     # return redirect(f'/wines/{wine_id}')
+#     # return render_template('/wine_details.html', user=user, wine=wine)
+#     # # return redirect(f'/wines/{wine_id}', user=user, wine=wine)
+#     # # return redirect(f'/wines/{wine_id}')    
 
 
 @app.route('/users')
@@ -271,10 +373,17 @@ def user_by_id(user_id):
     fav_wines = crud.get_favorites_by_user_id(user_id)
     fav_countries = crud.get_fav_countries(user.user_id)
     fav_varietals = crud.get_fav_varietals(user.user_id)
-    #query doesn't work
-    #countries = crud.get_count_of_favorite_countries_by_user_id()
+    comments = crud.get_comments_by_user_id(user.user_id)
+    # wine_id = request.form.get('wine_id')
+    # rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
+    
+    ratings = crud.get_ratings_by_user_id(user.user_id)
+    dict_ratings = {rating.wine.wine_id:rating.rating for rating in ratings}
+    # dict_ratings = {}
+    # for rating in ratings:
+    #     dict_ratings[rating.wine.wine_id] = rating.rating
 
-    return render_template('user_details.html', user=user, fav_wines=fav_wines, fav_countries=fav_countries, fav_varietals=fav_varietals)
+    return render_template('user_details.html', user=user, fav_wines=fav_wines, fav_countries=fav_countries, fav_varietals=fav_varietals, comments=comments, dict_ratings=dict_ratings)
 
 
 @app.route('/fav_countries.json')
