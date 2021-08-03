@@ -238,7 +238,7 @@ def wines_by_variety(variety):
 # #     # return redirect(f'/wines/{wine_id}')    
 
 
-# #code for bigger wine details page
+#code for bigger wine details page
 @app.route('/wines/<int:wine_id>')
 def wine_by_id(wine_id):
 
@@ -387,12 +387,18 @@ def user_by_id(user_id):
     # for rating in ratings:
     #     dict_ratings[rating.wine.wine_id] = rating.rating
 
-    return render_template('user_details.html', user=user, fav_wines=fav_wines, fav_countries=fav_countries, fav_varietals=fav_varietals, comments=comments, dict_ratings=dict_ratings)
+    return render_template('user_details.html', user=user, 
+                                                fav_wines=fav_wines, 
+                                                fav_countries=fav_countries, 
+                                                fav_varietals=fav_varietals, 
+                                                comments=comments, 
+                                                dict_ratings=dict_ratings)
 
 
 @app.route('/fav_countries.json')
 def get_entries():
     # add conditional, if user is logged in, return this json
+    # get user_id from browser, not from session
     return jsonify({'data' : crud.get_dict_of_fav_countries_by_user_id(session['user_id'])})
 
     #return jsonify(crud.get_dict_of_countries_of_favorites_by_user_id(session['user_id']))
@@ -400,29 +406,49 @@ def get_entries():
     # return jsonify({fave.favorite_id : fave.to_dict() for fave in faves})
     # return jsonify({fave.favorite_id: fave.wine.country for fave in faves})
 
+
 @app.route('/fav_varietals.json')
 def get_entries2():
     return jsonify({'data' : crud.get_dict_of_fav_varietals_by_user_id(session['user_id'])})
 
 
-@app.route('/recs')
+@app.route('/wines/recs')
 def wine_recs():
+    """Displays all wine recs from logged in user's favorite countries."""
     user = crud.get_user_by_id(session['user_id'])
     wines = crud.get_rec_wines_by_country(user.user_id)
     fav_countries = crud.get_fav_countries(user.user_id)
     return render_template('wine_recs.html', user=user, wines=wines, fav_countries=fav_countries)
 
 
-@app.route('/wines/recs/country/<country>')
-def recs_by_country(country):
-    user = crud.get_user_by_id(session['user_id'])
+# @app.route('/wines/recs/country/<country>')
+# def recs_by_country(country):
+#     """Displays logged in user's wine recs from specified country."""
+#     user = crud.get_user_by_id(session['user_id'])
+#     wines = crud.get_wines_by_country(country)
+#     return render_template('wine_recs_country.html', user=user, wines=wines)
+
+
+@app.route('/user/<int:user_id>/recs/country/<country>')
+def recs_by_country(user_id, country):
+    """Displays wine recs from specified country."""
+    user = crud.get_user_by_id(user_id)
     wines = crud.get_wines_by_country(country)
     return render_template('wine_recs_country.html', user=user, wines=wines)
 
 
-@app.route('/wines/recs/variety/<variety>')
-def recs_by_variety(variety):
-    user = crud.get_user_by_id(session['user_id'])
+# @app.route('/wines/recs/variety/<variety>')
+# def recs_by_variety(variety):
+#     """Displays logged in user's wine recs from specified varitel."""
+#     user = crud.get_user_by_id(session['user_id'])
+#     wines = crud.get_wines_by_variety(variety)
+#     return render_template('wine_recs_variety.html', user=user, wines=wines)
+
+
+@app.route('/user/<int:user_id>/recs/variety/<variety>')
+def recs_by_variety(user_id, variety):
+    """Displays wine recs from specified varitel."""
+    user = crud.get_user_by_id(user_id)
     wines = crud.get_wines_by_variety(variety)
     return render_template('wine_recs_variety.html', user=user, wines=wines)
     

@@ -1,5 +1,6 @@
 "use strict";
 
+// LINE CHART - FAV COUNTRIES (TESTING)
 // $.get('/fav_countries.json', (res) => {
 //   const data = [];
 //   for (const item of res.data) {
@@ -28,7 +29,7 @@
 //   );
 // });
 
-
+// PIE CHART - FAV COUNTRIES
 $.get('/fav_countries.json', (res) => {
   const labels2 = [];
   const data2 = [];
@@ -57,6 +58,7 @@ $.get('/fav_countries.json', (res) => {
   );
 });
 
+// BAR CHART - FAV COUNTRIES
 // $.get('/fav_countires.json', (res) => {
 //   const labels3 = [];
 //   const data3 = [];
@@ -92,7 +94,7 @@ $.get('/fav_countries.json', (res) => {
 //   );
 // });
 
-  
+// PIE CHART - FAV VARIETALS
 $.get('/fav_varietals.json', (res) => {
   const labels4 = [];
   const data4 = [];
@@ -120,7 +122,7 @@ console.log(data4,labels4,colors4),
   );
 });
 
-
+// LINE CHART - USER VS CRITIC RATING
 $.get('/ratings.json', (res) => {
   const data3 = [];
   for (const item of res.data) {
@@ -160,3 +162,54 @@ $.get('/ratings.json', (res) => {
   );
 });
 
+// SCATTER CHART
+$.get('/ratings.json', (res) => {
+  const data3 = [];
+  for (const item of res.data) {
+    data3.push({x: item.wine_id, y: item.user_rating});
+  }
+  const data3b = [];
+  for (const item of res.data) {
+    data3b.push({x: item.wine_id, y: item.critic_rating});
+  }
+  const labels3 = [];
+  for (const item of res.data) {
+    labels3.push(item.wine_id);
+  }
+
+  new Chart(
+    $('#scatter-chart'),
+    {
+      type: 'scatter',
+      data: {
+        labels: labels3,
+        datasets: [
+          {
+            label: 'User Rating',
+            data: data3,
+            borderColor: 'rgb(75, 192, 192)',
+            bacgroundColor: 'rgb(75, 192, 192)',
+          },
+          {
+            label: 'Critic Rating',
+            data: data3b,
+            borderColor: 'rgb(233, 192, 192)',
+            bacgroundColor: 'rgb(233, 192, 192)',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Scatter Chart'
+          }
+        }
+      },
+    }
+  );
+});

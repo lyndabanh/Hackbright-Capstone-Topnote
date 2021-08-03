@@ -34,7 +34,7 @@
     <div>You have not favorited any wines yet.</div>
   {% endif %}
 
-  {% if user.ratings %}
+  <!-- {% if user.ratings %}
   <h2>Your Rated Wines</h2>
   <table>
     <tr>
@@ -54,10 +54,10 @@
   </table>
   {% else %}
     <div>You have not rated any wines yet.</div>
-  {% endif %}
+  {% endif %} -->
 
-  {% if user.comments %}
-  <h2>Your Comments</h2>
+  {% if user.ratings and user.comments %}
+  <h2>Your Ratings and Comments</h2>
   <table>
     <tr>
       <th>Wine</th>
@@ -84,8 +84,10 @@
   <canvas id="pie-chart"></canvas>
   <div>Based on your favorites, you might like wines from:</div>
   {% for country in fav_countries %}
-  <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div>
+  <!-- <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div> -->
+  <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}">{{ country }}</a></div>
   {% endfor %}
+  
  
   <h2>Testing - Bar Chart w/ Data from Server</h2>
   <canvas id="bar-chart"></canvas>
@@ -95,7 +97,8 @@
   <canvas id="pie-chart2"></canvas>
   <div>Based on your favorites, you might wines of these varietals:</div>
   {% for variety in fav_varietals %}
-  <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div>
+  <!-- <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div> -->
+  <div><a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}">{{ variety }}</a></div>
   {% endfor %}
 
   <h2>Line Chart - Comparison of user vs critic rating</h2>
