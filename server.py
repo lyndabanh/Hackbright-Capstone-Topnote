@@ -312,23 +312,27 @@ def create_update_or_favorite(wine_id):
 
     new_rating = request.form.get('new_rating')
     new_comment = request.form.get('new_comment')
-    
+
 
     #if logged in user makes a new rating, add the rating to the ratings table
-    if rating:
+    if rating and comment:
         crud.rating(user, wine, rating)
         crud.comment(user, wine, comment)
+        flash('Rating and comment submitted!')
         return redirect(f'/wines/{wine_id}')
     #if logged in user updates a previously created rating, update the rating in the ratings table
-    elif new_rating:
+    elif new_rating and new_comment:
         crud.update_rating(user, wine, new_rating)
         crud.update_comment(user, wine, new_comment)
+        flash('Rating and comment updated!')
         return redirect(f'/wines/{wine_id}')
     elif favorite:
         crud.favorite(user,wine)
+        flash('Favorite added!')
         return redirect(f'/wines/{wine_id}')
     else:
         crud.unfavorite(user.user_id, wine.wine_id)
+        flash('Removed from your favorites!')
         return redirect(f'/wines/{wine_id}')
 
 #     # #if 1 or more ratings for this wine exist(s), calculate average rating

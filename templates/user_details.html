@@ -9,36 +9,10 @@
 
 {% block body %}
   <a href="/">Home</a>
-  <a href="/chartjs">Charts</a>
-
-{% if user.ratings %}
-<h2>Your Rated Wines</h2>
-  <table>
-    <tr>
-      <th>Wine</th>
-      <th>Varietal</th>
-      <th>Country</th>
-      <th>Rating</th>
-    </tr>
-    {% for rating in user.ratings %}
-    <tr>
-      <td><a href="/wines/{{ rating.wine.wine_id }}">{{ rating.wine.title }}</a></td>
-      <td>{{ rating.wine.variety }}</td>
-      <td>{{ rating.wine.country }}</td>
-      <td>{{ rating.rating }}</td>
-    </tr>
-    {% endfor %}
-  {% else %}
-    <div>You have not rated any wines yet.</div>
-  {% endif %}
 
   {% if user.favorites %}
   </table>
   <h2>Your Favorite Wines</h2>
-  <p>
-    <div><a href="/recs">All recommendations</a></div>
-  </p>
-
   <table>
     <tr>
       <th>Wine</th>
@@ -60,8 +34,30 @@
     <div>You have not favorited any wines yet.</div>
   {% endif %}
 
-  <h2>Wines You've Commented On</h2>
+  {% if user.ratings %}
+  <h2>Your Rated Wines</h2>
+  <table>
+    <tr>
+      <th>Wine</th>
+      <th>Varietal</th>
+      <th>Country</th>
+      <th>Rating</th>
+    </tr>
+    {% for rating in user.ratings %}
+    <tr>
+      <td><a href="/wines/{{ rating.wine.wine_id }}">{{ rating.wine.title }}</a></td>
+      <td>{{ rating.wine.variety }}</td>
+      <td>{{ rating.wine.country }}</td>
+      <td>{{ rating.rating }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <div>You have not rated any wines yet.</div>
+  {% endif %}
 
+  {% if user.comments %}
+  <h2>Your Comments</h2>
   <table>
     <tr>
       <th>Wine</th>
@@ -76,6 +72,9 @@
     </tr>
     {% endfor %}
   </table>
+  {% else %}
+    <div>You have not rated any wines yet.</div>
+  {% endif %}
 
 
   <h2>Line Chart - Favorite Countries</h2>
