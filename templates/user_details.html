@@ -52,7 +52,7 @@
     {% endfor %}
   </table>
   {% else %}
-    <div>You have not rated any wines yet.</div>
+    <div>No ratings or comments made yet.</div>
   {% endif %}
 
   <!-- FAVORITES TABLE -->
@@ -75,11 +75,11 @@
 </table>
 
 {% else %}
-  <div>You have not favorited any wines yet.</div>
+  <div>No wines favorited yet.</div>
 {% endif %}
 
 
-
+{% if user.favorites %}
   <h2>Pie Chart - Favorite Countries</h2>
   <canvas id="pie-chart"></canvas>
   <div>Based on your favorites, you might like wines from:</div>
@@ -95,12 +95,15 @@
   <!-- <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div> -->
   <div><a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}">{{ variety }}</a></div>
   {% endfor %}
+{% endif %}
 
+{% if user.ratings %}
   <h2>Line Chart - Comparison of user vs critic rating</h2>
   <canvas id="line-chart2"></canvas>
 
   <h2>Scatter chart - Comparison of user vs critic rating</h2>
   <canvas id="scatter-chart"></canvas>s
+{% endif %}
 
 {% endblock %}
 

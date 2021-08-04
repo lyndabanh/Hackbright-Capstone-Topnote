@@ -27,10 +27,19 @@
 <h2>Wine stats</h2>
 
 {% if num_favorites == 1 %}
-  <p>This wine has been favorited {{ num_favorites }} time. </p>
-  {% else %}
-  <p>This wine has been favorited {{ num_favorites }} times. </p>
+  <p>This wine has been favorited {{ num_favorites }} time by: </p>
+{% elif num_favorites > 1 %}
+  <p>This wine has been favorited {{ num_favorites }} times by: </p>
+{% else %}
+  <p>This wine has not been favorited.</p>
 {% endif %}
+
+{% if num_favorites >= 1 %}
+  {% for fav in favorites %}
+  <a href="/users/{{ fav.user.user_id }}">{{ fav.user.name }}</a>
+  {% endfor %}
+{% endif %}
+
 
 {% if not wine.ratings %}
 <p>This wine does not have any ratings yet.</p>
@@ -109,8 +118,7 @@
 
 {% if not 'user_id' in session %}
   <p>
-    <div>Log in to rate or favorite this wine!</div> 
-    <div>(Login on homepage)</div>
+    <div><a href="/login_page">Log In</a> or <a href="/create_account_page">Create an Account</a> to view your friends' cellars!</div>
   </p>
 {% endif %}
 

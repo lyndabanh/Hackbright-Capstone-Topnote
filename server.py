@@ -181,6 +181,7 @@ def wine_by_id(wine_id):
                                                         wine=wine, 
                                                         user=user, 
                                                         current_users_rating=current_users_rating, 
+                                                        favorites=favorites,
                                                         num_favorites=num_favorites, 
                                                         current_users_fav=current_users_fav,
                                                         average=average,
@@ -189,6 +190,7 @@ def wine_by_id(wine_id):
             favorites = crud.get_favorites_by_wine_id(wine_id)
             num_favorites = len(favorites)
             return render_template('wine_details.html', wine=wine, 
+                                                        favorites=favorites,
                                                         num_favorites=num_favorites,
                                                         average=average,
                                                         desc_ordered_ratings=desc_ordered_ratings)
