@@ -1,34 +1,5 @@
 "use strict";
 
-// LINE CHART - FAV COUNTRIES (TESTING)
-// $.get('/fav_countries.json', (res) => {
-//   const data = [];
-//   for (const item of res.data) {
-//     data.push({x: item.country, y: item.num_fav});
-//   }
-//   const labels = [];ß
-//   for (const country of res.data) {
-//     labels.push(country.country);
-//   }
-
-//    new Chart(
-//     $('#line-chart'),
-//     {
-//       type: 'line',
-//       data: {
-//         labels: labels,
-//         datasets: [{
-//             label: 'Countries',
-//             data: data,
-//             fill: false,
-//             borderColor: 'rgb(75, 192, 192)',
-//           }
-//         ]
-//       }
-//     }
-//   );
-// });
-
 // PIE CHART - FAV COUNTRIES
 $.get('/fav_countries.json', (res) => {
   const labels2 = [];
@@ -58,41 +29,6 @@ $.get('/fav_countries.json', (res) => {
   );
 });
 
-// BAR CHART - FAV COUNTRIES
-// $.get('/fav_countires.json', (res) => {
-//   const labels3 = [];
-//   const data3 = [];
-//   const colors3 = [];
-//   for (const item of res.data) {
-//     labels3.push(item.country);
-//     data3.push(item.num_fav);
-//     colors3.push(`rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`)
-//   }
-
-//   new Chart(
-//     $('#bar-chart'),
-//     {
-//       type: 'bar',
-//       data: {
-//         labels: labels3,
-//         datasets: [{
-//           label: 'Most Favorited Countries',
-//           data: data3,
-//           backgroundColor: colors3,
-//           borderColor: colors3,
-//           borderWidth: 1,
-//         }]
-//       },
-//       // options: {
-//       //   scales: {
-//       //     y: {
-//       //       beginAtZero: true,
-//       //     }
-//       //   }
-//       // }
-//     }
-//   );
-// });
 
 // PIE CHART - FAV VARIETALS
 $.get('/fav_varietals.json', (res) => {
@@ -121,6 +57,7 @@ console.log(data4,labels4,colors4),
     }
   );
 });
+
 
 // LINE CHART - USER VS CRITIC RATING
 $.get('/ratings.json', (res) => {
@@ -161,6 +98,7 @@ $.get('/ratings.json', (res) => {
     }
   );
 });
+
 
 // SCATTER CHART
 $.get('/ratings.json', (res) => {

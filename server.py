@@ -27,6 +27,7 @@ def homepage():
     # print(dir(session))
     # print(help(session.clear))
 
+
 @app.route('/create_account_page')
 def create_account_page():
     """Routes to create account page."""

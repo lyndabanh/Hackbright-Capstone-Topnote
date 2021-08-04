@@ -10,30 +10,8 @@
 {% block body %}
   <a href="/">Home</a>
 
-  {% if user.favorites %}
-  </table>
-  <h2>Your Favorite Wines</h2>
-  <table>
-    <tr>
-      <th>Wine</th>
-      <th>Varietal</th>
-      <th>Country</th>
-      <th>Critic rating</th>
-    </tr>
-    {% for favorite in user.favorites %}
-    <tr>
-      <td><a href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
-      <td>{{ favorite.wine.variety }}</td>
-      <td>{{ favorite.wine.country }}</td>
-      <td>{{ favorite.wine.points }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-
-  {% else %}
-    <div>You have not favorited any wines yet.</div>
-  {% endif %}
-
+  
+  <!-- UNSORTED RATINGS TABLE -->
   <!-- {% if user.ratings %}
   <h2>Your Rated Wines</h2>
   <table>
@@ -56,8 +34,9 @@
     <div>You have not rated any wines yet.</div>
   {% endif %} -->
 
+  <!-- SORTED RATINGS AND COMMENTS TABLE -->
   {% if user.ratings and user.comments %}
-  <h2>Your Ratings and Comments</h2>
+  <h2>Ratings and Comments</h2>
   <table>
     <tr>
       <th>Wine</th>
@@ -76,9 +55,30 @@
     <div>You have not rated any wines yet.</div>
   {% endif %}
 
+  <!-- FAVORITES TABLE -->
+  {% if user.favorites %}
+</table>
+<h2>Favorite Wines</h2>
+<table>
+  <tr>
+    <th>Wine</th>
+    <th>Country</th>
+    <th>Varietal</th>
+  </tr>
+  {% for favorite in user.favorites %}
+  <tr>
+    <td><a href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
+    <td>{{ favorite.wine.country }}</td>
+    <td>{{ favorite.wine.variety }}</td>
+  </tr>
+  {% endfor %}
+</table>
 
-  <h2>Line Chart - Favorite Countries</h2>
-  <canvas id="line-chart"></canvas>
+{% else %}
+  <div>You have not favorited any wines yet.</div>
+{% endif %}
+
+
 
   <h2>Pie Chart - Favorite Countries</h2>
   <canvas id="pie-chart"></canvas>
@@ -87,11 +87,6 @@
   <!-- <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div> -->
   <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}">{{ country }}</a></div>
   {% endfor %}
-  
- 
-  <h2>Testing - Bar Chart w/ Data from Server</h2>
-  <canvas id="bar-chart"></canvas>
-  <div>TODO: make y axis begin at 0</div>
 
   <h2>Pie Chart - Favorite Varietals</h2>
   <canvas id="pie-chart2"></canvas>
@@ -107,19 +102,6 @@
   <h2>Scatter chart - Comparison of user vs critic rating</h2>
   <canvas id="scatter-chart"></canvas>s
 
-  <!-- <p>
-    <div>Name: {{ user.name }}</div>
-    <div>Email: {{ user.email }}</div>
-    <div>
-    {% set pw_len = user.password|length %}
-    {% set hidden_pw = pw_len*'*' %}
-    Password: {{ hidden_pw }}
-    </div>
-  </p> -->
-
-  <p>
-  <div>TODO: Add comment feature?</div>
-</p>
 {% endblock %}
 
 {% block js %}

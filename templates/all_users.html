@@ -6,13 +6,19 @@
         <a href="/users/{{ user.user_id }}">My Cellar</a>
     {% endif %}
     <div></div>
-    <hi>All Users</hi>
 
-    <ul>
-        {% for user in users %}
-            <li>
-                <a href="/users/{{ user.user_id }}">{{ user.name }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    {% if 'user_id' in session %}
+        <h1>All Users</h1>
+
+        <ul>
+            {% for user in users %}
+                <li>
+                    <a href="/users/{{ user.user_id }}">{{ user.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div>Log in to view your friends' cellars!</div>
+    {% endif %}
+    
 {% endblock %}

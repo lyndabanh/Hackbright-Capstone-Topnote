@@ -6,16 +6,16 @@
         <h1>Welcome, {{ user.name }}!</h1>
         <h2>Navigation</h2>
         <ul>
-            <li><a href="/wines">View all wines</a></li>
-            <li><a href="/users">View all users</a></li>
+            <li><a href="/wines">All wines</a></li>
+            <li><a href="/users">Friends' cellars</a></li>
             <li><a href="/users/{{ user.user_id }}">View My Cellar</a></li>
         </ul>
     {% else %}
         <h1>Cheers, welcome to MyCellar!</h1>
         <h2>Navigation</h2>
         <ul>
-            <li><a href="/wines">View all wines</a></li>
-            <li><a href="/users">View all users</a></li>
+            <li><a href="/wines">All wines</a></li>
+            <li><a href="/users">Friends' cellars</a></li>
         </ul>
     {% endif %}
 

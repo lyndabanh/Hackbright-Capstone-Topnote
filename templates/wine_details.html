@@ -22,7 +22,49 @@
   <div>Description: {{ wine.description }}</div>
   <div>Critic Rating: {{ wine.points }}</div>
 </p>
-  
+
+
+<h2>Wine stats</h2>
+
+{% if num_favorites == 1 %}
+  <p>This wine has been favorited {{ num_favorites }} time. </p>
+  {% else %}
+  <p>This wine has been favorited {{ num_favorites }} times. </p>
+{% endif %}
+
+{% if not wine.ratings %}
+<p>This wine does not have any ratings yet.</p>
+{% endif %}
+
+{% if wine.ratings %}
+<p>Average user rating: {{ average }}</p>
+<!-- <table>
+<tr>
+    <th>User</th>
+    <th>Rating</th>
+</tr>
+{% for rating in wine.ratings %}
+<tr>
+    <td><a href="/users/{{ rating.user.user_id }}">{{ rating.user.name }}</a></td>
+    <td>{{ rating.rating }}</td>
+</tr>
+{% endfor %}
+</table> -->
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Rating(highest to lowest)</th>
+    </tr>
+    {% for rating in desc_ordered_ratings %}
+    <tr>
+        <td><a href="/users/{{ rating.user.user_id }}">{{ rating.user.name }}</a></td>
+        <td>{{ rating.rating }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{%  endif %}
+
 
 <h2>Rate or Favorite this Wine!</h2>
 {% if 'user_id' in session %}
@@ -71,76 +113,5 @@
     <div>(Login on homepage)</div>
   </p>
 {% endif %}
-
-
-<form action="/wines/{{ wine.wine_id }}/ratings"></form>
-<input type="submit">
-
-<button id="favorite" class="favoriteText">Favorite</button>
-<script>
-  "use strict";
-  
-  const btn = document.querySelector('#favorite');
-  
-  btn.addEventListener('click', () => {
-    if(btn.innerHTML === 'Unfavorite') {
-      btn.innerHTML = 'Favorite';
-    } else {
-      btn.innerHTML = 'Unfavorite';
-    }
-  });
-</script>
-<p>
-<div>TODO: If adding comment, add to same HTML form as rating</div>
-<div>TODO: JS event listener above has no functionality</div>
-<div>TODO: Have favoriting click event render the current page, AJAX?</div>
-</p>
-
-<a href="/wines/{{ wine.wine_id }}/ratings">Rating Details about this Wine!</a>
-
-<h2>Wine stats</h2>
-
-{% if num_favorites == 1 %}
-  <p>This wine has been favorited {{ num_favorites }} time. </p>
-  {% else %}
-  <p>This wine has been favorited {{ num_favorites }} times. </p>
-{% endif %}
-
-{% if not wine.ratings %}
-<p>This wine does not have any ratings yet.</p>
-{% endif %}
-
-<p>Critic rating: {{ wine.points }}</p>
-
-{% if wine.ratings %}
-<p>Average user rating:{{ average }}</p>
-<table>
-<tr>
-    <th>User</th>
-    <th>Rating</th>
-</tr>
-{% for rating in wine.ratings %}
-<tr>
-    <td><a href="/users/{{ rating.user.user_id }}">{{ rating.user.name }}</a></td>
-    <td>{{ rating.rating }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<p>TODO: Bootstrap tables has sorting function</p>
-
-<table>
-    <tr>
-        <th>User</th>
-        <th>Rating(highest to lowest)</th>
-    </tr>
-    {% for rating in desc_ordered_ratings %}
-    <tr>
-        <td><a href="/users/{{ rating.user.user_id }}">{{ rating.user.name }}</a></td>
-        <td>{{ rating.rating }}</td>
-    </tr>
-    {% endfor %}
-</table>
-{%  endif %}
 
 {% endblock %}
