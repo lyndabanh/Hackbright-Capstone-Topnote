@@ -28,6 +28,23 @@ def homepage():
     # print(help(session.clear))
 
 
+@app.route('/search')
+def search_wines():
+    """Displays results for wine search."""
+
+    title_keywords = request.args.get('title_keywords')
+    title_keywords = title_keywords.title()
+
+    wines = crud.search_wines(title_keywords)
+
+    if 'user_id' in session:
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('search_results.html', wines=wines, user=user)
+    else:
+        return render_template('search_results.html', wines=wines)
+
+
+
 @app.route('/create_account_page')
 def create_account_page():
     """Routes to create account page."""

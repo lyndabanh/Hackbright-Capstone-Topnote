@@ -3,11 +3,7 @@
 {% block title %}{{ wine.title }} - Details{% endblock %}
 
 {% block body %}
-  <a href="/">Home</a>
-  {% if 'user_id' in session %}
-      <a href="/users/{{ user.user_id }}">My Cellar</a>
-  {% endif %}
-<div></div>
+
 <h1>{{ wine.title }}</h1>
 <h2>Wine profile</h2>
 
@@ -39,7 +35,6 @@
   <a href="/users/{{ fav.user.user_id }}">{{ fav.user.name }}</a>
   {% endfor %}
 {% endif %}
-
 
 {% if not wine.ratings %}
 <p>This wine does not have any ratings yet.</p>

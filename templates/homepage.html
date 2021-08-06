@@ -2,13 +2,25 @@
 {% block title %}My Cellar{% endblock %}
 
 {% block body %}
+    <!-- <form action="search" method="GET">
+        <div class="topnav">
+            <p>
+                Search <input type="text" name="title_keywords" placeholder="Search..">
+            </p>
+            <p>
+                <input type="submit">
+            </p>
+        </div>
+    </form> -->
+
+
     {% if 'user_id' in session %}
         <h1>Welcome, {{ user.name }}!</h1>
         <h2>Navigation</h2>
         <ul>
             <li><a href="/wines">All wines</a></li>
             <li><a href="/users">Friends' cellars</a></li>
-            <li><a href="/users/{{ user.user_id }}">My Cellar</a></li>
+            <!-- <li><a href="/users/{{ user.user_id }}">My Cellar</a></li> -->
         </ul>
     {% else %}
         <h1>Cheers, welcome to MyCellar!</h1>
@@ -23,13 +35,13 @@
     <h2>Create an Account</h2>
     <a href="/create_account_page">Create an Account</a>
 
-    <h2>Log In</h2>
+    <!-- <h2>Log In</h2>
     <a href="/login_page">Log In</a>
     {% endif %}
 
     {% if 'user_id' in session %} 
         <a href="/logout">Log Out</a>
-    {% endif %}
+    {% endif %} -->
 
     <div>Bootstrap modal window vs flash message or alert for login, favorite, rate.</div>
 

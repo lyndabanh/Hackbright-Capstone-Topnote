@@ -336,6 +336,14 @@ def get_dict_of_ratings_by_user_id(user_id):
     return [dict_ratings[item] for item in dict_ratings]
 
 
+def search_wines(title_keywords):
+    """Search bar."""
+
+    wines = Wine.query.filter(Wine.title.like('%' + title_keywords + '%')).all()
+
+    return wines
+
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

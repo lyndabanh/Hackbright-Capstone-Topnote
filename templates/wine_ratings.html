@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Wine Ratings{% endblock %}
 {% block body %}
-    <a href="/">Home</a>
-    {% if 'user_id' in session %}
-        <a href="/users/{{ user.user_id }}">My Cellar</a>
-    {% endif %}
-    <div></div>
+
     <h1>{{ wine.title }}</h1>
     <div><a href="/wines/{{ wine.wine_id }}">Back to details about {{ wine.title }}</a></div>
     {% if not wine.ratings %}
