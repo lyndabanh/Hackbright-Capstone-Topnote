@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, flash, session, redirect, jso
 from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
+import sys
 
 
 app = Flask(__name__)
@@ -192,6 +193,8 @@ def wine_by_id(wine_id):
             user = crud.get_user_by_id(session['user_id'])
             current_users_rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
             favorites = crud.get_favorites_by_wine_id(wine_id)
+            # print("****************************************** HERE", file=sys.stderr)
+            # print(favorites, file=sys.stderr)
             num_favorites = len(favorites)
             current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user.user_id, wine_id)
             return render_template('wine_details.html', wine_id=wine_id, 
@@ -224,12 +227,14 @@ def wine_by_id(wine_id):
                                                         wine=wine, 
                                                         user=user, 
                                                         current_users_rating=current_users_rating, 
+                                                        favorites=favorites,
                                                         num_favorites=num_favorites, 
                                                         current_users_fav=current_users_fav)
         else:
             favorites = crud.get_favorites_by_wine_id(wine_id)
             num_favorites = len(favorites)
             return render_template('wine_details.html', wine=wine, 
+                                                        favorites=favorites,
                                                         num_favorites=num_favorites)
   
 

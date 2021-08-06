@@ -74,6 +74,7 @@ class Rating(db.Model):
     user_id = db.Column (db.Integer, db.ForeignKey('users.user_id'))
     wine_id = db.Column (db.Integer, db.ForeignKey('wines.wine_id'))
     rating = db.Column (db.Integer)
+    #rating_time = db.Column (db.Date??, datetime.now())
 
     user = db.relationship('User')
     wine = db.relationship('Wine')

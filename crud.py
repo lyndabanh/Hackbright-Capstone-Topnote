@@ -175,6 +175,12 @@ def get_rating_by_user_id_and_wine_id(user_id, wine_id):
 #favorite queries
 def get_favorites_by_wine_id(wine_id):
     return Favorite.query.filter(Favorite.wine_id==wine_id).all()
+    #likely returning a string
+    # res = Favorite.query.filter(Favorite.wine_id==wine_id).all()
+
+    # if type(res) is str:
+    #     res = [res]
+    # return res
 
 
 def get_favorites_by_user_id(user_id): 
