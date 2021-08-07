@@ -123,7 +123,7 @@ def log_out():
 
 @app.route('/wines')
 def all_wines():
-    """Display wine countries"""
+    """Display wine countries and varietals."""
 
     wines = crud.all_wines()
     countries = crud.get_countries()
@@ -136,7 +136,39 @@ def all_wines():
     
     else:
         return render_template('all_wines.html', wines=wines, countries=countries, varietals=varietals)
+
+
+@app.route('/countries')
+def wine_countries():
+    """Display wine countries"""
+
+    wines = crud.all_wines()
+    countries = crud.get_countries()
+
+    if 'user_id' in session:
+    #why does 'in session:' not work after you log in, then log out? 
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('wine_countries.html', wines=wines, countries=countries, user=user)
     
+    else:
+        return render_template('wine_countries.html', wines=wines, countries=countries)
+
+
+@app.route('/grapes')
+def wine_grapes():
+    """Display wine varietals"""
+
+    wines = crud.all_wines()
+    varietals = crud.get_varietals()
+
+    if 'user_id' in session:
+    #why does 'in session:' not work after you log in, then log out? 
+        user = crud.get_user_by_id(session['user_id'])
+        return render_template('wine_varietals.html', wines=wines, varietals=varietals, user=user)
+    
+    else:
+        return render_template('wine_varietals.html', wines=wines, varietals=varietals)
+
 
 @app.route('/wines/country/<country>')
 def wines_by_country(country):
