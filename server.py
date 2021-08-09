@@ -293,42 +293,53 @@ def create_update_or_favorite(wine_id):
     star4 = request.form.get('star4')
     star5 = request.form.get('star5')
 
-    #bug: Fix code to 
+    new_rating_star1 = request.form.get('new_rating_star1')
+    new_rating_star2 = request.form.get('new_rating_star2')
+    new_rating_star3 = request.form.get('new_rating_star3')
+    new_rating_star4 = request.form.get('new_rating_star4')
+    new_rating_star5 = request.form.get('new_rating_star5')
+
+    def create_rating_comment_flash_msg(user, wine, comment, rating):
+        crud.create_rating(user, wine, rating)
+        crud.comment(user, wine, comment)
+        flash('Rating and comment submitted!')
+        return redirect(f'/wines/{wine_id}')
+    
+    def update_rating_comment_flash_msg(user, wine, new_comment, new_rating):
+        crud.update_rating(user, wine, new_rating)
+        crud.update_comment(user, wine, new_comment)
+        flash('Rating and comment updated!')
+        return redirect(f'/wines/{wine_id}')
+    
     if star1 and comment:
-        crud.create_rating(user, wine, 1)
-        crud.comment(user, wine, comment)
-        flash('Rating and comment submitted!')
-        return redirect(f'/wines/{wine_id}')
-    if star2 and comment:
-        crud.create_rating(user, wine, 2)
-        crud.comment(user, wine, comment)
-        flash('Rating and comment submitted!')
-        return redirect(f'/wines/{wine_id}')
-    if star3 and comment:
-        crud.create_rating(user, wine, 3)
-        crud.comment(user, wine, comment)
-        flash('Rating and comment submitted!')
-        return redirect(f'/wines/{wine_id}')
-    if star4 and comment:
-        crud.create_rating(user, wine, 4)
-        crud.comment(user, wine, comment)
-        flash('Rating and comment submitted!')
-        return redirect(f'/wines/{wine_id}')
-    if star5 and comment:
-        crud.create_rating(user, wine, 5)
-        crud.comment(user, wine, comment)
-        flash('Rating and comment submitted!')
-        return redirect(f'/wines/{wine_id}')
+        create_rating_comment_flash_msg(user, wine, comment, 1)
+    elif star2 and comment:
+        create_rating_comment_flash_msg(user, wine, comment, 2)
+    elif star3 and comment:
+        create_rating_comment_flash_msg(user, wine, comment, 3)
+    elif star4 and comment:
+        create_rating_comment_flash_msg(user, wine, comment, 4)
+    elif star5 and comment:
+        create_rating_comment_flash_msg(user, wine, comment, 5)
+    elif new_rating_star1 and new_comment:
+        update_rating_comment_flash_msg(user, wine, new_comment, 1)
+    elif new_rating_star2 and new_comment:
+        update_rating_comment_flash_msg(user, wine, new_comment, 2)
+    elif new_rating_star3 and new_comment:
+        update_rating_comment_flash_msg(user, wine, new_comment, 3)
+    elif new_rating_star4 and new_comment:
+        update_rating_comment_flash_msg(user, wine, new_comment, 4)
+    elif new_rating_star5 and new_comment:
+        update_rating_comment_flash_msg(user, wine, new_comment, 5)
 
 
-
-    #if logged in user makes a new rating, add the rating to the ratings table
+    #if logged in user makes a new rating and comment, add the rating and comment
     if rating and comment:
         crud.create_rating(user, wine, rating)
         crud.comment(user, wine, comment)
         flash('Rating and comment submitted!')
         return redirect(f'/wines/{wine_id}')
-    #if logged in user updates a previously created rating, update the rating in the ratings table
+    #if logged in user updates a previously created rating and comment, update the existing rating and comment
     elif new_rating and new_comment:
         crud.update_rating(user, wine, new_rating)
         crud.update_comment(user, wine, new_comment)
