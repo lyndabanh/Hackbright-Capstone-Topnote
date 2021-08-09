@@ -1,25 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}All Wines{% endblock %}
 {% block body %}
-
     <h2>All Wines</h2>
-
-    <h3>By Country</h3>
     <ul>
-    {% for country in countries %}
+    {% for wine in wines %}
         <li>
-            <a href="/wines/country/{{ country }}">{{ country }}</a>
+            <a href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a>
         </li>
     {% endfor %}
     </ul>
-
-    <h3>By Varietal</h3>
-    <ul>
-    {% for variety in varietals %}
-    <li>
-        <a href="/wines/variety/{{ variety }}">{{ variety }}</a>
-    </li>
-    {% endfor %}
-    </ul>   
 
 {% endblock %}

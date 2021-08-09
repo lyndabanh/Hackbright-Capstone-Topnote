@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, flash, session, redirect, jso
 from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
-import sys
+import datetime
 
 
 app = Flask(__name__)
@@ -21,9 +21,13 @@ def homepage():
     if 'user_id' in session:
     #why does 'if session:' not work after you log in, then log out? 
         user = crud.get_user_by_id(session['user_id'])
-        return render_template('homepage.html', user=user)
-    else:
-        return render_template('homepage.html')
+        if user:
+            return render_template('homepage.html', user=user)
+        else:
+            flash('Something for went wrong, logging you out.')
+            return redirect('/logout')
+
+    return render_template('homepage.html')
     
     # print(dir(session))
     # print(help(session.clear))
@@ -283,10 +287,44 @@ def create_update_or_favorite(wine_id):
     new_rating = request.form.get('new_rating')
     new_comment = request.form.get('new_comment')
 
+    star1 = request.form.get('star1')
+    star2 = request.form.get('star2')
+    star3 = request.form.get('star3')
+    star4 = request.form.get('star4')
+    star5 = request.form.get('star5')
+
+    #bug: Fix code to 
+    if star1 and comment:
+        crud.create_rating(user, wine, 1)
+        crud.comment(user, wine, comment)
+        flash('Rating and comment submitted!')
+        return redirect(f'/wines/{wine_id}')
+    if star2 and comment:
+        crud.create_rating(user, wine, 2)
+        crud.comment(user, wine, comment)
+        flash('Rating and comment submitted!')
+        return redirect(f'/wines/{wine_id}')
+    if star3 and comment:
+        crud.create_rating(user, wine, 3)
+        crud.comment(user, wine, comment)
+        flash('Rating and comment submitted!')
+        return redirect(f'/wines/{wine_id}')
+    if star4 and comment:
+        crud.create_rating(user, wine, 4)
+        crud.comment(user, wine, comment)
+        flash('Rating and comment submitted!')
+        return redirect(f'/wines/{wine_id}')
+    if star5 and comment:
+        crud.create_rating(user, wine, 5)
+        crud.comment(user, wine, comment)
+        flash('Rating and comment submitted!')
+        return redirect(f'/wines/{wine_id}')
+
+
 
     #if logged in user makes a new rating, add the rating to the ratings table
     if rating and comment:
-        crud.rating(user, wine, rating)
+        crud.create_rating(user, wine, rating)
         crud.comment(user, wine, comment)
         flash('Rating and comment submitted!')
         return redirect(f'/wines/{wine_id}')
@@ -338,6 +376,7 @@ def user_by_id(user_id):
     # dict_ratings = {}
     # for rating in ratings:
     #     dict_ratings[rating.wine.wine_id] = rating.rating
+    dict_ratings2 = {rating.wine.wine_id:rating.rating_date for rating in ratings}
 
     if user_id != session['user_id']:
         session['friend_user_id'] = user_id
@@ -348,6 +387,7 @@ def user_by_id(user_id):
                                                 fav_varietals=fav_varietals, 
                                                 comments=comments, 
                                                 dict_ratings=dict_ratings,
+                                                dict_ratings2=dict_ratings2,
                                                 user_id=user_id)
 
 @app.route('/fav_countries.json')

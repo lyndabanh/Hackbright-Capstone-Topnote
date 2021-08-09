@@ -2,6 +2,7 @@
 
 from model import db, User, Wine, Rating, Favorite, Comment, connect_to_db
 from sqlalchemy import func
+import datetime
 
 
 def create_user(name, email, password):
@@ -35,10 +36,11 @@ def create_wine(title, winery, variety, country, description, designation, point
     return wine
 
 
-def rating(user, wine, rating):
+def create_rating(user, wine, rating):
     """Create and return a new rating."""
 
     rating = Rating(user=user, wine=wine, rating=rating)
+    # rating = Rating(user=user, wine=wine, rating=rating, rating_date=datetime.datetime.now())
     #rating = Rating(user_id=user_id, wine_id=wine_id, rating_id=rating_id)
     #above, can do that instead of passing object
 
@@ -336,7 +338,8 @@ def get_dict_of_ratings_by_user_id(user_id):
         dict_ratings[rating] = {
                                 "wine_id" : rating.wine.wine_id,
                                 "critic_rating" : rating.wine.points,
-                                "user_rating" : rating.rating
+                                "user_rating" : rating.rating,
+                                "rating_date" : rating.rating_date
                                 }
 
     return [dict_ratings[item] for item in dict_ratings]

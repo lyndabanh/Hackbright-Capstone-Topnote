@@ -40,36 +40,43 @@
       <th>Wine</th>
       <th>Rating</th>
       <th>Comment</th>
+      <th>Rating Date</th>
     </tr>
     {% for comment in user.comments %}
     <tr>
       <td><a href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
       <td>{{ dict_ratings[comment.wine.wine_id] }}</td>
       <td>{{ comment.comment }}</td>
+      <td>{{ dict_ratings2[comment.wine.wine_id] }}</td>
     </tr>
     {% endfor %}
   </table>
   {% else %}
     <div>No ratings or comments made yet.</div>
   {% endif %}
+<!-- </table> -->
 
-  <!-- FAVORITES TABLE -->
-  {% if user.favorites %}
-</table>
+
+<!-- FAVORITES TABLE -->
+{% if user.favorites %}
 <h2>Favorite Wines</h2>
-<table>
-  <tr>
-    <th>Wine</th>
-    <th>Country</th>
-    <th>Varietal</th>
-  </tr>
-  {% for favorite in user.favorites %}
-  <tr>
-    <td><a href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
-    <td>{{ favorite.wine.country }}</td>
-    <td>{{ favorite.wine.variety }}</td>
-  </tr>
-  {% endfor %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Wine</th>
+      <th scope="col">Country</th>
+      <th scope="col">Varietal</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for favorite in user.favorites %}
+    <tr>
+      <td scope="row"><a href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
+      <td>{{ favorite.wine.country }}</td>
+      <td>{{ favorite.wine.variety }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 {% else %}
