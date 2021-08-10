@@ -4,9 +4,15 @@
 
 {% block body %}
 
-<h1>{{ wine.title }}</h1>
-<h2>Wine profile</h2>
-
+<h3>{{ wine.title }}</h3>
+<div class="row">
+  <div class="col-4" offset=2>
+    <img src="../static/images/maksym-kaharlytskyi-3uJt73tr4hI-unsplash.jpg">
+    <div id="source">
+      Photo by <a href="https://unsplash.com/@qwitka?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Maksym Kaharlytskyi</a> on <a href="https://unsplash.com/s/photos/wine?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+    </div>
+  </div>
+  <div class="col-4">
 <p>
   <div>Designation: {{ wine.designation }}</div>
   <div>Varietal: {{ wine.variety }}</div>
@@ -15,12 +21,55 @@
   <div>Province: {{ wine.province }}</div>
   <div>Country: {{ wine.country }}</div>
   <div>Winery: {{ wine.winery }}</div>
+</p>
+  </div>
+</div>
+
+<p>
   <div>Description: {{ wine.description }}</div>
   <div>Critic Rating: {{ wine.points }}</div>
 </p>
 
 
-<h2>Wine stats</h2>
+<h3>Reviews</h3>
+
+{% if wine.ratings %}
+<p>Average user rating: {{ average }}</p>
+  {% if star_average == 1 %}
+  <div>
+    <i class="fas fa-star"></i>
+  </div>
+  {% elif star_average == 2 %}
+  <div>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+  </div>
+  {% elif star_average == 3 %}
+  <div>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+  </div>
+  {% elif star_average == 4 %}
+  <div>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+  </div>
+  {% elif star_average == 5 %}
+  <div>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+  </div>
+  {% endif %}
+{%  endif %}
+
+
+
 
 {% if num_favorites == 1 %}
   <p>This wine has been favorited {{ num_favorites }} time by: </p>
@@ -40,8 +89,13 @@
 <p>This wine does not have any ratings yet.</p>
 {% endif %}
 
-{% if wine.ratings %}
-<p>Average user rating: {{ average }}</p>
+<h3>User reviews:</h3>
+
+{% for rating in ratings %}
+<div>{{ rating.user.name }}</div>
+<div>{{ rating.rating }}</div>
+{% endfor %}
+
 <!-- <table>
 <tr>
     <th>User</th>
@@ -55,6 +109,7 @@
 {% endfor %}
 </table> -->
 
+{% if wine.ratings %}
 <table>
     <tr>
         <th>User</th>
@@ -70,9 +125,7 @@
 {%  endif %}
 
 <h2>Rate or Favorite this Wine!</h2>
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-</svg>
+
 {% if 'user_id' in session %}
 {% if current_users_fav %}
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
@@ -93,7 +146,6 @@
       Update rating<input type="number" min="0" max=100 name="new_rating">
       Update comment<input type="text" name="new_comment">
     </p>
-
     <p>
       <input type="submit" value="Update">
     </p>
@@ -101,7 +153,6 @@
 
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
     <div class="rating">
-      <!-- <input type="radio" name="star1" id="star1"><label for="star1" checked></label> -->
       <input type="radio" name="new_rating_star5" id="star5"><label for="star5"></label>
       <input type="radio" name="new_rating_star4" id="star4"><label for="star4"></label>
       <input type="radio" name="new_rating_star3" id="star3"><label for="star3"></label>
@@ -109,6 +160,9 @@
       <input type="radio" name="new_rating_star1" id="star1"><label for="star1"></label>
     </div>
     Add comment<input type="text" name="new_comment">
+    <div>
+      <input type="submit" value="Update">
+    </div>
   </form>
 
   {% else %}
@@ -117,14 +171,12 @@
         Rating<input type="number" min="0" max=100 name="rating">
         Add comment<input type="text" name="comment">
       </p>
-
       <p>
         <input type="submit" value="Rate">
       </p>
     </form> -->
     <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
       <div class="rating">
-        <!-- <input type="radio" name="star1" id="star1"><label for="star1" checked></label> -->
         <input type="radio" name="star5" id="star5"><label for="star5"></label>
         <input type="radio" name="star4" id="star4"><label for="star4"></label>
         <input type="radio" name="star3" id="star3"><label for="star3"></label>
@@ -132,6 +184,9 @@
         <input type="radio" name="star1" id="star1"><label for="star1"></label>
       </div>
       Add comment<input type="text" name="comment">
+      <div>
+        <input type="submit" value="Rate">
+      </div>
     </form>
   {% endif %}
 

@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, flash, session, redirect, jso
 from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
-import datetime
+from datetime import date
 
 
 app = Flask(__name__)
@@ -220,6 +220,7 @@ def wine_by_id(wine_id):
         #calculate average and round to tenth
         average = sum(list_of_ratings)/len(list_of_ratings)
         average = round(average,1)
+        star_average = int(average)
 
         #TODO: Implement the following sorted tabled, if desired
         desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
@@ -235,20 +236,24 @@ def wine_by_id(wine_id):
             current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user.user_id, wine_id)
             return render_template('wine_details.html', wine_id=wine_id, 
                                                         wine=wine, 
+                                                        ratings=ratings,
                                                         user=user, 
                                                         current_users_rating=current_users_rating, 
                                                         favorites=favorites,
                                                         num_favorites=num_favorites, 
                                                         current_users_fav=current_users_fav,
                                                         average=average,
+                                                        star_average=star_average,
                                                         desc_ordered_ratings=desc_ordered_ratings)
         else:
             favorites = crud.get_favorites_by_wine_id(wine_id)
             num_favorites = len(favorites)
             return render_template('wine_details.html', wine=wine, 
+                                                        ratings=ratings,
                                                         favorites=favorites,
                                                         num_favorites=num_favorites,
                                                         average=average,
+                                                        star_average=star_average,
                                                         desc_ordered_ratings=desc_ordered_ratings)
 
     else:
@@ -261,6 +266,7 @@ def wine_by_id(wine_id):
             current_users_fav = crud.get_favorite_by_user_id_and_wine_id(user.user_id, wine_id)
             return render_template('wine_details.html', wine_id=wine_id, 
                                                         wine=wine, 
+                                                        ratings=ratings,
                                                         user=user, 
                                                         current_users_rating=current_users_rating, 
                                                         favorites=favorites,
@@ -270,6 +276,7 @@ def wine_by_id(wine_id):
             favorites = crud.get_favorites_by_wine_id(wine_id)
             num_favorites = len(favorites)
             return render_template('wine_details.html', wine=wine, 
+                                                        ratings=ratings,
                                                         favorites=favorites,
                                                         num_favorites=num_favorites)
   
@@ -335,16 +342,18 @@ def create_update_or_favorite(wine_id):
 
     #if logged in user makes a new rating and comment, add the rating and comment
     if rating and comment:
-        crud.create_rating(user, wine, rating)
-        crud.comment(user, wine, comment)
-        flash('Rating and comment submitted!')
-        return redirect(f'/wines/{wine_id}')
+        create_rating_comment_flash_msg(user, wine, comment, rating)
+        # crud.create_rating(user, wine, rating)
+        # crud.comment(user, wine, comment)
+        # flash('Rating and comment submitted!')
+        # return redirect(f'/wines/{wine_id}')
     #if logged in user updates a previously created rating and comment, update the existing rating and comment
     elif new_rating and new_comment:
-        crud.update_rating(user, wine, new_rating)
-        crud.update_comment(user, wine, new_comment)
-        flash('Rating and comment updated!')
-        return redirect(f'/wines/{wine_id}')
+        update_rating_comment_flash_msg(user, wine, new_comment, new_rating)
+        # crud.update_rating(user, wine, new_rating)
+        # crud.update_comment(user, wine, new_comment)
+        # flash('Rating and comment updated!')
+        # return redirect(f'/wines/{wine_id}')
     elif favorite:
         crud.favorite(user,wine)
         flash('Favorite added!')
@@ -387,7 +396,7 @@ def user_by_id(user_id):
     # dict_ratings = {}
     # for rating in ratings:
     #     dict_ratings[rating.wine.wine_id] = rating.rating
-    dict_ratings2 = {rating.wine.wine_id:rating.rating_date for rating in ratings}
+    dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
 
     if user_id != session['user_id']:
         session['friend_user_id'] = user_id
@@ -398,7 +407,7 @@ def user_by_id(user_id):
                                                 fav_varietals=fav_varietals, 
                                                 comments=comments, 
                                                 dict_ratings=dict_ratings,
-                                                dict_ratings2=dict_ratings2,
+                                                dict_ratings_date=dict_ratings_date,
                                                 user_id=user_id)
 
 @app.route('/fav_countries.json')

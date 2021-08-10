@@ -32,7 +32,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">MyCellar</a>
+        <a class="navbar-brand" href="/">TopNote</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -103,14 +103,14 @@
       {% endfor %}
       </div>
 
-      {% for msg in get_flashed_messages() %}
+      <!-- {% for msg in get_flashed_messages() %}
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>{{ msg }}</strong> Click X to dismiss this alert.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      {% endfor %}
+      {% endfor %} -->
 
     {% block body %}{% endblock %}
 

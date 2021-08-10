@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
   
   <!-- UNSORTED RATINGS TABLE -->
   <!-- {% if user.ratings %}
@@ -47,7 +48,7 @@
       <td><a href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
       <td>{{ dict_ratings[comment.wine.wine_id] }}</td>
       <td>{{ comment.comment }}</td>
-      <td>{{ dict_ratings2[comment.wine.wine_id] }}</td>
+      <td>{{ dict_ratings_date[comment.wine.wine_id] }}</td>
     </tr>
     {% endfor %}
   </table>
@@ -83,35 +84,48 @@
   <div>No wines favorited yet.</div>
 {% endif %}
 
-
+<div class="row">
 {% if user.favorites %}
-  <h2>Pie Chart - Favorite Countries</h2>
+  <div class="col-6">
+  <h3>Favorite Countries</h3>
   <canvas id="pie-chart"></canvas>
   <div>Based on your favorites, you might like wines from:</div>
   {% for country in fav_countries %}
   <!-- <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div> -->
   <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}">{{ country }}</a></div>
   {% endfor %}
+  </div>
 
-  <h2>Pie Chart - Favorite Varietals</h2>
+  <div class="col-6">
+  <h3>Favorite Varietals</h3>
   <canvas id="pie-chart2"></canvas>
   <div>Based on your favorites, you might wines of these varietals:</div>
   {% for variety in fav_varietals %}
   <!-- <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div> -->
   <div><a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}">{{ variety }}</a></div>
   {% endfor %}
+  </div>
 {% endif %}
+</div>
 
+<div class="row">
 {% if user.ratings %}
-  <h2>Line Chart - Comparison of user vs critic rating</h2>
+  <div class="col-6">
+  <h3>Comparison of user vs critic rating</h3>
   <canvas id="line-chart2"></canvas>
+  </div>
 
-  <h2>Scatter chart - Comparison of user vs critic rating</h2>
-  <canvas id="scatter-chart"></canvas>s
+  <div class="col-6">
+  <h3>Comparison of user vs critic rating</h3>
+  <canvas id="scatter-chart"></canvas>
+  </div>
 {% endif %}
+</div>
 
 {% endblock %}
 
 {% block js %}
 <script src="/static/js/charts.js"></script>
+
+</div>
 {% endblock %}

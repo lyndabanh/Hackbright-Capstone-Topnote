@@ -2,8 +2,8 @@
 
 from model import db, User, Wine, Rating, Favorite, Comment, connect_to_db
 from sqlalchemy import func
-import datetime
-
+# import datetime
+from datetime import date
 
 def create_user(name, email, password):
     """Create and return a new user."""
@@ -40,7 +40,7 @@ def create_rating(user, wine, rating):
     """Create and return a new rating."""
 
     rating = Rating(user=user, wine=wine, rating=rating)
-    # rating = Rating(user=user, wine=wine, rating=rating, rating_date=datetime.datetime.now())
+    # rating = Rating(user=user, wine=wine, rating=rating, date=datetime.datetime.now())
     #rating = Rating(user_id=user_id, wine_id=wine_id, rating_id=rating_id)
     #above, can do that instead of passing object
 
@@ -243,7 +243,8 @@ def get_fav_countries(user_id):
     #next we convert the value v into a float(v) and check if that float is equal to max value
     #if that is the case, we add the key k to the list
     return [k for k,v in freq.items() if float(v) == max(freq.values())]
-
+    # return [k for k,v in freq.items() if int(v) == max(freq.values())]
+    
     #could practice with querying for this data instead. joins and stuff
     #order by num of favorites
 
@@ -339,7 +340,7 @@ def get_dict_of_ratings_by_user_id(user_id):
                                 "wine_id" : rating.wine.wine_id,
                                 "critic_rating" : rating.wine.points,
                                 "user_rating" : rating.rating,
-                                "rating_date" : rating.rating_date
+                                "date" : rating.date
                                 }
 
     return [dict_ratings[item] for item in dict_ratings]
@@ -351,7 +352,6 @@ def search_wines(title_keywords):
     wines = Wine.query.filter(Wine.title.like('%' + title_keywords + '%')).all()
 
     return wines
-
 
 if __name__ == '__main__':
     from server import app

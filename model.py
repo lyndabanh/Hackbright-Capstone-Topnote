@@ -1,7 +1,7 @@
 """Models for wine cellar app."""
 
 from flask_sqlalchemy import SQLAlchemy
-import datetime
+from datetime import date
 
 db = SQLAlchemy()
 
@@ -75,7 +75,7 @@ class Rating(db.Model):
     user_id = db.Column (db.Integer, db.ForeignKey('users.user_id'))
     wine_id = db.Column (db.Integer, db.ForeignKey('wines.wine_id'))
     rating = db.Column (db.Integer)
-    rating_date = db.Column (db.DateTime, default=datetime.datetime.now())
+    date = db.Column (db.DateTime, default=(date.today()).strftime("%B %d, %Y"))
 
     user = db.relationship('User')
     wine = db.relationship('Wine')
@@ -85,7 +85,7 @@ class Rating(db.Model):
                 'user_id' : self.user_id,
                 'wine_id' : self.wine_id,
                 'rating' : self.rating,
-                'rating_date' : self.rating_date}
+                'rating_date' : self.date}
 
     def __repr__(self):
         return f'<Rating rating_id={self.rating_id} rating={self.rating} user_id={self.user_id} wine_id={self.wine_id}>'
@@ -132,7 +132,7 @@ class Comment(db.Model):
         return {'comment_id' : self.comment_id,
                 'user_id' : self.user_id,
                 'wine_id' : self.wine_id,
-                'comment' : self. comment}
+                'comment' : self.comment}
 
     def __repr__(self):
         return f'<Comment comment_id={self.comment_id} comment={self.comment}>'
