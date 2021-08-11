@@ -32,12 +32,19 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">TopNote</a>
+        <a class="navbar-brand" href="/"><i class="fas fa-wine-glass-alt"></i>  TopNote</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li>
+              {% if 'user_id' in session %}
+              <a class="nav-link active" aria-current="page" href="/users/{{ user.user_id }}">My Cellar</a>
+              {% else %}
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">My Cellar</a>
+              {% endif %}
+            </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/countries">Country</a>
             </li>
@@ -47,13 +54,6 @@
             <!-- <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li> -->
-            <li>
-              {% if 'user_id' in session %}
-              <a class="nav-link active" aria-current="page" href="/users/{{ user.user_id }}">My Cellar</a>
-              {% else %}
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">My Profile</a>
-              {% endif %}
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
@@ -65,16 +65,16 @@
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               {% if not 'user_id' in session %}
               <a class="nav-link active" aria-current="page" href="/create_account_page">Create an Account</a>
               {% endif %}
-            </li>            
+            </li>  -->
             <li class="nav-item">
               {% if 'user_id' in session %}
               <a class="nav-link active" aria-current="page" href="/logout">Log Out</a>
               {% else %}
-              <a class="nav-link active" aria-current="page" href="/login_page">Log In</a>
+              <a class="nav-link active" aria-current="page" href="/login_page">Log In or Register</a>
               {% endif %}
             </li>
           </ul>

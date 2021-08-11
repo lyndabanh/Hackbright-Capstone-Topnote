@@ -2,12 +2,11 @@
 {% block title %}All Wines{% endblock %}
 {% block body %}
     <h2>All Wines</h2>
-    <ul>
+    <ul class="display-wines">
     {% for wine in wines %}
         <li>
-            <a href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a>
+            <a class="links" href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a>
         </li>
     {% endfor %}
     </ul>
-
 {% endblock %}

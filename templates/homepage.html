@@ -2,6 +2,15 @@
 {% block title %}My Cellar{% endblock %}
 
 {% block body %}
+
+<!-- <body>
+<div>
+Photo by <a href="https://unsplash.com/@biljaminai?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Biljana Martinić</a> on <a href="https://unsplash.com/s/photos/wine?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+</div>
+</body> -->
+
+
+
     <!-- <form action="search" method="GET">
         <div class="topnav">
             <p>
@@ -11,10 +20,18 @@
                 <input type="submit">
             </p>
         </div>
+    </form>  -->
+<!-- 
+<div class="mx-auto" style="width: 500px;">
+    <form action="/search" method="GET" class="d-flex">
+        <input class="form-control me-2" type="search" name="title_keywords" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
+</div> -->
 
 
-    {% if 'user_id' in session %}
+
+    <!-- {% if 'user_id' in session %}
         <h1>Welcome, {{ user.name }}!</h1>
         <h2>Navigation</h2>
         <ul>

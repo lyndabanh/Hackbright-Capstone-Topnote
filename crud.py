@@ -95,6 +95,11 @@ def update_comment(user, wine, comment):
 def get_comments_by_user_id(user_id):
     return Comment.query.filter(Comment.user_id==user_id).all()
 
+def get_comments_by_wine_id(wine_id):
+    return Comment.query.filter(Comment.wine_id==wine_id).all()
+
+# def get_comment_by_user_id_and_wine_id(user_id, wine_id):
+#     return Comment.query.filter(Comment.user_id==user_id, Comment.wine_id==wine_id).first()
 
 def favorite(user, wine):
     """Create and add a favorite wine."""

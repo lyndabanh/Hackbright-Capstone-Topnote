@@ -33,34 +33,33 @@
     <div>You have not rated any wines yet.</div>
   {% endif %} -->
 
-  <!-- SORTED RATINGS AND COMMENTS TABLE -->
-  {% if user.ratings and user.comments %}
-  <h2>Ratings and Comments</h2>
-  <table>
-    <tr>
-      <th>Wine</th>
-      <th>Rating</th>
-      <th>Comment</th>
-      <th>Rating Date</th>
-    </tr>
-    {% for comment in user.comments %}
-    <tr>
-      <td><a href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
-      <td>{{ dict_ratings[comment.wine.wine_id] }}</td>
-      <td>{{ comment.comment }}</td>
-      <td>{{ dict_ratings_date[comment.wine.wine_id] }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-  {% else %}
-    <div>No ratings or comments made yet.</div>
-  {% endif %}
-<!-- </table> -->
-
-
+  <div class="row">
+    {% if user.favorites %}
+      <div class="col-6">
+      <h3>Favorite Countries</h3>
+      <canvas id="pie-chart"></canvas>
+      <div>Based on your favorites, you might like wines from:</div>
+      {% for country in fav_countries %}
+      <!-- <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div> -->
+      <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}">{{ country }}</a></div>
+      {% endfor %}
+      </div>
+    
+      <div class="col-6">
+      <h3>Favorite Varietals</h3>
+      <canvas id="pie-chart2"></canvas>
+      <div>Based on your favorites, you might wines of these varietals:</div>
+      {% for variety in fav_varietals %}
+      <!-- <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div> -->
+      <div><a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}">{{ variety }}</a></div>
+      {% endfor %}
+      </div>
+    {% endif %}
+    </div>
+ 
 <!-- FAVORITES TABLE -->
 {% if user.favorites %}
-<h2>Favorite Wines</h2>
+<h3>Favorite Wines</h3>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -84,31 +83,36 @@
   <div>No wines favorited yet.</div>
 {% endif %}
 
-<div class="row">
-{% if user.favorites %}
-  <div class="col-6">
-  <h3>Favorite Countries</h3>
-  <canvas id="pie-chart"></canvas>
-  <div>Based on your favorites, you might like wines from:</div>
-  {% for country in fav_countries %}
-  <!-- <div><a href="/wines/recs/country/{{ country }}">{{ country }}</a></div> -->
-  <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}">{{ country }}</a></div>
-  {% endfor %}
-  </div>
 
-  <div class="col-6">
-  <h3>Favorite Varietals</h3>
-  <canvas id="pie-chart2"></canvas>
-  <div>Based on your favorites, you might wines of these varietals:</div>
-  {% for variety in fav_varietals %}
-  <!-- <div><a href="/wines/recs/variety/{{ variety }}">{{ variety }}</a></div> -->
-  <div><a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}">{{ variety }}</a></div>
-  {% endfor %}
-  </div>
-{% endif %}
-</div>
+ <!-- SORTED RATINGS AND COMMENTS TABLE -->
+ {% if user.ratings and user.comments %}
+ <h3>Ratings and Comments</h3>
+ <table class="table table-hover">
+  <thead>
+   <tr>
+     <th>Wine</th>
+     <th>Rating</th>
+     <th>Comment</th>
+     <th>Rating Date</th>
+   </tr>
+  </thead>
+  <tbody>
+   {% for comment in user.comments %}
+   <tr>
+     <td><a href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
+     <td>{{ dict_ratings[comment.wine.wine_id] }}</td>
+     <td>{{ comment.comment }}</td>
+     <td>{{ dict_ratings_date[comment.wine.wine_id] }}</td>
+   </tr>
+   {% endfor %}
+  </tbody>
+ </table>
+ {% else %}
+   <div>No ratings or comments made yet.</div>
+ {% endif %}
 
-<div class="row">
+<!-- UNUSED CHARTJS -->
+<!-- <div class="row">
 {% if user.ratings %}
   <div class="col-6">
   <h3>Comparison of user vs critic rating</h3>
@@ -120,8 +124,7 @@
   <canvas id="scatter-chart"></canvas>
   </div>
 {% endif %}
-</div>
-
+</div> -->
 {% endblock %}
 
 {% block js %}

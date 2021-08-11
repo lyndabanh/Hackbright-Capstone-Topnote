@@ -34,7 +34,6 @@
 <h3>Reviews</h3>
 
 {% if wine.ratings %}
-<p>Average user rating: {{ average }}</p>
   {% if star_average == 1 %}
   <div>
     <i class="fas fa-star"></i>
@@ -66,9 +65,52 @@
     <i class="fas fa-star"></i>
   </div>
   {% endif %}
+  <p>Average user rating: {{ average }}</p>
+
+  <h3>User reviews:</h3>
+  {% for rating in ratings %}
+  <div>{{ rating.user.name }}</div>
+    {% if rating.rating == 1 %}
+    <div>
+      <i class="fas fa-star"></i>
+      {{ rating.rating }}
+    </div>
+    {% elif rating.rating == 2 %}
+    <div>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      {{ rating.rating }}
+    </div>
+    {% elif rating.rating == 3 %}
+    <div>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      {{ rating.rating }}
+    </div>
+    {% elif rating.rating == 4 %}
+    <div>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      {{ rating.rating }}
+    </div>
+    {% elif rating.rating == 5 %}
+    <div>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      {{ rating.rating }}
+    </div>
+    {% endif %}
+  <div>{{ (rating.date).strftime("%B %d, %Y") }}</div>
+  <div></div>
+  <p>{{ dict_comments[rating.user.user_id] }}</p>
+  {% endfor %}
 {%  endif %}
-
-
 
 
 {% if num_favorites == 1 %}
@@ -89,44 +131,23 @@
 <p>This wine does not have any ratings yet.</p>
 {% endif %}
 
-<h3>User reviews:</h3>
-
-{% for rating in ratings %}
-<div>{{ rating.user.name }}</div>
-<div>{{ rating.rating }}</div>
-{% endfor %}
-
-<!-- <table>
-<tr>
-    <th>User</th>
-    <th>Rating</th>
-</tr>
-{% for rating in wine.ratings %}
-<tr>
-    <td><a href="/users/{{ rating.user.user_id }}">{{ rating.user.name }}</a></td>
-    <td>{{ rating.rating }}</td>
-</tr>
-{% endfor %}
-</table> -->
-
-{% if wine.ratings %}
-<table>
-    <tr>
-        <th>User</th>
-        <th>Rating(highest to lowest)</th>
-    </tr>
-    {% for rating in desc_ordered_ratings %}
-    <tr>
-        <td><a href="/users/{{ rating.user.user_id }}">{{ rating.user.name }}</a></td>
-        <td>{{ rating.rating }}</td>
-    </tr>
-    {% endfor %}
-</table>
-{%  endif %}
 
 <h2>Rate or Favorite this Wine!</h2>
+<table>
+  <tr>
+    {% if 'user_id' in session %}
+      {% if current_users_fav %}
+        <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+            <button type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
+      {% else %}
+        <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+            <button type="submit" value="Favorite" name="favorite">Favorite</button>
+      {% endif %}
+    {% endif %}
+  </tr>
+</table>
 
-{% if 'user_id' in session %}
+<!-- {% if 'user_id' in session %}
 {% if current_users_fav %}
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
     <p>
@@ -137,7 +158,7 @@
     <p>
       <button type="submit" value="Favorite" name="favorite">Favorite</button>
     </p>
-  {% endif %}
+  {% endif %} -->
 
   {% if current_users_rating %}
   <p>You've already rated this wine. You may update your rating below:</p>
@@ -153,11 +174,11 @@
 
   <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
     <div class="rating">
-      <input type="radio" name="new_rating_star5" id="star5"><label for="star5"></label>
-      <input type="radio" name="new_rating_star4" id="star4"><label for="star4"></label>
-      <input type="radio" name="new_rating_star3" id="star3"><label for="star3"></label>
-      <input type="radio" name="new_rating_star2" id="star2"><label for="star2"></label>
-      <input type="radio" name="new_rating_star1" id="star1"><label for="star1"></label>
+      <input type="radio" name="new_star_rating" id="star5" value=5><label for="star5"></label>
+      <input type="radio" name="new_star_rating" id="star4" value=4><label for="star4"></label>
+      <input type="radio" name="new_star_rating" id="star3" value=3><label for="star3"></label>
+      <input type="radio" name="new_star_rating" id="star2" value=2><label for="star2"></label>
+      <input type="radio" name="new_star_rating" id="star1" value=1><label for="star1"></label>
     </div>
     Add comment<input type="text" name="new_comment">
     <div>
@@ -177,11 +198,11 @@
     </form> -->
     <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
       <div class="rating">
-        <input type="radio" name="star5" id="star5"><label for="star5"></label>
-        <input type="radio" name="star4" id="star4"><label for="star4"></label>
-        <input type="radio" name="star3" id="star3"><label for="star3"></label>
-        <input type="radio" name="star2" id="star2"><label for="star2"></label>
-        <input type="radio" name="star1" id="star1"><label for="star1"></label>
+        <input type="radio" name="star_rating" id="star5" value=5><label for="star5"></label>
+        <input type="radio" name="star_rating" id="star4" value=4><label for="star4"></label>
+        <input type="radio" name="star_rating" id="star3" value=3><label for="star3"></label>
+        <input type="radio" name="star_rating" id="star2" value=2><label for="star2"></label>
+        <input type="radio" name="star_rating" id="star1" value=1><label for="star1"></label>
       </div>
       Add comment<input type="text" name="comment">
       <div>
