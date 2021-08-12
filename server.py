@@ -221,7 +221,9 @@ def wine_by_id(wine_id):
         #calculate average and round to tenth
         average = sum(list_of_ratings)/len(list_of_ratings)
         average = round(average,1)
-        star_average = int(average)
+
+        star_average = round(average * 2) / 2
+        # star_average = int(average)
 
         #TODO: Implement the following sorted tabled, if desired
         desc_ordered_ratings = crud.get_and_order_rating_by_wine_id(wine_id)
