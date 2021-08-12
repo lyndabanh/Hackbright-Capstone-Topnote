@@ -7,11 +7,12 @@
 
 <!-- Wine info -->
 <div class="row">
-<div class="card mb-3" style="max-width: 540px;">
+<!-- <div class="card mb-3" style="max-width: 540px;"> -->
+<div class="card col-md-6">
   <div class="row g-0">
     <div class="col-md-4">
       <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
-      <img src="../static/images/mathilde-langevin-ly6xnQNcPdE-unsplash.jpg" class="img-fluid rounded-start" alt="...">
+      <img src="../static/images/maksym-kaharlytskyi-3uJt73tr4hI-unsplash.jpg" class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -31,7 +32,8 @@
 </div>
 
 
-<div class="card mb-3" style="max-width: 540px;">
+<!-- <div class="card mb-3" style="max-width: 540px;"> -->
+<div class="card col-md-6">
   <div class="row g-0">
     <!-- <div class="col-md-4"></div> -->
     <!-- <div class="col-md-8"> -->
@@ -86,8 +88,8 @@
 
 <!-- Wine data -->
 <div class="row">
-<!-- <div class="col-4"> -->
-<div class="card mb-3" style="max-width: 540px;">
+<!-- <div class="card mb-3" style="max-width: 540px;"> -->
+<div class="card col-md-4">
   <div class="row g-0">
     <!-- <div class="col-md-4"></div> -->
     <!-- <div class="col-md-8"> -->
@@ -136,7 +138,7 @@
               <i class="fas fa-star"></i>
             </div>
             {% elif star_average == 4.5 %}
-            <div>> 
+            <div>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
@@ -153,6 +155,16 @@
             </div>
             {% endif %}
             <p>Average user rating: {{ average }} / 5</p>
+
+          {% if 'user_id' in session %}
+            {% if current_users_rating %}
+            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-primary">Update your rating</a></div>
+            {% else %}
+            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-primary">Rate this wine</a></div>
+            {% endif %}
+          {% else %}
+          <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
+          {% endif %}
 
           {% if num_favorites == 1 %}
             <p>This wine has been favorited {{ num_favorites }} time by: </p>
@@ -173,11 +185,10 @@
       </div>
     </div>
   <!-- </div> -->
-<!-- </div> -->
 </div>
 
-<!-- <div class="col-8"> -->
-<div class="card mb-3" style="max-width: 540px;">
+<!-- <div class="card mb-3" style="max-width: 540px;"> -->
+<div class="card col-md-8">
   <div class="row g-0">
     <!-- <div class="col-md-4"></div> -->
     <!-- <div class="col-md-8"> -->
@@ -239,179 +250,6 @@
     </div>
   <!-- </div> -->
 </div>
-<!-- </div> -->
 </div>
 
-<!-- <p>
-  <div>Description: {{ wine.description }}</div>
-  <div>Critic Rating: {{ wine.points }}</div>
-</p> -->
-
-
-<!-- Summary of favorites and reviews -->
-<!-- <div class="row">
-  <div class="col-3">
-<h3>Reviews</h3>
-{% if wine.ratings %}
-  {% if star_average == 1 %}
-  <div>
-    <i class="fas fa-star"></i>
-  </div>
-  {% elif star_average == 2 %}
-  <div>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-  </div>
-  {% elif star_average == 3 %}
-  <div>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-  </div>
-  {% elif star_average == 4 %}
-  <div>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-  </div>
-  {% elif star_average == 5 %}
-  <div>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-  </div>
-  {% endif %}
-  <p>Average user rating: {{ average }}</p>
-
-{% if num_favorites == 1 %}
-  <p>This wine has been favorited {{ num_favorites }} time by: </p>
-{% elif num_favorites > 1 %}
-  <p>This wine has been favorited {{ num_favorites }} times by: </p>
-{% else %}
-  <p>This wine has not been favorited.</p>
-{% endif %}
-
-{% if num_favorites >= 1 %}
-  {% for fav in favorites %}
-  <a href="/users/{{ fav.user.user_id }}">{{ fav.user.name }}</a>
-  {% endfor %}
-{% endif %}
-  </div> -->
-
-  <!-- User reviews -->
-  <!-- <div class="col-9">
-  <h3>User reviews:</h3>
-
-  {% if not wine.ratings %}
-  <p>This wine does not have any ratings yet.</p>
-  {% endif %}
-
-  {% for rating in ratings %}
-    {% if rating.rating == 1 %}
-    <div>
-      <i class="fas fa-star"></i>
-      {{ rating.rating }}
-    </div>
-    {% elif rating.rating == 2 %}
-    <div>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      {{ rating.rating }}
-    </div>
-    {% elif rating.rating == 3 %}
-    <div>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      {{ rating.rating }}
-    </div>
-    {% elif rating.rating == 4 %}
-    <div>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      {{ rating.rating }}
-    </div>
-    {% elif rating.rating == 5 %}
-    <div>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      <i class="fas fa-star"></i>
-      {{ rating.rating }}
-    </div>
-    {% endif %}
-    <div>{{ rating.user.name }}</div>
-    <div>{{ (rating.date).strftime("%B %d, %Y") }}</div>
-    <div></div>
-    <p>{{ dict_comments[rating.user.user_id] }}</p>
-    {% endfor %}
-  {%  endif %}
-  </div>
-</div> -->
-
-
-<!-- Favorite / unfavorite -->
-<!-- <h2>Rate or Favorite this Wine!</h2>
-<table>
-  <tr>
-    {% if 'user_id' in session %}
-      {% if current_users_fav %}
-        <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-            <button type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
-      {% else %}
-        <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-            <button type="submit" value="Favorite" name="favorite">Favorite</button>
-      {% endif %}
-    {% endif %}
-  </tr>
-</table> -->
-
-<!-- Update or create rating/comment -->
-  {% if current_users_rating %}
-  <div>You've already rated this wine!</div>
-  <div>You may update your rating below:</div>
-
-  <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-    <div class="rating">
-      <input type="radio" name="new_star_rating" id="star5" value=5><label for="star5"></label>
-      <input type="radio" name="new_star_rating" id="star4" value=4><label for="star4"></label>
-      <input type="radio" name="new_star_rating" id="star3" value=3><label for="star3"></label>
-      <input type="radio" name="new_star_rating" id="star2" value=2><label for="star2"></label>
-      <input type="radio" name="new_star_rating" id="star1" value=1><label for="star1"></label>
-    </div>
-    Add comment<input type="text" name="new_comment">
-    <div>
-      <input type="submit" value="Update">
-    </div>
-  </form>
-
-  {% else %}
-    <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-      <div class="rating">
-        <input type="radio" name="star_rating" id="star5" value=5><label for="star5"></label>
-        <input type="radio" name="star_rating" id="star4" value=4><label for="star4"></label>
-        <input type="radio" name="star_rating" id="star3" value=3><label for="star3"></label>
-        <input type="radio" name="star_rating" id="star2" value=2><label for="star2"></label>
-        <input type="radio" name="star_rating" id="star1" value=1><label for="star1"></label>
-      </div>
-      Add comment<input type="text" name="comment">
-      <div>
-        <input type="submit" value="Rate">
-      </div>
-    </form>
-  {% endif %}
-
-
-{% if not 'user_id' in session %}
-  <p>
-    <div><a href="/login_page">Log In</a> or <a href="/create_account_page">Create an Account</a> to view your friends' cellars!</div>
-  </p>
-{% endif %}
-</div>
 {% endblock %}

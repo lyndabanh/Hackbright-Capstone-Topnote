@@ -496,6 +496,25 @@ def ratings_by_user_id():
     # return jsonify({'data' : crud.get_dict_of_ratings_by_user_id(session['user_id'])})
 
 
+@app.route('/review/wines/<int:wine_id>')
+def create_or_update_rating(wine_id):
+    """Create or update a wine rating."""
+
+    if session:
+        # user_id = session['user_id']
+        user = crud.get_user_by_id(session['user_id'])
+        current_users_rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
+        wine = crud.get_wine_by_id(wine_id)
+    
+        return render_template('wine_rate.html', wine_id=wine_id, 
+                                                    wine=wine, 
+                                                    user=user, 
+                                                    current_users_rating=current_users_rating)
+    else:
+        return render_template('wine_rate.html')
+
+
+
 if __name__ == "__main__":
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
