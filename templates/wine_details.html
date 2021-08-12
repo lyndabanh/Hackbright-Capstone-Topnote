@@ -11,7 +11,7 @@
   <div class="row g-0">
     <div class="col-md-4">
       <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
-      <img src="../static/images/maksym-kaharlytskyi-3uJt73tr4hI-unsplash.jpg" class="img-fluid rounded-start" alt="...">
+      <img src="../static/images/mathilde-langevin-ly6xnQNcPdE-unsplash.jpg" class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -25,16 +25,6 @@
           <div>Country: {{ wine.country }}</div>
           <div>Winery: {{ wine.winery }}</div>
         </p>
-        <p class="card-text">
-        {% if 'user_id' in session %}
-          {% if current_users_fav %}
-            <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-                <button type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
-          {% else %}
-            <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-                <button type="submit" value="Favorite" name="favorite">Favorite</button>
-          {% endif %}
-        {% endif %}
       </div>
     </div>
   </div>
@@ -48,11 +38,20 @@
       <div class="card-body">
         <!-- <h5 class="card-title">{{ wine.title }}</h5> -->
         <p class="card-text">
+          <p>
           <div>Description: {{ wine.description }}</div>
           <div>Critic Rating: {{ wine.points }}</div>
-        </p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </p>
+          </p>
+        <p class="card-text">
+          {% if 'user_id' in session %}
+            {% if current_users_fav %}
+              <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+                  <button type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
+            {% else %}
+              <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+                  <button type="submit" value="Favorite" name="favorite">Favorite</button>
+            {% endif %}
+          {% endif %}
       </div>
     </div>
   <!-- </div> -->
@@ -87,6 +86,7 @@
 
 <!-- Wine data -->
 <div class="row">
+<!-- <div class="col-4"> -->
 <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-0">
     <!-- <div class="col-md-4"></div> -->
@@ -173,8 +173,10 @@
       </div>
     </div>
   <!-- </div> -->
+<!-- </div> -->
 </div>
 
+<!-- <div class="col-8"> -->
 <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-0">
     <!-- <div class="col-md-4"></div> -->
@@ -237,6 +239,7 @@
     </div>
   <!-- </div> -->
 </div>
+<!-- </div> -->
 </div>
 
 <!-- <p>
@@ -246,7 +249,7 @@
 
 
 <!-- Summary of favorites and reviews -->
-<div class="row">
+<!-- <div class="row">
   <div class="col-3">
 <h3>Reviews</h3>
 {% if wine.ratings %}
@@ -296,10 +299,10 @@
   <a href="/users/{{ fav.user.user_id }}">{{ fav.user.name }}</a>
   {% endfor %}
 {% endif %}
-  </div>
+  </div> -->
 
   <!-- User reviews -->
-  <div class="col-9">
+  <!-- <div class="col-9">
   <h3>User reviews:</h3>
 
   {% if not wine.ratings %}
@@ -350,11 +353,11 @@
     {% endfor %}
   {%  endif %}
   </div>
-</div>
+</div> -->
 
 
 <!-- Favorite / unfavorite -->
-<h2>Rate or Favorite this Wine!</h2>
+<!-- <h2>Rate or Favorite this Wine!</h2>
 <table>
   <tr>
     {% if 'user_id' in session %}
@@ -367,7 +370,7 @@
       {% endif %}
     {% endif %}
   </tr>
-</table>
+</table> -->
 
 <!-- Update or create rating/comment -->
   {% if current_users_rating %}

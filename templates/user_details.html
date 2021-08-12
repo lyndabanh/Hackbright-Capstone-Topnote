@@ -34,6 +34,39 @@
   {% endif %} -->
 
   <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Favorite Countries</h5>
+          {% if user.favorites %}
+          <canvas id="pie-chart"></canvas>
+          <p class="card-text">Based on your favorites, you might like wines from:</p>
+          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+          {% for country in fav_countries %}
+          <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}" class="btn btn-primary">{{ country }}</a></div>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Favorite Varietals</h5>
+          {% if user.favorites %}
+          <canvas id="pie-chart2"></canvas>
+          <p class="card-text">Based on your favorites, you might wines of these varietals:</p>
+          {% for variety in fav_varietals %}
+          <a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}" class="btn btn-primary">{{ variety }}</a>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
     {% if user.favorites %}
       <div class="col-6">
       <h3>Favorite Countries</h3>
