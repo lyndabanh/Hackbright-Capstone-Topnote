@@ -43,7 +43,7 @@
           <p class="card-text">Based on your favorites, you might like wines from:</p>
           <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           {% for country in fav_countries %}
-          <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}" class="btn btn-primary">{{ country }}</a></div>
+          <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}" class="btn btn-dark">{{ country }}</a></div>
           {% endfor %}
           {% endif %}
         </div>
@@ -57,7 +57,7 @@
           <canvas id="pie-chart2"></canvas>
           <p class="card-text">Based on your favorites, you might wines of these varietals:</p>
           {% for variety in fav_varietals %}
-          <a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}" class="btn btn-primary">{{ variety }}</a>
+          <a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}" class="btn btn-dark">{{ variety }}</a>
           {% endfor %}
           {% endif %}
         </div>
@@ -104,7 +104,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for favorite in user.favorites %}
+          {% for favorite in user.favorites[:3] %}
           <tr>
             <td scope="row"><a href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
             <td>{{ favorite.wine.country }}</td>
@@ -114,12 +114,11 @@
         </tbody>
       </table>
       {% else %}
-        <div>No wines favorited yet.</div>
+        <div>No wines favorited yet</div>
       {% endif %}
     </div>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Click to see all of your favorites.</a>
   </div>
+  <a href="#" class="card-link text-end">More favorites...</a>
 </div>
 
 <!-- {% if user.favorites %}
@@ -149,7 +148,7 @@
 
 
  <!-- SORTED RATINGS AND COMMENTS TABLE -->
- {% if user.ratings and user.comments %}
+ {% if user.ratings and user.comments[:3] %}
  <div class="card" style="width: 81rem;">
    <div class="card-body">
      <h5 class="card-title">Reviews</h5>
@@ -179,8 +178,7 @@
           <div>No ratings or comments made yet.</div>
         {% endif %}
     </div>
-     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-     <a href="#" class="card-link">Click to see all of your reviews.</a>
+     <a href="#" class="card-link text-end">More reviews...</a>
    </div>
  </div>
 

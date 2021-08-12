@@ -12,7 +12,7 @@
   <div class="row g-0">
     <div class="col-md-4">
       <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
-      <img src="../static/images/maksym-kaharlytskyi-3uJt73tr4hI-unsplash.jpg" class="img-fluid rounded-start" alt="...">
+      <img src="../static/images/Red wine bottle.png" class="img-fluid rounded-start" id="wine-bottle" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -158,9 +158,9 @@
 
           {% if 'user_id' in session %}
             {% if current_users_rating %}
-            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-primary">Update your rating</a></div>
+            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Update your rating</a></div>
             {% else %}
-            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-primary">Rate this wine</a></div>
+            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
             {% endif %}
           {% else %}
           <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
@@ -180,7 +180,6 @@
             {% endfor %}
           {% endif %}
         </p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </p>
       </div>
     </div>
@@ -244,7 +243,6 @@
           {%  endif %}
           </div>
         </p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </p>
       </div>
     </div>
