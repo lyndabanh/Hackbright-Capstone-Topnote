@@ -5,13 +5,11 @@
 {% block body %}
 <div class="container">
 
-<!-- Wine info -->
+<!-- Bootstrap Row 1: Wine info -->
 <div class="row">
-<!-- <div class="card mb-3" style="max-width: 540px;"> -->
 <div class="card col-md-6">
   <div class="row g-0">
     <div class="col-md-4">
-      <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
       <img src="../static/images/Red wine bottle.png" class="img-fluid rounded-start" id="wine-bottle" alt="...">
     </div>
     <div class="col-md-8">
@@ -31,14 +29,9 @@
   </div>
 </div>
 
-
-<!-- <div class="card mb-3" style="max-width: 540px;"> -->
 <div class="card col-md-6">
   <div class="row g-0">
-    <!-- <div class="col-md-4"></div> -->
-    <!-- <div class="col-md-8"> -->
       <div class="card-body">
-        <!-- <h5 class="card-title">{{ wine.title }}</h5> -->
         <p class="card-text">
           <p>
           <div>Description: {{ wine.description }}</div>
@@ -48,51 +41,24 @@
           {% if 'user_id' in session %}
             {% if current_users_fav %}
               <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-                  <button type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
+                  <button class="btn btn-dark" type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
             {% else %}
               <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-                  <button type="submit" value="Favorite" name="favorite">Favorite</button>
+                  <button class="btn btn-dark" type="submit" value="Favorite" name="favorite">Favorite</button>
             {% endif %}
+          {% else %}
+          <div>Log in to favorite this wine!</div>
           {% endif %}
       </div>
     </div>
-  <!-- </div> -->
 </div>
 </div>
 
-<!-- <h3>{{ wine.title }}</h3>
-<div class="row">
-  <div class="col">
-    <img src="../static/images/maksym-kaharlytskyi-3uJt73tr4hI-unsplash.jpg">
-    <div id="source">
-      Photo by <a href="https://unsplash.com/@qwitka?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Maksym Kaharlytskyi</a> on <a href="https://unsplash.com/s/photos/wine?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card">
-      <div class="card-body">
-        <p>
-          <div>Designation: {{ wine.designation }}</div>
-          <div>Varietal: {{ wine.variety }}</div>
-          <div>Region 1: {{ wine.region_1 }}</div>
-          <div>Region 2: {{ wine.region_2 }}</div>
-          <div>Province: {{ wine.province }}</div>
-          <div>Country: {{ wine.country }}</div>
-          <div>Winery: {{ wine.winery }}</div>
-        </p>
-      </div>
-    </div>    
-  </div>
-</div> -->
 
-
-<!-- Wine data -->
+<!-- Bootstrap Row 2: Rating Data -->
 <div class="row">
-<!-- <div class="card mb-3" style="max-width: 540px;"> -->
 <div class="card col-md-4">
   <div class="row g-0">
-    <!-- <div class="col-md-4"></div> -->
-    <!-- <div class="col-md-8"> -->
       <div class="card-body">
         <h5 class="card-title">Reviews</h5>
         <p class="card-text">
@@ -155,53 +121,50 @@
             </div>
             {% endif %}
             <p>Average user rating: {{ average }} / 5</p>
+          
+          <!-- Adding this -->
+          {% endif %}
 
-
-          <!-- {% if not wine.ratings %}
-            {% if 'user_id' in session %}
-            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
-            {% else %}
-            <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
-            {% endif %}
-          {% endif %} -->
-
-            {% if 'user_id' in session %}
-              {% if current_users_rating %}
-              <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Update your rating</a></div>
-              {% else %}
-              <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
-              {% endif %}
-            {% else %}
-            <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
-            {% endif %}
-          {% else %}
-          <p>No reviews yet.</p>
           {% if 'user_id' in session %}
-          <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
+            {% if current_users_rating %}
+            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Update your rating</a></div>
+            {% else %}
+            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
+            {% endif %}
           {% else %}
           <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
           {% endif %}
-          
+
+
+          {% if num_favorites == 1 %}
+            <p>This wine has been favorited {{ num_favorites }} time by: </p>
+          {% elif num_favorites > 1 %}
+            <p>This wine has been favorited {{ num_favorites }} times by: </p>
+          {% else %}
+            <p>This wine has not been favorited.</p>
+          {% endif %}
+
+          {% if num_favorites >= 1 %}
+            {% for fav in favorites %}
+            <a href="/users/{{ fav.user.user_id }}">{{ fav.user.name }}</a>
+            {% endfor %}
+          {% endif %}
         </p>
         </p>
       </div>
     </div>
-  <!-- </div> -->
 </div>
 
-<!-- <div class="card mb-3" style="max-width: 540px;"> -->
 <div class="card col-md-8">
   <div class="row g-0">
-    <!-- <div class="col-md-4"></div> -->
-    <!-- <div class="col-md-8"> -->
       <div class="card-body">
         <h5 class="card-title">User Reviews</h5>
         <p class="card-text">
-          
-            {% if not wine.ratings %}
-            <p>No reviews yet.</p>
-            {% endif %}
+          {% if not wine.ratings %}
+          <p>This wine does not have any ratings yet.</p>
+          {% endif %}
         
+        {% if wine.ratings %}
           {% for rating in ratings %}
             {% if rating.rating == 1 %}
             <div>
@@ -250,7 +213,6 @@
         </p>
       </div>
     </div>
-  <!-- </div> -->
 </div>
 </div>
 

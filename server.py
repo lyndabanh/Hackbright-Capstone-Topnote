@@ -381,7 +381,7 @@ def all_users():
         return render_template('all_users.html', users=users)
 
 
-@app.route('/users/<int:user_id>')
+@app.route('/users/<user_id>')
 def user_by_id(user_id):
 #create new key:value pair in session
 #session['friend_user_id'] = user_id
@@ -400,9 +400,16 @@ def user_by_id(user_id):
     #     dict_ratings[rating.wine.wine_id] = rating.rating
     dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
 
-    if session:
-        if user_id != session['user_id']:
-            session['friend_user_id'] = user_id
+    #if you're logged in and go to a friend's page , then pass your friend's user_id
+    #note that friend's user_id is in the browser link and your user_id is stored in sessions
+    #you must be logged in for this to work (did not write code to handle viewing a friend's cellar when you're logged out)
+
+    if 'user_id' not in session:
+        flash('You must be logged in to view this cellar.')
+        return redirect('/')
+
+    if user_id != session['user_id']:
+        session['friend_user_id'] = user_id
 
     return render_template('user_details.html', user=user, 
                                                 fav_wines=fav_wines, 
@@ -412,6 +419,7 @@ def user_by_id(user_id):
                                                 dict_ratings=dict_ratings,
                                                 dict_ratings_date=dict_ratings_date,
                                                 user_id=user_id)
+                    
 
 @app.route('/fav_countries.json')
 def get_entries():
