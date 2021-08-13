@@ -6,6 +6,7 @@ from model import connect_to_db
 import crud
 from jinja2 import StrictUndefined
 from datetime import date
+import random
 
 
 app = Flask(__name__)
@@ -17,17 +18,21 @@ bootstrap = Bootstrap(app)
 @app.route('/')
 def homepage():
     """View homepage."""
+    users = crud.all_users()
+    random_user1 = random.choice(users)
+    random_user2 = random.choice(users)
+    random_user3 = random.choice(users)
 
     if 'user_id' in session:
     #why does 'if session:' not work after you log in, then log out? 
         user = crud.get_user_by_id(session['user_id'])
         if user:
-            return render_template('homepage.html', user=user)
+            return render_template('homepage.html', user=user, users=users, random_user1=random_user1, random_user2=random_user2, random_user3=random_user3)
         else:
             flash('Something for went wrong, logging you out.')
             return redirect('/logout')
 
-    return render_template('homepage.html')
+    return render_template('homepage.html', random_user1=random_user1, random_user2=random_user2, random_user3=random_user3)
     
     # print(dir(session))
     # print(help(session.clear))
@@ -376,7 +381,7 @@ def all_users():
         return render_template('all_users.html', users=users)
 
 
-@app.route('/users/<user_id>')
+@app.route('/users/<int:user_id>')
 def user_by_id(user_id):
 #create new key:value pair in session
 #session['friend_user_id'] = user_id
@@ -395,8 +400,9 @@ def user_by_id(user_id):
     #     dict_ratings[rating.wine.wine_id] = rating.rating
     dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
 
-    if user_id != session['user_id']:
-        session['friend_user_id'] = user_id
+    if session:
+        if user_id != session['user_id']:
+            session['friend_user_id'] = user_id
 
     return render_template('user_details.html', user=user, 
                                                 fav_wines=fav_wines, 
@@ -512,6 +518,32 @@ def create_or_update_rating(wine_id):
                                                     current_users_rating=current_users_rating)
     else:
         return render_template('wine_rate.html')
+
+
+@app.route('/favorites/users/<user_id>')
+def user_favorites(user_id):
+#create new key:value pair in session
+#session['friend_user_id'] = user_id
+    user = crud.get_user_by_id(user_id)
+    fav_wines = crud.get_favorites_by_user_id(user_id)
+    # fav_countries = crud.get_fav_countries(user.user_id)
+    # fav_varietals = crud.get_fav_varietals(user.user_id)
+    # comments = crud.get_comments_by_user_id(user.user_id)
+
+    # ratings = crud.get_ratings_by_user_id(user.user_id)
+    # dict_ratings = {rating.wine.wine_id:rating.rating for rating in ratings}
+    # # dict_ratings = {}
+    # # for rating in ratings:
+    # #     dict_ratings[rating.wine.wine_id] = rating.rating
+    # dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
+
+    if user_id != session['user_id']:
+        session['friend_user_id'] = user_id
+
+    return render_template('user_favorites.html', user=user, 
+                                                fav_wines=fav_wines, 
+                                                user_id=user_id)
+
 
 
 

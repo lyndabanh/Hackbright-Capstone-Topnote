@@ -156,29 +156,32 @@
             {% endif %}
             <p>Average user rating: {{ average }} / 5</p>
 
-          {% if 'user_id' in session %}
-            {% if current_users_rating %}
-            <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Update your rating</a></div>
-            {% else %}
+
+          <!-- {% if not wine.ratings %}
+            {% if 'user_id' in session %}
             <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
+            {% else %}
+            <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
             {% endif %}
+          {% endif %} -->
+
+            {% if 'user_id' in session %}
+              {% if current_users_rating %}
+              <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Update your rating</a></div>
+              {% else %}
+              <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
+              {% endif %}
+            {% else %}
+            <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
+            {% endif %}
+          {% else %}
+          <p>No reviews yet.</p>
+          {% if 'user_id' in session %}
+          <div><a href="/review/wines/{{ wine_id }}" class="btn btn-dark">Rate this wine</a></div>
           {% else %}
           <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
           {% endif %}
-
-          {% if num_favorites == 1 %}
-            <p>This wine has been favorited {{ num_favorites }} time by: </p>
-          {% elif num_favorites > 1 %}
-            <p>This wine has been favorited {{ num_favorites }} times by: </p>
-          {% else %}
-            <p>This wine has not been favorited.</p>
-          {% endif %}
-
-          {% if num_favorites >= 1 %}
-            {% for fav in favorites %}
-            <a href="/users/{{ fav.user.user_id }}">{{ fav.user.name }}</a>
-            {% endfor %}
-          {% endif %}
+          
         </p>
         </p>
       </div>
@@ -194,9 +197,10 @@
       <div class="card-body">
         <h5 class="card-title">User Reviews</h5>
         <p class="card-text">
-          {% if not wine.ratings %}
-          <p>This wine does not have any ratings yet.</p>
-          {% endif %}
+          
+            {% if not wine.ratings %}
+            <p>No reviews yet.</p>
+            {% endif %}
         
           {% for rating in ratings %}
             {% if rating.rating == 1 %}

@@ -106,7 +106,7 @@
         <tbody>
           {% for favorite in user.favorites[:3] %}
           <tr>
-            <td scope="row"><a href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
+            <td scope="row"><a class="links" href="/wines/{{ favorite.wine.wine_id }}">{{ favorite.wine.title }}</a></td>
             <td>{{ favorite.wine.country }}</td>
             <td>{{ favorite.wine.variety }}</td>
           </tr>
@@ -118,7 +118,7 @@
       {% endif %}
     </div>
   </div>
-  <a href="#" class="card-link text-end">More favorites...</a>
+  <a href="/favorites/users/{{ user.user_id }}" class="card-link text-end">More favorites...</a>
 </div>
 
 <!-- {% if user.favorites %}
@@ -148,7 +148,7 @@
 
 
  <!-- SORTED RATINGS AND COMMENTS TABLE -->
- {% if user.ratings and user.comments[:3] %}
+ {% if user.ratings and user.comments %}
  <div class="card" style="width: 81rem;">
    <div class="card-body">
      <h5 class="card-title">Reviews</h5>
@@ -164,9 +164,9 @@
           </tr>
           </thead>
           <tbody>
-          {% for comment in user.comments %}
+          {% for comment in user.comments[:3] %}
           <tr>
-            <td><a href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
+            <td><a class="links" href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
             <td>{{ dict_ratings[comment.wine.wine_id] }}</td>
             <td>{{ comment.comment }}</td>
             <td>{{ dict_ratings_date[comment.wine.wine_id] }}</td>
