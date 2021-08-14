@@ -166,23 +166,21 @@
         
         {% if wine.ratings %}
           {% for rating in ratings %}
+            <div>{{ rating.user.name }}</div>
             {% if rating.rating == 1 %}
             <div>
               <i class="fas fa-star"></i>
-              {{ rating.rating }}
             </div>
             {% elif rating.rating == 2 %}
             <div>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
-              {{ rating.rating }}
             </div>
             {% elif rating.rating == 3 %}
             <div>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
-              {{ rating.rating }}
             </div>
             {% elif rating.rating == 4 %}
             <div>
@@ -190,7 +188,6 @@
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
-              {{ rating.rating }}
             </div>
             {% elif rating.rating == 5 %}
             <div>
@@ -199,10 +196,8 @@
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
               <i class="fas fa-star"></i>
-              {{ rating.rating }}
             </div>
             {% endif %}
-            <div>{{ rating.user.name }}</div>
             <div>{{ (rating.date).strftime("%B %d, %Y") }}</div>
             <div></div>
             <p>{{ dict_comments[rating.user.user_id] }}</p>

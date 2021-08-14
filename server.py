@@ -99,14 +99,11 @@ def log_in():
     user = crud.get_user_by_email(email)
 
     if user:
-
         if password == user.password:
             session['user_id'] = user.user_id
             flash('Logged in!')
-
         else:
             flash('Incorrect password. Unable to log in.')
-
     else:
         flash('No account associated with that email address.')
         
@@ -385,33 +382,38 @@ def all_users():
 def user_by_id(user_id):
 #create new key:value pair in session
 #session['friend_user_id'] = user_id
-    user = crud.get_user_by_id(user_id)
-    fav_wines = crud.get_favorites_by_user_id(user_id)
-    fav_countries = crud.get_fav_countries(user.user_id)
-    fav_varietals = crud.get_fav_varietals(user.user_id)
-    comments = crud.get_comments_by_user_id(user.user_id)
-    # wine_id = request.form.get('wine_id')
-    # rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
-   
-    ratings = crud.get_ratings_by_user_id(user.user_id)
-    dict_ratings = {rating.wine.wine_id:rating.rating for rating in ratings}
-    # dict_ratings = {}
-    # for rating in ratings:
-    #     dict_ratings[rating.wine.wine_id] = rating.rating
-    dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
-
-    #if you're logged in and go to a friend's page , then pass your friend's user_id
-    #note that friend's user_id is in the browser link and your user_id is stored in sessions
-    #you must be logged in for this to work (did not write code to handle viewing a friend's cellar when you're logged out)
-
     if 'user_id' not in session:
         flash('You must be logged in to view this cellar.')
         return redirect('/')
+    else:
+        if user_id != session['user_id']:
+            session['friend_user_id'] = user_id
 
-    if user_id != session['user_id']:
-        session['friend_user_id'] = user_id
+            user = crud.get_user_by_id(user_id)
+            fav_wines = crud.get_favorites_by_user_id(user_id)
+            fav_countries = crud.get_fav_countries(user.user_id)
+            fav_varietals = crud.get_fav_varietals(user.user_id)
+            comments = crud.get_comments_by_user_id(user.user_id)
+            # wine_id = request.form.get('wine_id')
+            # rating = crud.get_rating_by_user_id_and_wine_id(user.user_id, wine_id)
+        
+            ratings = crud.get_ratings_by_user_id(user.user_id)
+            dict_ratings = {rating.wine.wine_id:rating.rating for rating in ratings}
+            # dict_ratings = {}
+            # for rating in ratings:
+            #     dict_ratings[rating.wine.wine_id] = rating.rating
+            dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
 
-    return render_template('user_details.html', user=user, 
+            return render_template('user_details.html', user=user, 
+                                                        fav_wines=fav_wines, 
+                                                        fav_countries=fav_countries, 
+                                                        fav_varietals=fav_varietals, 
+                                                        comments=comments, 
+                                                        dict_ratings=dict_ratings,
+                                                        dict_ratings_date=dict_ratings_date,
+                                                        user_id=user_id)
+        else:
+            return render_template('user_details.html', user=user, 
                                                 fav_wines=fav_wines, 
                                                 fav_countries=fav_countries, 
                                                 fav_varietals=fav_varietals, 
@@ -419,6 +421,14 @@ def user_by_id(user_id):
                                                 dict_ratings=dict_ratings,
                                                 dict_ratings_date=dict_ratings_date,
                                                 user_id=user_id)
+
+
+    #if you're logged in and go to a friend's page , then pass your friend's user_id
+    #note that friend's user_id is in the browser link and your user_id is stored in sessions
+    #you must be logged in for this to work (did not write code to handle viewing a friend's cellar when you're logged out)
+
+
+    
                     
 
 @app.route('/fav_countries.json')
