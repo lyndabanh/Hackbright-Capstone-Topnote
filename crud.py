@@ -5,10 +5,10 @@ from sqlalchemy import func
 # import datetime
 from datetime import date
 
-def create_user(name, email, password):
+def create_user(name, email, password, quote):
     """Create and return a new user."""
 
-    user = User(name=name, email=email, password=password)
+    user = User(name=name, email=email, password=password, quote=quote)
 
     db.session.add(user)
     db.session.commit()

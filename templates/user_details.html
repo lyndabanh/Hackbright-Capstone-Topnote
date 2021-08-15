@@ -34,13 +34,19 @@
   </div> -->
 
   <!-- ---------------------------------------- -->
-
+<!-- User Profile Card -->
   <div class="card mb-12 m-4 p-3">
     <div class="row g-0">
       <div class="col-md-4">
         <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
         <img class="rounded-circle z-depth-2" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
           data-holder-rendered="true">
+        <h5 class="text-center">{{ user.name }}</h5>
+        <div class="text-center">
+          <a href="#!" class="text-dark"><i class="fab fa-facebook-f fa-lg"></i></a>
+          <a href="#!" class="text-dark"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
+          <a href="#!" class="text-dark"><i class="fab fa-instagram fa-lg"></i></a>
+        </div>
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -48,19 +54,32 @@
           <p class="card-text">“Here for the right riesling.”</p>
           <p class="card-text">
             <div>TODO: Add if user.ratings and user.comments conditionals</div>
-            {% if user.favorites %}
-            <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
-            <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
-            <div>Number of likes: <a href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
-            <div>Number of reviews: <a href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
-            <div>Average rating: {{ average }}</div>
-            <div>Average star rating: {{ star_average}}</div>
+            {% if user.favorites and user.ratings and user.comments %}
+              <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
+              <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
+              <div>Number of likes: <a href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
+              <div>Number of reviews: <a href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
+              <div>Average rating: {{ average }}</div>
+              <div>Average star rating: {{ star_average}}</div>
+            {% elif user.favorites %}
+              <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
+              <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
+              <div>Number of likes: <a href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
+              <div>Number of reviews: No wines reviewed yet.</div>
+              <div>Average rating: No wines reviewed yet.</div>
+            {% elif user.ratings and user.comments %}
+              <div>Favorite varietals: No wines liked yet.</div>
+              <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
+              <div>Number of likes: No wines liked yet.</div>
+              <div>Number of reviews: <a href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
+              <div>Average rating: {{ average }}</div>
+              <div>Average star rating: {{ star_average}}</div>
             {% else %}
-            <div>Favorite varietals: No wines liked yet.</div>
-            <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
-            <div>Number of likes: No wines liked yet.</div>
-            <div>Number of reviews: No wines reviewed yet.</div>
-            <div>Average rating: No wines reviewed yet.</div>
+              <div>Favorite varietals: No wines liked yet.</div>
+              <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
+              <div>Number of likes: No wines liked yet.</div>
+              <div>Number of reviews: No wines reviewed yet.</div>
+              <div>Average rating: No wines reviewed yet.</div>
             {% endif %}
           </p>
           <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>

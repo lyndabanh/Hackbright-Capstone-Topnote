@@ -57,8 +57,9 @@ for nm in names:
     name = nm
     email = f'{nm.lower()}@test.com'
     password = 'test'
+    quote = 'Test funny wine quote.'
 
-    user = crud.create_user(name, email, password)
+    user = crud.create_user(name, email, password, quote)
 
 
 

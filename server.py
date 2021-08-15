@@ -59,7 +59,26 @@ def search_wines():
 def create_account_page():
     """Routes to create account page."""
 
-    return render_template('create_account.html')
+    quotes = ['Wine a little, laugh a lot', 'You had me at merlot', 'Great minds drink alike', 'I make pour decisions', 'Here for the right riesling']
+
+
+                # , 
+                # ,              
+                # , 
+                # , 
+                # 'On cloud wine',
+                # 'Cabernet. More like, caber-yay!', 
+                # 'Hakuna Moscato. It means drink wine.',
+                # 'Partners in wine.', 
+                # 'No wine left behind.', 
+                # 'Sip happens.', 
+                # 'It’s wine o’clock.', 
+                # 'Stop and smell the rosé.', 
+                # 'Everything happens for a riesling, right?'
+
+    random_quote = random.choice(quotes)
+
+    return render_template('create_account.html', random_quote=random_quote)
 
 
 @app.route('/login_page')
@@ -73,18 +92,24 @@ def login_page():
 def register_user():
     """Create a new user."""
     
-    name = request.form.get('name')
     email = request.form.get('email')
     password = request.form.get('password')
+    password_confirmation = request.form.get('password-confirmation')
+    name = request.form.get('name')
+    quote = request.form.get('quote-funny')
 
     user = crud.get_user_by_email(email)
     
     if user:
         flash('An account with that email already exits. Try again.')
 
-    else:
-        crud.create_user(name, email, password)
-        flash('Account created successfully! You may now log in.')
+    elif password == password_confirmation:
+        crud.create_user(name, email, password, quote)
+        flash('Passwords match. Account created successfully! You may now log in.')
+
+    # else:
+    #     crud.create_user(name, email, password)
+    #     flash('Account created successfully! You may now log in.')
 
     return redirect('/')
 
@@ -414,16 +439,25 @@ def user_by_id(user_id):
 
                 star_average = round(average * 2) / 2
 
-            return render_template('user_details.html', user=user, 
-                                                        fav_wines=fav_wines, 
-                                                        fav_countries=fav_countries, 
-                                                        fav_varietals=fav_varietals, 
-                                                        comments=comments, 
-                                                        dict_ratings=dict_ratings,
-                                                        dict_ratings_date=dict_ratings_date,
-                                                        average=average,
-                                                        star_average=star_average,
-                                                        user_id=user_id)
+                return render_template('user_details.html', user=user, 
+                                                            fav_wines=fav_wines, 
+                                                            fav_countries=fav_countries, 
+                                                            fav_varietals=fav_varietals, 
+                                                            comments=comments, 
+                                                            dict_ratings=dict_ratings,
+                                                            dict_ratings_date=dict_ratings_date,
+                                                            average=average,
+                                                            star_average=star_average,
+                                                            user_id=user_id)
+            else:
+                return render_template('user_details.html', user=user, 
+                                            fav_wines=fav_wines, 
+                                            fav_countries=fav_countries, 
+                                            fav_varietals=fav_varietals, 
+                                            comments=comments, 
+                                            dict_ratings=dict_ratings,
+                                            dict_ratings_date=dict_ratings_date,
+                                            user_id=user_id)
         else:
             return render_template('user_details.html', user=user, 
                                                 fav_wines=fav_wines, 
