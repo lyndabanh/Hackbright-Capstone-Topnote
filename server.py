@@ -404,6 +404,16 @@ def user_by_id(user_id):
             #     dict_ratings[rating.wine.wine_id] = rating.rating
             dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
 
+            if ratings:
+                #add ratings to a list
+                list_of_ratings = [rating.rating for rating in ratings]
+
+                #calculate average and round to tenth
+                average = sum(list_of_ratings)/len(list_of_ratings)
+                average = round(average,1)
+
+                star_average = round(average * 2) / 2
+
             return render_template('user_details.html', user=user, 
                                                         fav_wines=fav_wines, 
                                                         fav_countries=fav_countries, 
@@ -411,6 +421,8 @@ def user_by_id(user_id):
                                                         comments=comments, 
                                                         dict_ratings=dict_ratings,
                                                         dict_ratings_date=dict_ratings_date,
+                                                        average=average,
+                                                        star_average=star_average,
                                                         user_id=user_id)
         else:
             return render_template('user_details.html', user=user, 
@@ -562,6 +574,34 @@ def user_favorites(user_id):
                                                 fav_wines=fav_wines, 
                                                 user_id=user_id)
 
+
+
+@app.route('/reviews/users/<user_id>')
+def user_reviews(user_id):
+#create new key:value pair in session
+#session['friend_user_id'] = user_id
+    user = crud.get_user_by_id(user_id)
+    # fav_wines = crud.get_favorites_by_user_id(user_id)
+    # fav_countries = crud.get_fav_countries(user.user_id)
+    # fav_varietals = crud.get_fav_varietals(user.user_id)
+    comments = crud.get_comments_by_user_id(user.user_id)
+
+    ratings = crud.get_ratings_by_user_id(user.user_id)
+    dict_ratings = {rating.wine.wine_id:rating.rating for rating in ratings}
+    # # dict_ratings = {}
+    # # for rating in ratings:
+    # #     dict_ratings[rating.wine.wine_id] = rating.rating
+    dict_ratings_date = {rating.wine.wine_id:(rating.date).strftime("%B %d, %Y") for rating in ratings}
+
+    if user_id != session['user_id']:
+        session['friend_user_id'] = user_id
+
+    return render_template('user_reviews.html', user=user, 
+                                                comments=comments, 
+                                                ratings=ratings,
+                                                dict_ratings=dict_ratings,
+                                                dict_ratings_date=dict_ratings_date,
+                                                user_id=user_id)
 
 
 

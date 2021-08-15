@@ -41,7 +41,7 @@ Photo by <a href="https://unsplash.com/@biljaminai?utm_source=unsplash&utm_mediu
 
 <div class="container-fluid custombg mt-5">
   <div class="container homepage-text pt-5 pb-5">
-    <h1 class="fw-bold">Top Notes</h1>
+    <h1 class="fw-bold">topnote</h1>
     <p class="fs-4 mb-0 text-white-50">A space to explore and capture your favorite top notes</p>
   </div>
 </div>
@@ -49,39 +49,65 @@ Photo by <a href="https://unsplash.com/@biljaminai?utm_source=unsplash&utm_mediu
 <div class="container pt-3">
   <div class="row mt-5">
     <div class="col-sm">
-      <div class="card" style="width: 22rem;">
-        <img src="/static/images/maja-petric-vGQ49l9I4EE-unsplash.jpg" class="card-img-top" alt="four glasses">
+      <div class="card" style="width: 24rem;">
+        <img src="/static/images/thomas-schaefer-ApoYbda6_3Y-unsplash.jpg" class="card-img-top" alt="four glasses">
         <div class="card-body p-4 rounded-bottom">
           <h5 class="card-title fw-bold">Card title</h5>
-          <p class="card-text">Some quick example text to build the card</p>
+          <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
+          <p class="card-text" id="quote-author">- Galileo</p>
           <a href="/grapes" class="btn btn-light">Search by Grape</a>
         </div>
       </div>
     </div>
     <div class="col-sm">
-      <div class="card" style="width: 22rem;">
-        <img src="/static/images/douglas-lopez-Lf5Xzq6NvWw-unsplash.jpg" class="card-img-top" alt="four glasses">
+      <div class="card" style="width: 24rem;">
+        <img src="/static/images/maja-petric-vGQ49l9I4EE-unsplash.jpg" class="card-img-top" alt="four glasses">
         <div class="card-body p-4 rounded-bottom">
           <h5 class="card-title fw-bold">Card title</h5>
-          <p class="card-text">Some quick example text to build the card</p>
+          <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
+          <p class="card-text" id="quote-author">- Galileo</p>
           <form action="search" method="GET" class="input-group rounded">
             <input type="search" class="form-control rounded" name="title_keywords" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-            <span class="input-group-text border-0" id="search-addon"><i class="fas fa-search"></i></span>
+
+            <span class="input-group-text border-0" id="search-addon">
+              <button type="submit" id="search-button">
+                <i class="fa fa-search"></i>
+              </button>
+              <!-- <i class="fas fa-search"></i> -->
+            </span>
           </form>
         </div>
       </div>
     </div>
     <div class="col-sm">
-      <div class="card" style="width: 22rem;">
-        <img src="/static/images/nacho-dominguez-argenta-F_ilCik66Hg-unsplash.jpg" class="card-img-top" alt="four glasses">
+      <div class="card" style="width: 24rem;">
+        <img src="/static/images/douglas-lopez-Lf5Xzq6NvWw-unsplash.jpg" class="card-img-top" alt="four glasses">
         <div class="card-body p-4 rounded-bottom">
           <h5 class="card-title fw-bold">Card title</h5>
-          <p class="card-text">Some quick example text to build the card</p>
+          <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
+          <p class="card-text" id="quote-author">- Galileo</p>
           <a href="/countries" class="btn btn-light">Search by Country</a>
         </div>
       </div>
     </div>
   </div>
+  
+  <div class="row mt-5">
+    <div class="col-12 col-md-6 col-lg-4">
+        <h2 class="mb-5">Join our mailing list:</h2>
+    </div>
+    <div class="col-sm">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="col-12 col-md-2">
+        <button type="submit" class="btn btn-primary" style="margin-top: 2em; width: 100%;">Submit</button>
+    </div>
+  </div>
+
+
+
 </div>
 
 <!-- Search bar styling

@@ -8,7 +8,66 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<!-- Bootstrap rounded circle photo example -->
+<!-- <div class="container mt-5">
+
+  <div class="row text-center">
+
+    <div class="col-md-6 mb-4">
+
+      <h2 class="my-5 h2">Basic example</h2>
+
+      <img class="rounded-circle" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(30).jpg"
+        data-holder-rendered="true">
+
+    </div>
+
+    <div class="col-md-6 mb-4">
+
+      <h2 class="my-5 h2">With shadow</h2>
+
+      <img class="rounded-circle z-depth-2" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+        data-holder-rendered="true">
+
+    </div>
+
+  </div> -->
+
+  <!-- ---------------------------------------- -->
+
+  <div class="card mb-12 m-4 p-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
+        <img class="rounded-circle z-depth-2" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+          data-holder-rendered="true">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ user.name }}</h5>
+          <p class="card-text">“Here for the right riesling.”</p>
+          <p class="card-text">
+            <div>TODO: Add if user.ratings and user.comments conditionals</div>
+            {% if user.favorites %}
+            <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
+            <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
+            <div>Number of likes: <a href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
+            <div>Number of reviews: <a href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
+            <div>Average rating: {{ average }}</div>
+            <div>Average star rating: {{ star_average}}</div>
+            {% else %}
+            <div>Favorite varietals: No wines liked yet.</div>
+            <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
+            <div>Number of likes: No wines liked yet.</div>
+            <div>Number of reviews: No wines reviewed yet.</div>
+            <div>Average rating: No wines reviewed yet.</div>
+            {% endif %}
+          </p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <!-- UNSORTED RATINGS TABLE -->
   <!-- {% if user.ratings %}
@@ -34,13 +93,13 @@
   {% endif %} -->
 
   <div class="row">
-    <div class="col-sm-6">
-      <div class="card text-center align-items-center">
+    <div class="col-sm-6 ml-4">
+      <div class="card text-center align-items-center" style="margin-left: 1.5rem">
         <div class="card-body">
           <h5 class="card-title">Favorite Countries</h5>
           {% if user.favorites %}
           <canvas id="pie-chart"></canvas>
-          <p class="card-text">Based on your favorites, you might like wines from:</p>
+          <p class="card-text">Countries to explore!</p>
           <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           {% for country in fav_countries %}
           <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}" class="btn btn-dark">{{ country }}</a></div>
@@ -49,13 +108,13 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="card text-center align-items-center">
+    <div class="col-sm-6 mr-4">
+      <div class="card text-center align-items-center" style="margin-right: 1.5rem">
         <div class="card-body">
           <h5 class="card-title">Favorite Varietals</h5>
           {% if user.favorites %}
           <canvas id="pie-chart2"></canvas>
-          <p class="card-text">Based on your favorites, you might wines of these varietals:</p>
+          <p class="card-text">Grapes to try! </p>
           {% for variety in fav_varietals %}
           <a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}" class="btn btn-dark">{{ variety }}</a>
           {% endfor %}
@@ -89,8 +148,8 @@
     </div> -->
  
 <!-- FAVORITES TABLE -->
-{% if user.favorites %}
-<div class="card" style="width: 81rem;">
+<!-- {% if user.favorites %}
+<div class="card m-5" style="width: 81rem;">
   <div class="card-body">
     <h5 class="card-title">Favorites</h5>
     <h6 class="card-subtitle mb-2 text-muted">Wines you've liked</h6>
@@ -119,7 +178,7 @@
     </div>
   </div>
   <a href="/favorites/users/{{ user.user_id }}" class="card-link text-end">More favorites...</a>
-</div>
+</div> -->
 
 <!-- {% if user.favorites %}
 <h3>Favorite Wines</h3>
@@ -148,7 +207,7 @@
 
 
  <!-- SORTED RATINGS AND COMMENTS TABLE -->
- {% if user.ratings and user.comments %}
+ <!-- {% if user.ratings and user.comments %}
  <div class="card" style="width: 81rem;">
    <div class="card-body">
      <h5 class="card-title">Reviews</h5>
@@ -180,7 +239,7 @@
     </div>
      <a href="#" class="card-link text-end">More reviews...</a>
    </div>
- </div>
+ </div> -->
 
 
  <!-- {% if user.ratings and user.comments %}

@@ -354,7 +354,14 @@ def get_dict_of_ratings_by_user_id(user_id):
 def search_wines(title_keywords):
     """Search bar."""
 
-    wines = Wine.query.filter(Wine.title.like('%' + title_keywords + '%')).all()
+    wines = Wine.query.filter((Wine.title.like('%' + title_keywords + '%')) | 
+                                (Wine.country.like('%' + title_keywords + '%')) |
+                                (Wine.winery.like('%' + title_keywords + '%')) |
+                                (Wine.variety.like('%' + title_keywords + '%')) |
+                                (Wine.country.like('%' + title_keywords + '%')) |
+                                (Wine.province.like('%' + title_keywords + '%')) |
+                                (Wine.region_1.like('%' + title_keywords + '%')) |
+                                (Wine.region_2.like('%' + title_keywords + '%'))).all()
 
     return wines
 
