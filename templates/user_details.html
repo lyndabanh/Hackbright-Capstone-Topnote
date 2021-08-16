@@ -33,27 +33,29 @@
 
   </div> -->
 
-  <!-- ---------------------------------------- -->
 <!-- User Profile Card -->
-  <div class="card mb-12 m-4 p-3">
+  <div class="card mb-12 m-4 p-5">
     <div class="row g-0">
       <div class="col-md-4">
         <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
-        <img class="rounded-circle z-depth-2" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
-          data-holder-rendered="true">
+        <div><img class="rounded-circle z-depth-2 d-block m-auto" style="padding: 2rem;" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+          data-holder-rendered="true"></div>
+          <div></div>
         <h5 class="text-center">{{ user.name }}</h5>
-        <div class="text-center">
+        <div class="text-center mb-0">
+          <p class="card-text">“{{ user.quote }}.”</p>
+        </div>
+        <!-- <div class="text-center mb-0">
           <a href="#!" class="text-dark"><i class="fab fa-facebook-f fa-lg"></i></a>
           <a href="#!" class="text-dark"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
           <a href="#!" class="text-dark"><i class="fab fa-instagram fa-lg"></i></a>
-        </div>
+        </div> -->
       </div>
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title">{{ user.name }}</h5>
-          <p class="card-text">“Here for the right riesling.”</p>
+          <p class="card-text">“{{ user.quote }}.”</p>
           <p class="card-text">
-            <div>TODO: Add if user.ratings and user.comments conditionals</div>
             {% if user.favorites and user.ratings and user.comments %}
               <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
               <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
@@ -82,35 +84,13 @@
               <div>Average rating: No wines reviewed yet.</div>
             {% endif %}
           </p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
         </div>
       </div>
     </div>
   </div>
-  
-  <!-- UNSORTED RATINGS TABLE -->
-  <!-- {% if user.ratings %}
-  <h2>Your Rated Wines</h2>
-  <table>
-    <tr>
-      <th>Wine</th>
-      <th>Varietal</th>
-      <th>Country</th>
-      <th>Rating</th>
-    </tr>
-    {% for rating in user.ratings %}
-    <tr>
-      <td><a href="/wines/{{ rating.wine.wine_id }}">{{ rating.wine.title }}</a></td>
-      <td>{{ rating.wine.variety }}</td>
-      <td>{{ rating.wine.country }}</td>
-      <td>{{ rating.rating }}</td>
-    </tr>
-    {% endfor %}
-  </table>
-  {% else %}
-    <div>You have not rated any wines yet.</div>
-  {% endif %} -->
 
+<!-- ChartJS Row -->
   <div class="row">
     <div class="col-sm-6 ml-4">
       <div class="card text-center align-items-center" style="margin-left: 1.5rem">
@@ -141,6 +121,15 @@
         </div>
       </div>
     </div>
+
+
+
+
+
+
+
+
+    
   </div>
 
 

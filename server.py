@@ -59,7 +59,11 @@ def search_wines():
 def create_account_page():
     """Routes to create account page."""
 
-    quotes = ['Wine a little, laugh a lot', 'You had me at merlot', 'Great minds drink alike', 'I make pour decisions', 'Here for the right riesling']
+    quotes = ['Wine a little, laugh a lot', 
+                'You had me at merlot', 
+                'Great minds drink alike', 
+                'I make pour decisions', 
+                'Here for the right riesling']
 
 
                 # , 
@@ -77,6 +81,9 @@ def create_account_page():
                 # 'Everything happens for a riesling, right?'
 
     random_quote = random.choice(quotes)
+    print('OOOOOOOOOOOOOOOO TESTING OOOOOOOOOOOOOOOO')
+    print(random_quote)
+    print('OOOOOOOOOOOOOOOO TESTING OOOOOOOOOOOOOOOO')
 
     return render_template('create_account.html', random_quote=random_quote)
 
@@ -92,13 +99,28 @@ def login_page():
 def register_user():
     """Create a new user."""
     
+    quotes = ['Wine a little, laugh a lot', 
+                'You had me at merlot', 
+                'Great minds drink alike', 
+                'I make pour decisions', 
+                'Here for the right riesling', 
+                'On cloud wine', 
+                'Cabernet. More like, caber-yay', 
+                'Hakuna Moscato. It means drink wine', 
+                'Partners in wine', 
+                'No wine left behind', 
+                'Sip happens', 
+                'It’s wine o’clock', 
+                'Stop and smell the rosé', 
+                'Everything happens for a riesling, right']
+
+    random_quote = random.choice(quotes)
     email = request.form.get('email')
+    user = crud.get_user_by_email(email)
     password = request.form.get('password')
     password_confirmation = request.form.get('password-confirmation')
     name = request.form.get('name')
-    quote = request.form.get('quote-funny')
-
-    user = crud.get_user_by_email(email)
+    quote = request.form.get('quote-funny') or random_quote
     
     if user:
         flash('An account with that email already exits. Try again.')
