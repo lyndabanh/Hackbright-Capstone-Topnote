@@ -34,10 +34,9 @@
   </div> -->
 
 <!-- User Profile Card -->
-  <div class="card mb-12 m-4 p-5">
+  <div class="card mb-12 m-4 pt-2 pr-2 pl-2 pb-5">
     <div class="row g-0">
       <div class="col-md-4">
-        <!-- <img src="..." class="img-fluid rounded-start" alt="..."> -->
         <div><img class="rounded-circle z-depth-2 d-block m-auto" style="padding: 2rem;" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
           data-holder-rendered="true"></div>
           <div></div>
@@ -51,58 +50,77 @@
           <a href="#!" class="text-dark"><i class="fab fa-instagram fa-lg"></i></a>
         </div> -->
       </div>
-      <div class="col-md-8">
+      <div class="col-md-4 my-auto">
         <div class="card-body">
-          <h5 class="card-title">{{ user.name }}</h5>
-          <p class="card-text">“{{ user.quote }}.”</p>
+          <h5 class="card-title">User Profile</h5>
           <p class="card-text">
             {% if user.favorites and user.ratings and user.comments %}
-              <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
-              <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
-              <div>Number of likes: <a href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
-              <div>Number of reviews: <a href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
+              <div>Likes: <a class="text-dark" href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
+              <div>Reviews: <a class="text-dark" href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
               <div>Average rating: {{ average }}</div>
-              <div>Average star rating: {{ star_average}}</div>
+              <!-- <div>Average star rating: {{ star_average}}</div> -->
+              <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
+              <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
             {% elif user.favorites %}
-              <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
+              <div>Likes: <a class="text-dark" href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
+              <div>Reviews: No wines reviewed yet.</div>
+              <div>Average rating: No wines reviewed yet.</div>
               <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
-              <div>Number of likes: <a href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
-              <div>Number of reviews: No wines reviewed yet.</div>
-              <div>Average rating: No wines reviewed yet.</div>
+              <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
             {% elif user.ratings and user.comments %}
-              <div>Favorite varietals: No wines liked yet.</div>
-              <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
-              <div>Number of likes: No wines liked yet.</div>
-              <div>Number of reviews: <a href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
+              <div>Likes: No wines liked yet.</div>
+              <div>Reviews: <a class="text-dark" href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
               <div>Average rating: {{ average }}</div>
-              <div>Average star rating: {{ star_average}}</div>
-            {% else %}
-              <div>Favorite varietals: No wines liked yet.</div>
+              <!-- <div>Average star rating: {{ star_average}}</div> -->
               <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
-              <div>Number of likes: No wines liked yet.</div>
-              <div>Number of reviews: No wines reviewed yet.</div>
+              <div>Favorite varietals: No wines liked yet.</div>
+            {% else %}
+              <div>Likes: No wines liked yet.</div>
+              <div>Reviews: No wines reviewed yet.</div>
               <div>Average rating: No wines reviewed yet.</div>
+              <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
+              <div>Favorite varietals: No wines liked yet.</div>
             {% endif %}
           </p>
-          <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
         </div>
       </div>
+      <div class="col-md-4 my-auto">
+        <div class="card-body">
+          <p class="card-text">
+            <h5 class="card-title">Countries to explore</h5>
+            {% if user.favorites %}
+            <!-- <p class="card-text">Countries to explore!</p> -->
+            {% for country in fav_countries %}
+            <a href="/user/{{ user.user_id }}/recs/country/{{ country }}" class="btn btn-dark">{{ country }}</a>
+            {% endfor %}
+            {% endif %}
+          </p>
+          <br>
+          <p class="card-text">
+            <h5 class="card-title">Grapes to try</h5>
+            {% if user.favorites %}
+            <!-- <p class="card-text">Grapes to try! </p> -->
+            {% for variety in fav_varietals %}
+            <a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}" class="btn btn-dark">{{ variety }}</a>
+            {% endfor %}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+
+
     </div>
   </div>
 
 <!-- ChartJS Row -->
-  <div class="row">
+  <div class="row mb-5">
     <div class="col-sm-6 ml-4">
       <div class="card text-center align-items-center" style="margin-left: 1.5rem">
         <div class="card-body">
           <h5 class="card-title">Favorite Countries</h5>
           {% if user.favorites %}
           <canvas id="pie-chart"></canvas>
-          <p class="card-text">Countries to explore!</p>
-          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-          {% for country in fav_countries %}
-          <div><a href="/user/{{ user.user_id }}/recs/country/{{ country }}" class="btn btn-dark">{{ country }}</a></div>
-          {% endfor %}
           {% endif %}
         </div>
       </div>
@@ -113,23 +131,10 @@
           <h5 class="card-title">Favorite Varietals</h5>
           {% if user.favorites %}
           <canvas id="pie-chart2"></canvas>
-          <p class="card-text">Grapes to try! </p>
-          {% for variety in fav_varietals %}
-          <a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}" class="btn btn-dark">{{ variety }}</a>
-          {% endfor %}
           {% endif %}
         </div>
       </div>
     </div>
-
-
-
-
-
-
-
-
-    
   </div>
 
 

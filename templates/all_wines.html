@@ -1,18 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}All Wines{% endblock %}
 {% block body %}
-    <!-- <h2>All Wines</h2>
-    <ul class="display-wines">
-    {% for wine in wines %}
-        <li>
-            <a class="links" href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a>
-        </li>
-    {% endfor %}
-    </ul> -->
-
-
-
-<div class="container">
+  
+<div class="container mt-5">
     <div class="row">
         <div class="card col-md-12">
         <div class="card-body">
@@ -21,12 +11,12 @@
         <ul class="card-text">
             {% for wine in wines %}
             <li>
-            <a class="links" href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a>
+            <a class="text-dark" href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a>
             </li>
             {% endfor %}
         </ul>
         </div>
-    </div>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -7,7 +7,7 @@
 
 <!-- Bootstrap Row 1: Wine info -->
 <div class="row">
-<div class="card col-md-6">
+<div class="card col-md-5">
   <div class="row g-0">
     <div class="col-md-4">
       <img src="../static/images/bottle/Red wine bottle.png" class="img-fluid rounded-start d-block m-auto pt-3" style="padding: .2rem; max-width: 80px;" id="wine-bottle" alt="...">
@@ -42,11 +42,11 @@
   </div>
 </div>
 
-<div class="card col-md-6">
+<div class="card col-md-7">
 <div class="row g-0">
     <div class="col-md-8 p-3">
       <div class="card-body">
-        <h5 class="card-title" style="color: white;">{{ wine.title }}</h5>
+        <h5 class="card-title" style="color: white; width: 18rem;">{{ wine.title }}</h5>
         <div class="card-text" style="width:30rem;">
           <p>
           <div>Description: {{ wine.description }}</div>
@@ -61,40 +61,18 @@
 </div>
 </div>
 
+<!-- Bootstrap Row 2: Extra row to give space above subsequent row -->
+<div class="row" style="background-color: white; height: 75px;"></div>
 
-          <!-- <h5 class="card-title" style="color: white;">{{ wine.title }}</h5>
-          <p>
-          <div>Description: {{ wine.description }}</div>
-          <div>Critic Rating: {{ wine.points }}</div>
-          </p>
-        <p class="card-text">
-          {% if 'user_id' in session %}
-            {% if current_users_fav %}
-              <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-                  <button class="btn btn-dark" type="submit" value="Unfavorite" name="unfavorite">Unfavorite</button>
-            {% else %}
-              <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
-                  <button class="btn btn-dark" type="submit" value="Favorite" name="favorite">Favorite</button>
-            {% endif %}
-          {% else %}
-          <div>Log in to favorite this wine!</div>
-          {% endif %}
-      </div>
-    </div>
-</div>
-</div> -->
-
-<!-- Extra row to give space above subsequent row -->
-<div class="row" style="background-color: white; height: 100px;"></div>
-
-<!-- Bootstrap Row 2: Rating Data -->
+<!-- Bootstrap Row 3: Rating Data -->
 <div class="row">
 <div class="card col-md-4">
   <div class="row g-0">
       <div class="card-body">
-        <h5 class="card-title">Reviews</h5>
+        <h5 class="card-title">Review Summary</h5>
         <p class="card-text">
           {% if wine.ratings %}
+          <h2>{{ average }}</h2>
             {% if star_average == 1 %}
             <div>
               <i class="fas fa-star"></i>
@@ -152,7 +130,11 @@
               <i class="fas fa-star"></i>
             </div>
             {% endif %}
-            <p>Average user rating: {{ average }} / 5</p>
+            {% if wine.ratings|length == 1 %}
+            <p class="text-gray">{{ wine.ratings|length }} rating</p>
+            {% else %}
+            <p class="text-gray">{{ wine.ratings|length }} ratings</p>
+            {% endif %}
           
           <!-- Adding this -->
           {% endif %}
@@ -165,21 +147,6 @@
             {% endif %}
           {% else %}
           <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
-          {% endif %}
-
-
-          {% if num_favorites == 1 %}
-            <p>This wine has been favorited {{ num_favorites }} time by: </p>
-          {% elif num_favorites > 1 %}
-            <p>This wine has been favorited {{ num_favorites }} times by: </p>
-          {% else %}
-            <p>This wine has not been favorited.</p>
-          {% endif %}
-
-          {% if num_favorites >= 1 %}
-            {% for fav in favorites %}
-            <a href="/users/{{ fav.user.user_id }}">{{ fav.user.name }}</a>
-            {% endfor %}
           {% endif %}
         </p>
         </p>
@@ -198,7 +165,7 @@
         
         {% if wine.ratings %}
           {% for rating in ratings %}
-            <div>{{ rating.user.name }}</div>
+            <div> <i class="fas fa-user-circle"></i> {{ rating.user.name }}</div>
             {% if rating.rating == 1 %}
             <div>
               <i class="fas fa-star"></i>
@@ -230,9 +197,8 @@
               <i class="fas fa-star"></i>
             </div>
             {% endif %}
-            <div>{{ (rating.date).strftime("%B %d, %Y") }}</div>
-            <div></div>
-            <p>{{ dict_comments[rating.user.user_id] }}</p>
+            <div class="text-gray">Reviewed on {{ (rating.date).strftime("%B %d, %Y") }}</div>
+            <div class="text-dark">{{ dict_comments[rating.user.user_id] }}</div>
             {% endfor %}
           {%  endif %}
           </div>
