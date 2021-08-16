@@ -23,16 +23,20 @@ def homepage():
     random_user2 = random.choice(users)
     random_user3 = random.choice(users)
 
+    random_wine1 = crud.get_wine_by_id(random.randint(0,70))
+    random_wine2 = crud.get_wine_by_id(random.randint(0,70))
+    random_wine3 = crud.get_wine_by_id(random.randint(0,70))
+
     if 'user_id' in session:
     #why does 'if session:' not work after you log in, then log out? 
         user = crud.get_user_by_id(session['user_id'])
         if user:
-            return render_template('homepage.html', user=user, users=users, random_user1=random_user1, random_user2=random_user2, random_user3=random_user3)
+            return render_template('homepage.html', user=user, users=users, random_wine1=random_wine1, random_wine2=random_wine2, random_wine3=random_wine3)
         else:
             flash('Something for went wrong, logging you out.')
             return redirect('/logout')
 
-    return render_template('homepage.html', random_user1=random_user1, random_user2=random_user2, random_user3=random_user3)
+    return render_template('homepage.html', random_wine1=random_wine1, random_wine2=random_wine2, random_wine3=random_wine3)
     
     # print(dir(session))
     # print(help(session.clear))
@@ -123,11 +127,11 @@ def register_user():
     quote = request.form.get('quote-funny') or random_quote
     
     if user:
-        flash('An account with that email already exits. Try again.')
+        flash('An account with that email already exits. Please try again.')
 
     elif password == password_confirmation:
         crud.create_user(name, email, password, quote)
-        flash('Passwords match. Account created successfully! You may now log in.')
+        flash('Account created successfully! Log in to being exploring.')
 
     # else:
     #     crud.create_user(name, email, password)
@@ -355,12 +359,6 @@ def create_update_or_favorite(wine_id):
     # star3 = request.form.get('star3')
     # star4 = request.form.get('star4')
     # star5 = request.form.get('star5')
-    print("*********************")
-    print(star_rating)
-
-    print("*********************")
-    print(comment)
-
 
     # def create_rating_comment_flash_msg(user, wine, comment, star_rating):
     #     crud.create_rating(user, wine, rating)

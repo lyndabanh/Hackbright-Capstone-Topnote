@@ -3,46 +3,11 @@
 
 {% block body %}
 
-<!-- <body>
-<div>
-Photo by <a href="https://unsplash.com/@biljaminai?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Biljana Martinić</a> on <a href="https://unsplash.com/s/photos/wine?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-</div>
-</body> -->
 
-<!-- <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <div class="card h-100">
-        <img src="/static/images/sven-wilhelm-2cRXSWyMHA8-unsplash.jpg" class="card-img-top mx-auto" alt="...">
-        <div class="card-body">
-          <h5 class="card-title"><a class="links" href="/countries" class="card-link">Countries</a></h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="/static/images/sven-wilhelm-2cRXSWyMHA8-unsplash.jpg" class="card-img-top mx-auto" alt="...">
-        <div class="card-body">
-            <h5 class="card-title"><a class="links" href="grapes" class="card-link">Grapes</a></h5>
-          <p class="card-text">This is a short card.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="/static/images/sven-wilhelm-2cRXSWyMHA8-unsplash.jpg" class="card-img-top mx-auto" alt="...">
-        <div class="card-body">
-            <h5 class="card-title"><a class="links" href="/users/{{ random_user3.user_id }}" class="card-link">{{ random_user3.name }}'s Cellar</a></h5>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-<div class="container-fluid custombg mt-5">
+<div class="container-fluid custombg">
   <div class="container homepage-text pt-5 pb-5">
-    <h1 class="fw-bold">topnote</h1>
-    <p class="fs-4 mb-0 text-white-50">A space to explore and capture your favorite top notes</p>
+    <h1 class="fw-bold">Topnote</h1>
+    <p class="fs-4 mb-0 text-white-50">“Wine is sunlight, held together by water." -Galileo</p>
   </div>
 </div>
 
@@ -52,10 +17,10 @@ Photo by <a href="https://unsplash.com/@biljaminai?utm_source=unsplash&utm_mediu
       <div class="card" style="width: 24rem;">
         <img src="/static/images/thomas-schaefer-ApoYbda6_3Y-unsplash.jpg" class="card-img-top" alt="image display broken">
         <div class="card-body p-4 rounded-bottom">
-          <h5 class="card-title fw-bold">Card title</h5>
-          <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
-          <p class="card-text" id="quote-author">- Galileo</p>
-          <a href="/grapes" class="btn btn-light">Search by Grape</a>
+          <h5 class="card-title fw-bold homepage-card-title">Explore a new country</h5>
+          <!-- <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
+          <p class="card-text" id="quote-author">- Galileo</p> -->
+          <a href="/wines/{{ random_wine1.wine_id }}" class="btn btn-light float-end">{{ random_wine1.country }}</a>
         </div>
       </div>
     </div>
@@ -63,18 +28,10 @@ Photo by <a href="https://unsplash.com/@biljaminai?utm_source=unsplash&utm_mediu
       <div class="card" style="width: 24rem;">
         <img src="/static/images/maja-petric-vGQ49l9I4EE-unsplash.jpg" class="card-img-top" alt="image display broken">
         <div class="card-body p-4 rounded-bottom">
-          <h5 class="card-title fw-bold">Sign in to begin exploring!</h5>
-          <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
-          <p class="card-text" id="quote-author">- Galileo</p>
-          <form action="search" method="GET" class="input-group rounded">
-            <input type="search" class="form-control rounded" name="title_keywords" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-            <span class="input-group-text border-0" id="search-addon">
-              <button type="submit" id="search-button">
-                <i class="fa fa-search"></i>
-              </button>
-              <!-- <i class="fas fa-search"></i> -->
-            </span>
-          </form>
+          <h5 class="card-title fw-bold homepage-card-title">Discover a new winery</h5>
+          <!-- <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
+          <p class="card-text" id="quote-author">- Galileo</p> -->
+          <a href="/wines/{{ random_wine2.wine_id }}" class="btn btn-light float-end">{{ random_wine2.winery }}</a>
         </div>
       </div>
     </div>
@@ -82,92 +39,15 @@ Photo by <a href="https://unsplash.com/@biljaminai?utm_source=unsplash&utm_mediu
       <div class="card" style="width: 24rem;">
         <img src="/static/images/douglas-lopez-Lf5Xzq6NvWw-unsplash.jpg" class="card-img-top" alt="image display broken">
         <div class="card-body p-4 rounded-bottom">
-          <h5 class="card-title fw-bold">Card title</h5>
-          <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
-          <p class="card-text" id="quote-author">- Galileo</p>
-          <a href="/countries" class="btn btn-light">Search by Country</a>
+          <h5 class="card-title fw-bold homepage-card-title">Taste a new grape</h5>
+          <!-- <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
+          <p class="card-text" id="quote-author">- Galileo</p> -->
+          <a href="/wines/{{ random_wine3.wine_id }}" class="btn btn-light float-end">{{ random_wine3.variety }}</a>
         </div>
       </div>
     </div>
   </div>
 </div>
   
-  <!-- <div class="row mt-5">
-    <div class="col-12 col-md-6 col-lg-4">
-        <h2 class="mb-5">Join our mailing list:</h2>
-    </div>
-    <div class="col-sm">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="col-12 col-md-2">
-        <button type="submit" class="btn btn-primary" style="margin-top: 2em; width: 100%;">Submit</button>
-    </div>
-  </div> -->
-
-
-
-
-
-<!-- Search bar styling
-<div class="input-group rounded">
-  <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-    aria-describedby="search-addon" />
-  <span class="input-group-text border-0" id="search-addon">
-    <i class="fas fa-search"></i>
-  </span>
-</div> -->
-
-    <!-- <form action="search" method="GET">
-        <div class="topnav">
-            <p>
-                Search <input type="text" name="title_keywords" placeholder="Search..">
-            </p>
-            <p>
-                <input type="submit">
-            </p>
-        </div>
-    </form>  -->
-<!-- 
-<div class="mx-auto" style="width: 500px;">
-    <form action="/search" method="GET" class="d-flex">
-        <input class="form-control me-2" type="search" name="title_keywords" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-</div> -->
-
-
-
-    <!-- {% if 'user_id' in session %}
-        <h1>Welcome, {{ user.name }}!</h1>
-        <h2>Navigation</h2>
-        <ul>
-            <li><a href="/wines">All wines</a></li>
-            <li><a href="/users">Friends' cellars</a></li>
-            <li><a href="/users/{{ user.user_id }}">My Cellar</a></li>
-        </ul>
-    {% else %}
-        <h1>Cheers, welcome to MyCellar!</h1>
-        <h2>Navigation</h2>
-        <ul>
-            <li><a href="/wines">All wines</a></li>
-            <li><a href="/users">Friends' cellars</a></li>
-        </ul>
-    {% endif %}
-
-    {% if not 'user_id' in session %}
-    <h2>Create an Account</h2>
-    <a href="/create_account_page">Create an Account</a>
-
-    <h2>Log In</h2>
-    <a href="/login_page">Log In</a>
-    {% endif %}
-
-    {% if 'user_id' in session %} 
-        <a href="/logout">Log Out</a>
-    {% endif %} -->
-
-    <!-- <div>Bootstrap modal window vs flash message or alert for login, favorite, rate.</div> -->
 
 {% endblock %}
