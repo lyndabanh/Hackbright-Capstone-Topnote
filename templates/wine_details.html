@@ -66,11 +66,12 @@
 
 <!-- Bootstrap Row 3: Rating Data -->
 <div class="row">
-<div class="card col-md-6">
+<div class="card col-md-5 p-3">
   <div class="row g-0">
       <div class="card-body">
         <h5 class="card-title">Review Summary</h5>
-        <p class="card-text">
+        <div class="card-text">
+          <p>
           {% if wine.ratings %}
           <h2>{{ average }}</h2>
             {% if star_average == 1 %}
@@ -148,24 +149,27 @@
           {% else %}
           <div><a href="/login_page">Log in</a> or <a href="/create_account_page">Create an Account</a> to rate this wine!</div>
           {% endif %}
-        </p>
-        </p>
+          </p>
+      </div>
       </div>
     </div>
 </div>
 
-<div class="card col-md-6">
+<div class="card col-md-7 p-3">
   <div class="row g-0">
       <div class="card-body">
         <h5 class="card-title">User Reviews</h5>
-        <p class="card-text">
+        <div class="card-text">
+          <p>
           {% if not wine.ratings %}
           <p>This wine does not have any ratings yet.</p>
           {% endif %}
         
         {% if wine.ratings %}
           {% for rating in ratings %}
-            <div> <i class="fas fa-user-circle"></i> {{ rating.user.name }}</div>
+          <p>
+            <!-- <div> <i class="fas fa-user-circle"></i> {{ rating.user.name }}</div> -->
+            <div><a href="/users/{{ rating.user.user_id }}"><i class="fas fa-user-circle" style="color: black;"></i></a> {{ rating.user.name }}</div>
             {% if rating.rating == 1 %}
             <div>
               <i class="fas fa-star"></i>
@@ -199,13 +203,14 @@
             {% endif %}
             <div class="text-gray">Reviewed on {{ (rating.date).strftime("%B %d, %Y") }}</div>
             <div class="text-dark">{{ dict_comments[rating.user.user_id] }}</div>
+          </p>
             {% endfor %}
           {%  endif %}
-          </div>
-        </p>
-        </p>
+          </p>
+        </div>
       </div>
     </div>
+  </div>
 </div>
 </div>
 

@@ -6,8 +6,8 @@
 
 <div class="container-fluid custombg">
   <div class="container homepage-text pt-5 pb-5">
-    <h1 class="fw-bold">Topnote</h1>
-    <p class="fs-4 mb-0 text-white-50">“Wine is sunlight, held together by water." -Galileo</p>
+    <h1 class="fw-bold handwriting" style="opacity: 1%;">Topnote</h1>
+    <p class="fs-4 mb-0 text-white-5 handwriting" style="opacity: 1%;"">“Wine is sunlight, held together by water." -Galileo</p>
   </div>
 </div>
 
@@ -15,39 +15,48 @@
   <div class="row mt-5">
     <div class="col-sm">
       <div class="card" style="width: 24rem;">
-        <img src="/static/images/thomas-schaefer-ApoYbda6_3Y-unsplash.jpg" class="card-img-top" alt="image display broken">
-        <div class="card-body p-4 rounded-bottom">
-          <h5 class="card-title fw-bold homepage-card-title">Explore a new country</h5>
+        <img src="/static/images/low-res-douglas-lopez-Lf5Xzq6NvWw-unsplash.jpg" class="card-img-top" alt="image display broken">
+        <div class="card-body p-4 rounded-bottom text-center">
+          <h5 class="card-title fw-bold handwriting">Explore a new country</h5>
           <!-- <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
           <p class="card-text" id="quote-author">- Galileo</p> -->
-          <a href="/wines/{{ random_wine1.wine_id }}" class="btn btn-light float-end">{{ random_wine1.country }}</a>
+          <a href="/wines/{{ demo_wine.wine_id }}" class="btn btn-dark">{{ demo_wine.country }}</a>
         </div>
       </div>
     </div>
     <div class="col-sm">
       <div class="card" style="width: 24rem;">
-        <img src="/static/images/maja-petric-vGQ49l9I4EE-unsplash.jpg" class="card-img-top" alt="image display broken">
-        <div class="card-body p-4 rounded-bottom">
-          <h5 class="card-title fw-bold homepage-card-title">Discover a new winery</h5>
+        <img src="/static/images/low-res-maja-petric-vGQ49l9I4EE-unsplash.jpg" class="card-img-top" alt="image display broken">
+        <div class="card-body p-4 rounded-bottom text-center">
+          <h5 class="card-title fw-bold handwriting">Discover a new winery</h5>
           <!-- <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
           <p class="card-text" id="quote-author">- Galileo</p> -->
-          <a href="/wines/{{ random_wine2.wine_id }}" class="btn btn-light float-end">{{ random_wine2.winery }}</a>
+          <a href="/wines/{{ demo_wine.wine_id }}" class="btn btn-dark">{{ demo_wine.winery }}</a>
         </div>
       </div>
     </div>
     <div class="col-sm">
       <div class="card" style="width: 24rem;">
-        <img src="/static/images/douglas-lopez-Lf5Xzq6NvWw-unsplash.jpg" class="card-img-top" alt="image display broken">
-        <div class="card-body p-4 rounded-bottom">
-          <h5 class="card-title fw-bold homepage-card-title">Taste a new grape</h5>
+        <img src="/static/images/low-res-nico-bhlr-r6pi3BpqDzI-unsplash.jpg" class="card-img-top" alt="image display broken">
+        <div class="card-body p-4 rounded-bottom text-center">
+          <h5 class="card-title fw-bold handwriting">Taste a new grape</h5>
           <!-- <p class="card-text" id="quote-deep">“Wine is sunlight, held together by water."</p>
           <p class="card-text" id="quote-author">- Galileo</p> -->
-          <a href="/wines/{{ random_wine3.wine_id }}" class="btn btn-light float-end">{{ random_wine3.variety }}</a>
+          <a href="/wines/{{ demo_wine.wine_id }}" class="btn btn-dark">{{ demo_wine.variety }}</a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<div class="row" style="background-color: #f3f3f3; height: 50px;"></div>
+
+{% if not 'user_id' in session %}
+<div class="text-center">
+  <a href="/create_account_page" class="btn btn-dark">Begin here</a>
+</div>
+{% endif %}
   
 
 {% endblock %}

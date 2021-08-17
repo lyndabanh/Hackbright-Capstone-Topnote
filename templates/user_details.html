@@ -37,12 +37,23 @@
   <div class="card mb-12 m-4 pt-2 pr-2 pl-2 pb-5">
     <div class="row g-0">
       <div class="col-md-4">
-        <div><img class="rounded-circle z-depth-2 d-block m-auto" style="padding: 2rem;" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+        {% if user.user_id == 1 %}
+        <div><img class="rounded-circle z-depth-2 d-block m-auto" style="padding: 2rem;" alt="100x100" src={{ user_guy }}
           data-holder-rendered="true"></div>
+        {% elif user.user_id == 2 %}
+        <div><img class="rounded-circle z-depth-2 d-block m-auto" style="padding: 2rem;" alt="100x100" src={{ user_gal3 }}
+          data-holder-rendered="true"></div>
+        {% elif user.user_id == 3 %}
+        <div><img class="rounded-circle z-depth-2 d-block m-auto" style="padding: 2rem;" alt="100x100" src={{ user_gal2 }}
+          data-holder-rendered="true"></div>
+        {% else %}
+        <div><img class="rounded-circle z-depth-2 d-block m-auto" style="padding: 2rem;" alt="100x100" src={{ user_gal1 }}
+          data-holder-rendered="true"></div>
+        {% endif %}
           <div></div>
         <h5 class="text-center">{{ user.name }}</h5>
         <div class="text-center mb-0">
-          <p class="card-text">“{{ user.quote }}.”</p>
+          <p class="card-text handwriting">“{{ user.quote }}.”</p>
         </div>
         <!-- <div class="text-center mb-0">
           <a href="#!" class="text-dark"><i class="fab fa-facebook-f fa-lg"></i></a>
@@ -52,7 +63,7 @@
       </div>
       <div class="col-md-4 my-auto">
         <div class="card-body">
-          <h5 class="card-title">User Profile</h5>
+          <h5 class="card-title">PROFILE</h5>
           <p class="card-text">
             {% if user.favorites and user.ratings and user.comments %}
               <div>Likes: <a class="text-dark" href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
@@ -87,18 +98,16 @@
       <div class="col-md-4 my-auto">
         <div class="card-body">
           <p class="card-text">
-            <h5 class="card-title">Countries to explore</h5>
             {% if user.favorites %}
+            <h5 class="card-title">Countries to explore</h5>
             <!-- <p class="card-text">Countries to explore!</p> -->
             {% for country in fav_countries %}
             <a href="/user/{{ user.user_id }}/recs/country/{{ country }}" class="btn btn-dark">{{ country }}</a>
             {% endfor %}
-            {% endif %}
           </p>
           <br>
           <p class="card-text">
             <h5 class="card-title">Grapes to try</h5>
-            {% if user.favorites %}
             <!-- <p class="card-text">Grapes to try! </p> -->
             {% for variety in fav_varietals %}
             <a href="/user/{{ user.user_id }}/recs/variety/{{ variety }}" class="btn btn-dark">{{ variety }}</a>

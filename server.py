@@ -19,24 +19,25 @@ bootstrap = Bootstrap(app)
 def homepage():
     """View homepage."""
     users = crud.all_users()
-    random_user1 = random.choice(users)
-    random_user2 = random.choice(users)
-    random_user3 = random.choice(users)
 
-    random_wine1 = crud.get_wine_by_id(random.randint(0,70))
-    random_wine2 = crud.get_wine_by_id(random.randint(0,70))
-    random_wine3 = crud.get_wine_by_id(random.randint(0,70))
+    # random_wine1 = crud.get_wine_by_id(random.randint(0,70))
+    # random_wine2 = crud.get_wine_by_id(random.randint(0,70))
+    # random_wine3 = crud.get_wine_by_id(random.randint(0,70))
+
+    demo_wine = crud.get_wine_by_id(31)
+
+    
 
     if 'user_id' in session:
     #why does 'if session:' not work after you log in, then log out? 
         user = crud.get_user_by_id(session['user_id'])
         if user:
-            return render_template('homepage.html', user=user, users=users, random_wine1=random_wine1, random_wine2=random_wine2, random_wine3=random_wine3)
+            return render_template('homepage.html', user=user, users=users, demo_wine=demo_wine)
         else:
             flash('Something for went wrong, logging you out.')
             return redirect('/logout')
 
-    return render_template('homepage.html', random_wine1=random_wine1, random_wine2=random_wine2, random_wine3=random_wine3)
+    return render_template('homepage.html', demo_wine=demo_wine)
     
     # print(dir(session))
     # print(help(session.clear))
@@ -67,27 +68,14 @@ def create_account_page():
                 'You had me at merlot', 
                 'Great minds drink alike', 
                 'I make pour decisions', 
-                'Here for the right riesling']
-
-
-                # , 
-                # ,              
-                # , 
-                # , 
-                # 'On cloud wine',
-                # 'Cabernet. More like, caber-yay!', 
-                # 'Hakuna Moscato. It means drink wine.',
-                # 'Partners in wine.', 
-                # 'No wine left behind.', 
-                # 'Sip happens.', 
-                # 'It’s wine o’clock.', 
-                # 'Stop and smell the rosé.', 
-                # 'Everything happens for a riesling, right?'
+                'Here for the right riesling',
+                'On cloud wine',
+                'Cabernet. More like, caber-yay',
+                'Partners in wine',
+                'Stop and smell the rosé',
+                'No wine left behind']
 
     random_quote = random.choice(quotes)
-    print('OOOOOOOOOOOOOOOO TESTING OOOOOOOOOOOOOOOO')
-    print(random_quote)
-    print('OOOOOOOOOOOOOOOO TESTING OOOOOOOOOOOOOOOO')
 
     return render_template('create_account.html', random_quote=random_quote)
 
@@ -427,6 +415,11 @@ def all_users():
 def user_by_id(user_id):
 #create new key:value pair in session
 #session['friend_user_id'] = user_id
+    user_guy = "https://mdbootstrap.com/img/Photos/Avatars/img%20(32).jpg"
+    user_gal1 = "https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg"
+    user_gal2 = "https://mdbootstrap.com/img/Photos/Avatars/img%20(33).jpg"
+    user_gal3 = "https://mdbootstrap.com/img/Photos/Avatars/img%20(30).jpg"
+
     if 'user_id' not in session:
         flash('You must be logged in to view this cellar.')
         return redirect('/')
@@ -468,7 +461,11 @@ def user_by_id(user_id):
                                                             dict_ratings_date=dict_ratings_date,
                                                             average=average,
                                                             star_average=star_average,
-                                                            user_id=user_id)
+                                                            user_id=user_id,
+                                                            user_guy=user_guy,
+                                                            user_gal1=user_gal1,
+                                                            user_gal2=user_gal2,
+                                                            user_gal3=user_gal3)
             else:
                 return render_template('user_details.html', user=user, 
                                             fav_wines=fav_wines, 
@@ -477,7 +474,11 @@ def user_by_id(user_id):
                                             comments=comments, 
                                             dict_ratings=dict_ratings,
                                             dict_ratings_date=dict_ratings_date,
-                                            user_id=user_id)
+                                            user_id=user_id,
+                                            user_guy=user_guy,
+                                            user_gal1=user_gal1,
+                                            user_gal2=user_gal2,
+                                            user_gal3=user_gal3)
         else:
             return render_template('user_details.html', user=user, 
                                                 fav_wines=fav_wines, 
@@ -486,7 +487,11 @@ def user_by_id(user_id):
                                                 comments=comments, 
                                                 dict_ratings=dict_ratings,
                                                 dict_ratings_date=dict_ratings_date,
-                                                user_id=user_id)
+                                                user_id=user_id,
+                                                user_guy=user_guy,
+                                                user_gal1=user_gal1,
+                                                user_gal2=user_gal2,
+                                                user_gal3=user_gal3)
 
 
     #if you're logged in and go to a friend's page , then pass your friend's user_id

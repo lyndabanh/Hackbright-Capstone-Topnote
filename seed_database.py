@@ -5,6 +5,7 @@ import json
 import crud
 import model
 import server
+import random
 
 os.system('dropdb mycellar')
 os.system('createdb mycellar')
@@ -50,14 +51,37 @@ for wine in wine_data:
     
     wines_in_db.append(db_wine)
 
-# Create 10 users
-names = ['Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Ava', 'Charlotte', 'William', 'Lucas', 'Chloe']
+# # Create 10 users
+# names = ['Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Ava', 'Charlotte', 'William', 'Lucas', 'Chloe']
+
+# for nm in names:
+#     name = nm
+#     email = f'{nm.lower()}@test.com'
+#     password = 'test'
+#     quote = 'Test funny wine quote.'
+
+#     user = crud.create_user(name, email, password, quote)
+
+# Create users for demo
+names = ['Liam', 'Chloe', 'Charlotte', 'Emma']
+
+quotes = ['Wine a little, laugh a lot', 
+            'You had me at merlot', 
+            'Great minds drink alike', 
+            'I make pour decisions', 
+            'Here for the right riesling',
+            'On cloud wine',
+            'Cabernet. More like, caber-yay',
+            'Partners in wine',
+            'Stop and smell the rosé',
+            'No wine left behind']
 
 for nm in names:
     name = nm
-    email = f'{nm.lower()}@test.com'
-    password = 'test'
-    quote = 'Test funny wine quote.'
+    email = f'{nm.lower()}@gmail.com'
+    password = 'password'
+    quote = random.choice(quotes)
+    quotes.pop(quote)
 
     user = crud.create_user(name, email, password, quote)
 
