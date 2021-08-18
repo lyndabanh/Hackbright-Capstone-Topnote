@@ -1,4 +1,4 @@
-# MY BOOK SHELF 
+# TOPNOTE
 Topnote is a full-stack web application for wine enthusiasts that allows users to discover their wine personality as they browse, favorite, and rate wines. It analyzes user favorited wines to make recommend similar wines that the user may like.  
 
 ## Contents
