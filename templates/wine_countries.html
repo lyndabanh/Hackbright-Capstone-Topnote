@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}All Wines{% endblock %}
+{% block body %}
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="card col-md-12">
+            <div class="card-body">
+            <h5 class="card-title">Countries</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <ul class="card-text">
+                {% for country in countries %}
+                    <li><a class="text-dark" href="/wines/country/{{ country }}">{{ country }}</a></li>
+                {% endfor %}
+            </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

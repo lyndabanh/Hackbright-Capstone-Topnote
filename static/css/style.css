@@ -1,0 +1,267 @@
+/* 
+selector {
+    property: value;
+} 
+*/
+
+/* html body {
+    background-color: rgba(0,0,0,1.00);
+
+} */
+
+
+
+.navbar-collapse {
+    justify-content: flex-end;
+}
+/* homepage nav bar? */
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+}
+
+.custombg {
+    background: url('/static/images/low-res-crop3-biljana-martinic-IGJ_21drT3g-unsplash.jpg');
+    background-size: cover;
+    opacity: 0.95;
+}
+
+.homepage-text {
+    color: white;
+}
+
+#quote-author {
+    text-align: right;
+    font-family: 'Alex Brush', cursive;
+    font-size:30px;
+}
+
+.handwriting {
+    font-family: 'Nothing You Could Do', cursive;
+    font-size: 20px;
+}
+
+.navbar-brand {
+    font-family: 'Elsie', cursive;
+    font-size: 40px;
+}
+
+/* Homepage search bar fontawesome icon box */
+.input-group-text {
+    background-color: white;
+}
+
+.card {
+    border: none;
+}
+
+#search-button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+}
+/* .card-body {
+    background: #151313;
+    color: #c2c2c2;
+} */
+
+.card-body p {
+    color: #c2c2c2;
+}
+
+.card-img, .card-img-top {
+    object-fit:cover;
+    aspect-ratio: 1/.7;
+}
+
+.links-light {
+    color: #c2c2c2;
+}
+
+
+#login-image {
+    max-width: 500px;
+    /* width: 150px;
+    height: 150px; */
+    position: absolute;
+    top: 250px;
+    left: 650px;
+}
+
+/* #wine-bottle {
+    max-width: 80px;
+} */
+.card {
+    opacity: 1;
+}
+
+
+body {
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 650px;
+    z-index: -1;
+    background-image: url(/static/images/sven-wilhelm-2cRXSWyMHA8-unsplash.jpg);
+    background-repeat: no-repeat;
+    background-size: cover */
+    /* background: url(/static/images/sven-wilhelm-2cRXSWyMHA8-unsplash.jpg);
+    background-size: cover;
+    height: 100%; */
+    /* background-image: url(/static/images/mathilde-langevin-ly6xnQNcPdE-unsplash.jpg);
+    background-size: cover;
+    height: 100%; */
+    /* background-color: #400010; */
+    background-color: #f3f3f3;
+}
+
+
+/* .bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+  }
+  
+  @media (min-width: 1025px) {
+    .h-custom-2 {
+      height: 100%;
+    }
+  } */
+
+img {
+    max-width: 400px;
+}
+
+
+#source {
+    font-size: 12px;
+}
+
+canvas {
+    width: 512px !important;
+    height: 256px !important;
+}
+
+/* .display-wines {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    height: 700px;
+    color: black;
+    font-size: large;
+    display: block;
+    background-color: rgba(211, 211, 211, 0.507);
+    opacity: 0.5;
+    padding: 0 18px;
+    padding: 20px 20px #848484;
+    z-index: 2;
+    margin-left: 230px;
+    margin-right: 230px;
+    overflow: scroll;
+} */
+
+.text-dark {
+    color: #242423 !important;
+}
+
+/* Date in user reviews on wine details page */
+.text-gray {
+    color: #9da09d !important;
+}
+
+ul {
+list-style-type: none;
+}
+
+
+/* ul li:hover a { */
+    /* margin-left: -10px; */
+    /* padding-left: 10px; */
+    /* background-color: #13118C;
+    color: white;  */
+    /* font-weight: bold; */
+    /* width: 100%; */
+  /* } */
+
+.fa-star {
+    color: #FFDF00;
+}
+
+.fa-star-half {
+    color: #FFDF00;
+}
+
+/* Youtube star rating tutorial */
+body {
+    margin: 0;
+    padding: 0;
+    /* background: #262626; */
+}
+
+.rating {
+    /* position: relative; */
+    position: absolute;
+    top: 25%;
+    left: 24%;
+    transform: translateX(-87%) rotateY(180deg);
+    display: flex;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    display: block;
+    cursor: pointer;
+    width: 30px;
+}
+
+.rating label:before {
+    content: '\f005';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: relative;
+    display: block;
+    font-size: 25px;
+    /* color: #101010; */
+    color: #d3d3d3;
+}
+
+.rating label:after {
+    content: '\f005';
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    display: block;
+    font-size: 25px;
+    color: #F6EE29;
+    top: 0;
+    opacity: 0;
+    transition: .5s;
+    text-shadow: 0 2px 5px rgba(0,0,0,.5);
+}
+
+.rating label:hover:after,
+.rating label:hover ~ label:after,
+.rating input:checked ~ label:after{
+    opacity: 1;
+}
+
+/* User details profile card */
+.text-dark {
+    color: #0A0908;
+}
+
+/* Create Account and Login card */
+.text-white {
+    color: #f3f3f3 !important;
+}

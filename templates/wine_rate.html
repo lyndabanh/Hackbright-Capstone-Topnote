@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Wine Ratings{% endblock %}
+{% block body %}
+
+<!-- Update or create rating/comment -->
+<!-- <div>
+{% if 'user_id' in session %}
+  {% if current_users_rating %}
+  <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+    <div class="rating">
+      <input type="radio" name="new_star_rating" id="star5" value=5><label for="star5"></label>
+      <input type="radio" name="new_star_rating" id="star4" value=4><label for="star4"></label>
+      <input type="radio" name="new_star_rating" id="star3" value=3><label for="star3"></label>
+      <input type="radio" name="new_star_rating" id="star2" value=2><label for="star2"></label>
+      <input type="radio" name="new_star_rating" id="star1" value=1><label for="star1"></label>
+    </div>
+    Add comment<input type="text" class="form-control" name="new_comment" placeholder="Update your review" style="width: 30%;">
+    <div>
+      <button type="submit" class="btn btn-dark">Update</button>
+    </div>
+  </form>
+
+  {% else %}
+    <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+      <div class="rating">
+        <input type="radio" name="star_rating" id="star5" value=5><label for="star5"></label>
+        <input type="radio" name="star_rating" id="star4" value=4><label for="star4"></label>
+        <input type="radio" name="star_rating" id="star3" value=3><label for="star3"></label>
+        <input type="radio" name="star_rating" id="star2" value=2><label for="star2"></label>
+        <input type="radio" name="star_rating" id="star1" value=1><label for="star1"></label>
+      </div>
+      Add comment<input type="text" class="form-control" name="comment" placeholder="Add a review">
+      <div>
+        <button type="submit" class="btn btn-dark">Submit</button>
+      </div>
+    </form>
+  {% endif %}
+{% endif %}
+</div> -->
+
+
+
+
+
+<div class="card mx-auto mt-5" style="width: 40%;">
+  <div class="card-body">
+    <h5 class="card-title pb-2 pt-2">Rate and review</h5>
+    <br><br>
+    <div>
+      {% if 'user_id' in session %}
+        {% if current_users_rating %}
+        <form action="/wines/{{ wine.wine_id }}/ratings" method="POST" autocomplete="off">
+          <div class="rating">
+            <input type="radio" name="new_star_rating" id="star5" value=5><label for="star5"></label>
+            <input type="radio" name="new_star_rating" id="star4" value=4><label for="star4"></label>
+            <input type="radio" name="new_star_rating" id="star3" value=3><label for="star3"></label>
+            <input type="radio" name="new_star_rating" id="star2" value=2><label for="star2"></label>
+            <input type="radio" name="new_star_rating" id="star1" value=1><label for="star1"></label>
+          </div>
+          <div>
+            <input type="text" class="form-control" name="new_comment" placeholder="Update your review" style="width: 50%;">
+            <br>
+            <button type="submit" class="btn btn-dark">Update</button>
+          </div>
+        </form>
+      
+        {% else %}
+          <form action="/wines/{{ wine.wine_id }}/ratings" method="POST">
+            <div class="rating">
+              <input type="radio" name="star_rating" id="star5" value=5><label for="star5"></label>
+              <input type="radio" name="star_rating" id="star4" value=4><label for="star4"></label>
+              <input type="radio" name="star_rating" id="star3" value=3><label for="star3"></label>
+              <input type="radio" name="star_rating" id="star2" value=2><label for="star2"></label>
+              <input type="radio" name="star_rating" id="star1" value=1><label for="star1"></label>
+            </div>
+            <div></div>
+            <input type="text" class="form-control" name="comment" placeholder="Add a review" style="width: 50%;">
+            <br>
+            <button type="submit" class="btn btn-dark">Submit</button>
+            </div>
+          </form>
+        {% endif %}
+      {% endif %}
+      </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

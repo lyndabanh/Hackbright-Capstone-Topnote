@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Recommendations{% endblock %}
+
+{% block body %}
+
+<h2>Wines you might like!</h2>
+<table>
+    <tr>
+        <th>Wine</th>
+        <th>Country</th>
+    </tr>
+    {% for wine in wines %}
+    <tr>
+        <td><a href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a></td>
+        <td>{{ wine.country }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

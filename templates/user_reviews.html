@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}All Wines{% endblock %}
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row">
+        {% if user.ratings and user.comments %}
+        <div class="card" style="width: 81rem;">
+        <div class="card-body">
+            <h5 class="card-title">Reviews</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Your ratings and reviews</h6>
+            <table class="table table-hover">
+    
+                <thead>
+                <tr>
+                    <th>Wine</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Rating Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for comment in user.comments %}
+                <tr>
+                    <td><a class="text-dark" href="/wines/{{ comment.wine.wine_id }}">{{ comment.wine.title }}</a></td>
+                    <td>{{ dict_ratings[comment.wine.wine_id] }}</td>
+                    <td>{{ comment.comment }}</td>
+                    <td>{{ dict_ratings_date[comment.wine.wine_id] }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        {% else %}
+          <div>No ratings or comments made yet.</div>
+        {% endif %}
+{% endblock %}

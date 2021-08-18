@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Recommendations{% endblock %}
+
+{% block body %}
+
+<!-- <h2>Wines you might like!</h2>
+<table>
+    <tr>
+        <th>Wine</th>
+        <th>Variety</th>
+        <th>Country</th>
+    </tr>
+    {% for wine in wines %}
+    <tr>
+        <td><a href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a></td>
+        <td>{{ wine.variety }}</td>
+        <td>{{ wine.country }}</td>
+    </tr>
+    {% endfor %}
+</table> -->
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="card col-md-12">
+        <div class="card-body">
+        <h5 class="card-title">{{ wines[0].variety }}</h5>
+        <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+        <ul class="card-text">
+            {% for wine in wines %}
+                <li><a class="text-dark" href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a></li>
+            {% endfor %}
+        </ul>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

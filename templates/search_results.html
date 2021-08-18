@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}All Wines{% endblock %}
+{% block body %}
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="card col-md-12">
+            {% if wines %}
+            <div class="card-body">
+            <h5 class="card-title">Search Results</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <ul class="card-text">
+                {% for wine in wines %}
+                <li><a class="text-dark" href="/wines/{{ wine.wine_id }}">{{ wine.title }}</a></li>
+                {% endfor %}
+            </ul>
+            </div>
+            {% else %}
+            <div class="card-body">
+                <h5 class="card-title">No wines match your search</h5>
+                <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
