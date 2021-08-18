@@ -24,7 +24,7 @@ def homepage():
     # random_wine2 = crud.get_wine_by_id(random.randint(0,70))
     # random_wine3 = crud.get_wine_by_id(random.randint(0,70))
 
-    demo_wine = crud.get_wine_by_id(31)
+    demo_wine = crud.get_wine_by_id(25)
 
     
 
@@ -49,8 +49,17 @@ def search_wines():
 
     title_keywords = request.args.get('title_keywords')
     title_keywords = title_keywords.title()
-
     wines = crud.search_wines(title_keywords)
+
+    if not wines:
+        title_keywords = title_keywords.upper()
+        wines = crud.search_wines(title_keywords)
+
+        if 'user_id' in session:
+            user = crud.get_user_by_id(session['user_id'])
+            return render_template('search_results.html', wines=wines, user=user)
+        else:
+            return render_template('search_results.html', wines=wines)
 
     if 'user_id' in session:
         user = crud.get_user_by_id(session['user_id'])

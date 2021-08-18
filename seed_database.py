@@ -76,12 +76,14 @@ quotes = ['Wine a little, laugh a lot',
             'Stop and smell the rosé',
             'No wine left behind']
 
+num = 21
 for nm in names:
     name = nm
-    email = f'{nm.lower()}@gmail.com'
+    email = f'winenerd{num}@gmail.com'
+    num += 1
     password = 'password'
     quote = random.choice(quotes)
-    quotes.pop(quote)
+    quotes.remove(quote)
 
     user = crud.create_user(name, email, password, quote)
 

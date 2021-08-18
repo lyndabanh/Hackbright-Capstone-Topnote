@@ -74,23 +74,23 @@
               <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
             {% elif user.favorites %}
               <div>Likes: <a class="text-dark" href="/favorites/users/{{ user.user_id }}">{{ fav_wines|length }}</a></div>
-              <div>Reviews: No wines reviewed yet.</div>
-              <div>Average rating: No wines reviewed yet.</div>
+              <div>Reviews:</div>
+              <div>Average rating:</div>
               <div>Favorite countries: {{ ", ".join(fav_countries)  }}</div>
               <div>Favorite varietals: {{ ", ".join(fav_varietals) }}</div>
             {% elif user.ratings and user.comments %}
-              <div>Likes: No wines liked yet.</div>
+              <div>Likes:</div>
               <div>Reviews: <a class="text-dark" href="/reviews/users/{{ user.user_id }}">{{ comments|length }}</a></div>
               <div>Average rating: {{ average }}</div>
               <!-- <div>Average star rating: {{ star_average}}</div> -->
-              <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
-              <div>Favorite varietals: No wines liked yet.</div>
+              <div>Favorite countries:</div>
+              <div>Favorite varietals:</div>
             {% else %}
-              <div>Likes: No wines liked yet.</div>
-              <div>Reviews: No wines reviewed yet.</div>
-              <div>Average rating: No wines reviewed yet.</div>
-              <div>Favorite countries: Like some wines to discover your favorite wine countries!</div>
-              <div>Favorite varietals: No wines liked yet.</div>
+              <div>Likes:</div>
+              <div>Reviews:</div>
+              <div>Average rating:</div>
+              <div>Favorite countries:</div>
+              <div>Favorite varietals:</div>
             {% endif %}
           </p>
         </div>
@@ -123,14 +123,13 @@
   </div>
 
 <!-- ChartJS Row -->
+{% if user.favorites %}
   <div class="row mb-5">
     <div class="col-sm-6 ml-4 p-3">
       <div class="card text-center align-items-center" style="margin-left: 1.5rem">
         <div class="card-body">
           <h5 class="card-title">Favorite Countries</h5>
-          {% if user.favorites %}
           <canvas id="pie-chart"></canvas>
-          {% endif %}
         </div>
       </div>
     </div>
@@ -138,14 +137,12 @@
       <div class="card text-center align-items-center" style="margin-right: 1.5rem">
         <div class="card-body">
           <h5 class="card-title">Favorite Varietals</h5>
-          {% if user.favorites %}
           <canvas id="pie-chart2"></canvas>
-          {% endif %}
         </div>
       </div>
     </div>
   </div>
-
+  {% endif %}
 <!-- UNUSED CHARTJS -->
 <!-- <div class="row">
 {% if user.ratings %}

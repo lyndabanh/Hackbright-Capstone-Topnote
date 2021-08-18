@@ -143,6 +143,7 @@ def get_wine_by_id(wine_id):
 
 def get_and_order_rating_by_wine_id(wine_id):
     return Rating.query.filter(Rating.wine_id==wine_id).order_by(Rating.rating.desc()).all()
+    
 
 
 # def get_group_count_rating_by_user_id(user_id):
